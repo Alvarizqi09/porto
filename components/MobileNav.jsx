@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { CiMenuFries } from "react-icons/ci";
+import Image from "next/image";
+import logo from "@/public/assets/Logo.png";
 
 const links = [
   {
@@ -19,10 +21,6 @@ const links = [
     path: "/about",
   },
   {
-    name: "work",
-    path: "/work",
-  },
-  {
     name: "contact",
     path: "/contact",
   },
@@ -36,11 +34,9 @@ const MobileNav = () => {
         <CiMenuFries className="text-[32px] text-accent" />
       </SheetTrigger>
       <SheetContent className="flex flex-col">
-        <div className="mt-32 mb-40 text-center text-2xl">
+        <div className="mt-32 mb-8 mx-auto text-2xl">
           <Link href="/">
-            <h1 className="text-4xl font-semibold">
-              Alvarizqi <span className="text-accent">.</span>
-            </h1>
+            <Image src={logo} alt="logo" className="w-32 h-32 " />
           </Link>
         </div>
         <nav className="flex flex-col justify-center items-center gap-8">
