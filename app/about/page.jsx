@@ -18,7 +18,6 @@ import {
 
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
@@ -45,7 +44,7 @@ const experience = {
     " I have worked on several personal projects, including a portfolio website and a blog. I am always looking for new opportunities to learn and grow as a designer and developer.",
   items: [
     {
-      company: "PT Telekomunikasi Indonesia Tbk",
+      company: "Telkom Indonesia",
       date: "Feb 2024 - Jun 2024",
       position: "Front-end Web Developer Intern",
     },
@@ -156,7 +155,7 @@ const about = () => {
                 <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                   {experience.description}
                 </p>
-                <ScrollArea className="h-[200px]">
+                <div className="">
                   <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
                     {experience.items.map((items, index) => {
                       return (
@@ -176,7 +175,7 @@ const about = () => {
                       );
                     })}
                   </ul>
-                </ScrollArea>
+                </div>
               </div>
             </TabsContent>
             <TabsContent value="education" className="w-full">
@@ -185,7 +184,7 @@ const about = () => {
                 <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                   {education.description}
                 </p>
-                <ScrollArea className="h-[200px]">
+                <div className="">
                   <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
                     {education.items.map((items, index) => {
                       return (
@@ -205,7 +204,7 @@ const about = () => {
                       );
                     })}
                   </ul>
-                </ScrollArea>
+                </div>
               </div>
             </TabsContent>
             <TabsContent value="skills" className="w-full h-full">
