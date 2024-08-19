@@ -29,12 +29,13 @@ import {
 const resume = {
   title: "About Me",
   description:
-    "Hi, I`m Alvarizqi! I`m currently pursuing a Bachelor's degree in Computer Science at Universitas Negeri Semarang, with a focus on UI/UX design, front-end development, and web development. I specialize in wireframing, prototyping, and have hands-on experience with HTML, CSS, JavaScript, and graphic design tools like Canva and Corel Draw. Right now, I`m deepening my skills in Next.js and Laravel. As a creative problem solver, Im passionate about turning innovative ideas into user-centric designs. Let`s collaborate and make great things happen!",
+    "Hi, I`m Alvarizqi! I specialize in wireframing, prototyping, and have hands-on experience with HTML, CSS, JavaScript, and graphic design tools like Canva and Corel Draw. Right now, I`m deepening my skills in Next.js and Laravel. As a creative problem solver, Im passionate about turning innovative ideas into user-centric designs. Let`s collaborate and make great things happen!",
   info: [
     { fieldName: "Name", fieldValue: "Alvarizqi" },
     { fieldName: "Phone", fieldValue: "(+62) 8132 7963 181" },
-    { fieldName: "Email", fieldValue: "Alvarizqi10@gmail.com" },
-    { fieldName: "Instagram", fieldValue: "Alvarizqi__" },
+    { fieldName: "Email", fieldValue: "Alvarizqi80@gmail.com" },
+    { fieldName: "Instagram", fieldValue: "@Alvarizqi__" },
+    { fieldName: "Location", fieldValue: "Semarang,Indonesia" },
   ],
 };
 
@@ -111,7 +112,7 @@ const about = () => {
         opacity: 1,
         transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
       }}
-      className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
+      className="min-h-[80vh] flex items-center justify-center my-10 py-12 xl:py-0"
     >
       <div className="container mx-auto">
         <Tabs
@@ -125,12 +126,28 @@ const about = () => {
             <TabsTrigger value="skills">Skills</TabsTrigger>
           </TabsList>
           <div className="min-h-[70vh] w-full">
-            <TabsContent value="resume" className="w-full">
-              <div className="flex flex-col gap-[30px] text-center xl:text-left">
+            <TabsContent
+              value="resume"
+              className="w-full text-center xl:text-left"
+            >
+              <div className="flex flex-col gap-[30px]">
                 <h3 className="text-4xl font-bold">{resume.title}</h3>
                 <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                   {resume.description}
                 </p>
+                <ul className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
+                  {resume.info.map((item, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className="flex items-center justify-center xl:justify-start gap-4"
+                      >
+                        <span className="text-white/60">{item.fieldName}</span>
+                        <span className="text-lg">{item.fieldValue}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             </TabsContent>
             <TabsContent value="experience" className="w-full">
@@ -198,17 +215,19 @@ const about = () => {
                   <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                     {skills.description}
                   </p>
-                  <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:gap-[30px]">
+                  <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:gap-[30px] gap-4">
                     {skills.skillList.map((items, index) => {
                       return (
                         <li key={index}>
-                          <TooltipProvider>
+                          <TooltipProvider delayDuration={100}>
                             <Tooltip>
-                              <TooltipTrigger>
-                                <div>{items.icon}</div>
+                              <TooltipTrigger className="w-full h-[150px] bg-[#232329] rounded-xl flex justify-center items-center">
+                                <div className="text-6xl hover:text-accent transition-all duration-300">
+                                  {items.icon}
+                                </div>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p>{items.name}</p>
+                                <p className="capitalize">{items.name}</p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
