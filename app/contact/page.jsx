@@ -154,7 +154,7 @@ Message: ${message}`
                 value={formData.message}
                 onChange={handleChange}
               />
-              <Button size="md" className="mac-w-40" type="submit">
+              <Button size="md" className="max-w-40" type="submit">
                 Send Message
               </Button>
             </form>
