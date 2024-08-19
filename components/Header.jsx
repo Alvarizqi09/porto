@@ -8,7 +8,7 @@ import logo from "@/public/assets/Logo.png";
 
 const Header = () => {
   return (
-    <header className="py-8 xl:py-12 text-white">
+    <nav className="py-7 text-white sticky xl:py-5">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/">
           <Image src={logo} alt="logo" className="w-20 h-20  items-center" />
@@ -24,7 +24,7 @@ const Header = () => {
           <MobileNav />
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 

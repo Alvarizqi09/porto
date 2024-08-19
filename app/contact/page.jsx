@@ -71,7 +71,7 @@ Message: ${message}`
       }}
       className="py-6"
     >
-      <div className="container mx-auto">
+      <div className="container mx-auto mb-10">
         <div className="flex flex-col xl:flex-row gap-[30px]">
           <div className="flex-1 flex items-center xl:justify-end order-2 xl:order-none mb-8 xl:mb-0">
             <ul className="flex flex-col gap-10">

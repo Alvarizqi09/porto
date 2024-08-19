@@ -7,7 +7,7 @@ import { FiDownload } from "react-icons/fi";
 
 const Home = () => {
   return (
-    <section className="h-full">
+    <section className="h-full mb-10">
       <div className="container mx-auto h-full">
         <div className=" flex flex-col xl:flex-row items-center justify-between xl:pt-8 xl:pb-24">
           <div className="text-center xl:text-left order-2 xl:order-none">
@@ -17,14 +17,9 @@ const Home = () => {
               <span className="text-accent">Alvarizqi</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-white/80">
-              I`m currently pursuing a Bachelor`s degree in Computer Science at
-              Universitas Negeri Semarang, focusing on front-end web
-              development, UI/UX design, and graphic design. I`m proficient in
-              React, Next.js, and Laravel, with strong skills in wireframing,
-              prototyping, HTML, CSS, and JavaScript. I also use tools like
-              Canva and Corel Draw to bring creative ideas to life. Let`s
-              collaborate and create exceptional digital experiences! solutions.
-              Lets collaborate and bring creative visions to life!
+              With expertise in React, Next.js, and Laravel, I transform ideas
+              into seamless, visually stunning web experiences. Let's
+              collaborate to create something truly extraordinary together!
             </p>
             <div className="flex flex-col xl:flex-row items-center gap-8">
               <Button
@@ -49,6 +44,12 @@ const Home = () => {
         </div>
       </div>
       <Stats />
+      <div className="text-center mt-12">
+        <p className="text-lg text-white/80">
+          "Building the web, one pixel at a time. Let's make the digital world a
+          more beautiful place together!"
+        </p>
+      </div>
     </section>
   );
 };
