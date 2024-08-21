@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { CiMenuFries } from "react-icons/ci";
 import Image from "next/image";
-import logo from "@/public/assets/Logo.png";
+import logo from "@/public/assets/logo1.png";
 
 const links = [
   {

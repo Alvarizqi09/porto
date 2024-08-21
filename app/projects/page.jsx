@@ -3,7 +3,8 @@
 import { useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
-import { Button } from "@/components/ui/button";
+import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
+import { SiTailwindcss, SiVite } from "react-icons/si";
 
 const Project = [
   {
@@ -14,6 +15,10 @@ const Project = [
     desc: "Rosati Pharmacy is a website created for the final project of a software engineering course. This website was created with Laravel and Bootstrap then deployed with Digital Ocean",
     demo: "http://rosatifarmasi.me/#",
     preview: "http://rosatifarmasi.me",
+    icon: [
+      <FaLaravel key="laravel" className="w-6 h-6" />,
+      <FaPhp key="php" className="w-6 h-6" />,
+    ],
   },
   {
     id: "2",
@@ -23,6 +28,11 @@ const Project = [
     desc: "VILUME is a website created to fulfill the tasks of the Alterra Academy mini-project. This website was created with ReactJS+Vite and also styled using Tailwind. There is also Firebase integration for login and OpenAi for Customer Services",
     demo: "https://vilume.vercel.app",
     preview: "https://vilume.vercel.app",
+    icon: [
+      <SiVite key={"Vite"} className="w-6 h-6" />,
+      <FaReact key={"React"} className="w-6 h-6" />,
+      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
+    ],
   },
   {
     id: "3",
@@ -32,6 +42,11 @@ const Project = [
     desc: "Alterra Submission is one of the tasks from Alterra Academy which is required by several criteria. I created this website with ReactJS + Vite with bootstrap styling. It contains CRUD to add products and is also integrated with OpenAi",
     demo: "https://react-ai-nu.vercel.app/#home",
     preview: "https://react-ai-nu.ver",
+    icon: [
+      <SiVite key={"Vite"} className="w-6 h-6" />,
+      <FaReact key={"React"} className="w-6 h-6" />,
+      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
+    ],
   },
 ];
 
@@ -68,7 +83,7 @@ const Projects = () => {
             isSelected={tag === "Design"}
           />
         </div>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-9 xl:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto">
           {filteredProjects.map((Project) => {
             return (
               <ProjectCard
@@ -78,6 +93,7 @@ const Projects = () => {
                 image={Project.image}
                 demo={Project.demo}
                 preview={Project.preview}
+                icon={Project.icon}
               ></ProjectCard>
             );
           })}
