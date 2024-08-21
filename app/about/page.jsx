@@ -131,7 +131,7 @@ const about = () => {
             >
               <div className="flex flex-col gap-[30px]">
                 <h3 className="text-4xl font-bold">{resume.title}</h3>
-                <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
+                <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
                   {resume.description}
                 </p>
                 <ul className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
@@ -141,7 +141,7 @@ const about = () => {
                         key={index}
                         className="flex items-center justify-center xl:justify-start gap-4"
                       >
-                        <span className="text-white/60">{item.fieldName}</span>
+                        <span className="text-black/80">{item.fieldName}</span>
                         <span className="text-lg">{item.fieldValue}</span>
                       </li>
                     );
@@ -152,7 +152,7 @@ const about = () => {
             <TabsContent value="experience" className="w-full">
               <div className="flex flex-col gap-[30px] text-center xl:text-left">
                 <h3 className="text-4xl font-bold">{experience.title}</h3>
-                <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
+                <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
                   {experience.description}
                 </p>
                 <div className="">
@@ -161,7 +161,7 @@ const about = () => {
                       return (
                         <li
                           key={index}
-                          className="bg-[#232329] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
+                          className="bg-[#DFD3C3] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
                           <span className="text-accent">{items.date}</span>
                           <h3 className="text-xl max-w-[300px] min-h-[60px] text-center lg:text-left">
@@ -169,7 +169,7 @@ const about = () => {
                           </h3>
                           <div className="flex items-center gap-3">
                             <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                            <p className="text-white/60">{items.company}</p>
+                            <p className="text-black/80">{items.company}</p>
                           </div>
                         </li>
                       );
@@ -181,7 +181,7 @@ const about = () => {
             <TabsContent value="education" className="w-full">
               <div className="flex flex-col gap-[30px] text-center xl:text-left">
                 <h3 className="text-4xl font-bold">{education.title}</h3>
-                <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
+                <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
                   {education.description}
                 </p>
                 <div className="">
@@ -190,7 +190,7 @@ const about = () => {
                       return (
                         <li
                           key={index}
-                          className="bg-[#232329] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
+                          className="bg-[#DFD3C3] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
                           <span className="text-accent">{items.date}</span>
                           <h3 className="text-xl max-w-[300px] min-h-[60px] text-center lg:text-left">
@@ -198,7 +198,7 @@ const about = () => {
                           </h3>
                           <div className="flex items-center gap-3">
                             <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                            <p className="text-white/60">{items.school}</p>
+                            <p className="text-black/80">{items.school}</p>
                           </div>
                         </li>
                       );
@@ -211,7 +211,7 @@ const about = () => {
               <div className="flex flex-col gap-[30px]">
                 <div className="flex flex-col gap-[30px] text-center xl:text-left ">
                   <h3 className="text-4xl font-bold">{skills.title}</h3>
-                  <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
+                  <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
                     {skills.description}
                   </p>
                   <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:gap-[30px] gap-4">
@@ -220,7 +220,7 @@ const about = () => {
                         <li key={index}>
                           <TooltipProvider delayDuration={100}>
                             <Tooltip>
-                              <TooltipTrigger className="w-full h-[150px] bg-[#232329] rounded-xl flex justify-center items-center">
+                              <TooltipTrigger className="w-full h-[150px] bg-[#DFD3C3] rounded-xl flex justify-center items-center">
                                 <div className="text-6xl hover:text-accent transition-all duration-300">
                                   {items.icon}
                                 </div>

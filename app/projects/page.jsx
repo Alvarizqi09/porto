@@ -46,12 +46,12 @@ const Projects = () => {
     Project.tag.includes(tag)
   );
   return (
-    <div>
+    <div className="mb-10">
       <div className="container">
-        <h2 className="text-center text-4xl font-bold text-white my-8">
+        <h2 className="text-center text-4xl font-bold text-black my-8">
           My Project
         </h2>
-        <div className="text-white flex flex-row justify-center items-center gap-2 py-6">
+        <div className="text-black flex flex-row justify-center items-center gap-2 py-6">
           <ProjectTag
             onClick={handleTagChange}
             name="All"

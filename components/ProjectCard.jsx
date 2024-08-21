@@ -15,9 +15,9 @@ const ProjectCard = ({ image, title, desc, preview, demo }) => {
   }, []);
 
   return (
-    <div>
+    <div className="shadow-xl rounded-xl">
       <div
-        className={`h-52 md:h-72 rounded-t-xl relative group transition-opacity duration-500 ${
+        className={`h-52 md:h-80 rounded-t-xl relative group transition-opacity duration-500 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         style={{
@@ -29,30 +29,30 @@ const ProjectCard = ({ image, title, desc, preview, demo }) => {
         <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-8 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500">
           <Link
             href={demo}
-            className="h-14 w-14 border-2 relative rounded-full border-[#27272c] hover:border-black group/link"
+            className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link"
           >
-            <FaCode className="h-10 w-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white/60 cursor-pointer group-hover/link:text-black" />
+            <FaCode className="h-10 w-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black/80 cursor-pointer group-hover/link:text-black" />
           </Link>
           <Link
             href={preview}
-            className="h-14 w-14 border-2 relative rounded-full border-[#27272c] hover:border-black group/link"
+            className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link"
           >
-            <FaEye className="h-10 w-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white/60 cursor-pointer group-hover/link:text-black" />
+            <FaEye className="h-10 w-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black/80 cursor-pointer group-hover/link:text-black" />
           </Link>
         </div>
       </div>
       <div
-        className={`rounded-b-xl bg-[#27272c] py-6 transition-opacity duration-500 ${
+        className={`rounded-b-xl bg-[#DFD3C3] py-6 transition-opacity min-h-64 duration-500 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         style={{
           visibility: loaded ? "visible" : "hidden",
         }}
       >
-        <h5 className="text-4xl text-center font-semibold text-white mb-2 ">
+        <h5 className="text-4xl text-center font-semibold text-black mb-2 ">
           {title}
         </h5>
-        <p className="text-white/60 text-center">{desc}</p>
+        <p className="text-black/80 text-center">{desc}</p>
       </div>
     </div>
   );

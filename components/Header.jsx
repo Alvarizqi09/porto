@@ -4,11 +4,11 @@ import { Button } from "./ui/button";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
 import Image from "next/image";
-import logo from "@/public/assets/Logo.png";
+import logo from "@/public/assets/logo1.png";
 
 const Header = () => {
   return (
-    <nav className="py-7 text-white sticky xl:py-5">
+    <header className="py-7 text-black xl:py-3">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/">
           <Image src={logo} alt="logo" className="w-20 h-20  items-center" />
@@ -16,7 +16,7 @@ const Header = () => {
         <div className="hidden xl:flex items-center gap-8">
           <Nav />
           <Link href="/contact">
-            <Button className="hover:text-white/60">Hire me</Button>
+            <Button className="hover:text-black/80">Hire me</Button>
           </Link>
         </div>
 
@@ -24,7 +24,7 @@ const Header = () => {
           <MobileNav />
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
 

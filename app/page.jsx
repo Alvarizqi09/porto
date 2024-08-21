@@ -24,7 +24,7 @@ const Home = () => {
               Hello i`m <br />
               <span className="text-accent">Alvarizqi</span>
             </h1>
-            <p className="max-w-[500px] mb-9 text-white/80">
+            <p className="max-w-[500px] mb-9 text-black/80">
               With expertise in React, Next.js, and Laravel, I transform ideas
               into seamless, visually stunning web experiences. Let's
               collaborate to create something truly extraordinary together!
@@ -54,7 +54,7 @@ const Home = () => {
       </div>
       <Stats />
       <div className="text-center mt-12">
-        <p className="text-lg text-white/80">
+        <p className="text-lg text-black/80">
           "Building the web, one pixel at a time. Let's make the digital world a
           more beautiful place together!"
         </p>

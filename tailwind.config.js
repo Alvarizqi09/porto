@@ -22,10 +22,10 @@ module.exports = {
     fontFamily: { primary: "var(--font-jetbrainsMono)" },
     extend: {
       colors: {
-        primary: "#0C0C0C",
+        primary: "#F8EDE3",
         accent: {
-          DEFAULT: "#F2613F",
-          hover: "#9B3922",
+          DEFAULT: "#C5705D",
+          hover: "#D0B8A8",
         },
       },
       keyframes: {
