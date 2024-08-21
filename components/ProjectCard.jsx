@@ -41,9 +41,18 @@ const ProjectCard = ({ image, title, desc, preview, demo }) => {
           </Link>
         </div>
       </div>
-      <div className="rounded-b-xl bg-[#27272c] py-6">
-        <h5 className="text-4xl font-semibold text-white mb-2 ">{title}</h5>
-        <p className="text-white/60">{desc}</p>
+      <div
+        className={`rounded-b-xl bg-[#27272c] py-6 transition-opacity duration-500 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          visibility: loaded ? "visible" : "hidden",
+        }}
+      >
+        <h5 className="text-4xl text-center font-semibold text-white mb-2 ">
+          {title}
+        </h5>
+        <p className="text-white/60 text-center">{desc}</p>
       </div>
     </div>
   );
