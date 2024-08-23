@@ -4,7 +4,7 @@ import { useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
 import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
-import { SiTailwindcss, SiVite } from "react-icons/si";
+import { SiFigma, SiNextdotjs, SiTailwindcss, SiVite } from "react-icons/si";
 
 const Project = [
   {
@@ -54,26 +54,35 @@ const Project = [
     image: "/assets/Kliq.jpg",
     title: "Kliq Chat Prototype",
     tag: ["All", "Design"],
+    desc: "Prototype and design of Kliq Chat Application",
     demo: "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
     preview:
       "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
+    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
   },
   {
     id: "5",
     image: "/assets/farmasi.jpg",
     title: "Rosati Prototype",
     tag: ["All", "Design"],
+    desc: "Prototype and design of Rosati Farmasi Website",
     demo: "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
     preview:
       "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
+    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
   },
   {
     id: "6",
     image: "/assets/Qbills.jpg",
     title: "QBILLS POS APP",
     tag: ["All", "Web"],
+    desc: "QBILLS is a Point of Sale application that I created for the final project of the Alterra Academy MSIB Batch 5 Programs. This website was created with NextJS and TailwindCSS then deployed with Vercel",
     demo: "https://qbills.vercel.app/",
     preview: "https://qbills.vercel.app/",
+    icon: [
+      <SiNextdotjs key={"Next"} className="w-6 h-6" />,
+      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
+    ],
   },
 ];
 
