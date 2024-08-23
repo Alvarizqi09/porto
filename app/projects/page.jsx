@@ -4,7 +4,13 @@ import { useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
 import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
-import { SiFigma, SiNextdotjs, SiTailwindcss, SiVite } from "react-icons/si";
+import {
+  SiBootstrap,
+  SiFigma,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiVite,
+} from "react-icons/si";
 
 const Project = [
   {
@@ -45,7 +51,7 @@ const Project = [
     icon: [
       <SiVite key={"Vite"} className="w-6 h-6" />,
       <FaReact key={"React"} className="w-6 h-6" />,
-      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
+      <SiBootstrap key={"Bootstrap"} className="w-6 h-6" />,
     ],
   },
 
