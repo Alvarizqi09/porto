@@ -31,9 +31,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/assets/Logo.png" type="image/png" />
-      </head>
       <body className={JetBrainsMono.variable}>
         <Header />
         <StairTransition />
