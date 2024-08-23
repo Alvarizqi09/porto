@@ -16,19 +16,18 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
   }, []);
 
   return (
-    <div className="shadow-xl border-accent border-4 rounded-2xl max-w-[25rem] xl:h-[360px] h-[400px] flex flex-col justify-between mx-auto relative">
+    <div className="shadow-xl border-accent border-4 rounded-2xl w-full sm:max-w-[25rem] h-auto sm:h-[400px] flex flex-col justify-between mx-auto relative">
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 rounded-2xl">
           <FaSpinner className="text-black text-4xl animate-spin" />
         </div>
       )}
       <div
-        className={`xl:w-full xl:h-full h-[280px] rounded-t-xl relative group transition-opacity duration-500 ${
+        className={`w-full h-[280px] sm:h-[240px] rounded-t-xl relative group transition-opacity duration-500 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         style={{
-          background: `url(${image})`,
-          backgroundSize: "cover",
+          background: `url(${image}) center center/cover no-repeat`,
           visibility: loaded ? "visible" : "hidden",
         }}
       >
@@ -48,7 +47,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
         </div>
       </div>
       <div
-        className={`rounded-b-xl bg-[#DFD3C3] py-2 px-6 flex flex-col justify-between transition-opacity duration-500 ${
+        className={`rounded-b-xl bg-[#DFD3C3] min-h-[10rem] py-2 px-6 flex flex-col justify-between transition-opacity duration-500 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         style={{
@@ -56,7 +55,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
         }}
       >
         <div>
-          <h5 className="text-xl text-center font-semibold text-black mb-1 ">
+          <h5 className="text-xl text-center font-semibold text-black mb-1">
             {title}
           </h5>
           <p className="text-sm text-black/60 text-center line-clamp-2">
