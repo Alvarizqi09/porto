@@ -88,6 +88,32 @@ const Project = [
     demo: "/",
     preview: "/",
   },
+  {
+    id: "9",
+    image: "/assets/Kliq.jpg",
+    title: "Kliq Chat Prototype",
+    tag: ["All", "Design"],
+    demo: "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
+    preview:
+      "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
+  },
+  {
+    id: "10",
+    image: "/assets/farmasi.jpg",
+    title: "Rosati Prototype",
+    tag: ["All", "Design"],
+    demo: "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
+    preview:
+      "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
+  },
+  {
+    id: "11",
+    image: "/assets/Qbills.jpg",
+    title: "QBILLS POS APP",
+    tag: ["All", "Web"],
+    demo: "https://qbills.vercel.app/",
+    preview: "https://qbills.vercel.app/",
+  },
 ];
 
 const Projects = () => {
