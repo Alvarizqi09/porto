@@ -19,7 +19,7 @@ const Project = [
     title: "Rosati Farmasi",
     tag: ["All", "Web"],
     desc: "Rosati Pharmacy is a website created for the final project of a software engineering course. This website was created with Laravel and Bootstrap then deployed with Digital Ocean",
-    demo: "http://rosatifarmasi.me/#",
+    demo: "detail/Rosati",
     preview: "http://rosatifarmasi.me",
     icon: [
       <FaLaravel key="laravel" className="w-6 h-6" />,
@@ -32,7 +32,7 @@ const Project = [
     title: "Vilume",
     tag: ["All", "Web"],
     desc: "VILUME is a website created to fulfill the tasks of the Alterra Academy mini-project. This website was created with ReactJS+Vite and also styled using Tailwind. There is also Firebase integration for login and OpenAi for Customer Services",
-    demo: "https://vilume.vercel.app",
+    demo: "detail/Vilume",
     preview: "https://vilume.vercel.app",
     icon: [
       <SiVite key={"Vite"} className="w-6 h-6" />,
@@ -46,7 +46,7 @@ const Project = [
     title: "Alterra Submission",
     tag: ["All", "Web"],
     desc: "Alterra Submission is one of the tasks from Alterra Academy which is required by several criteria. I created this website with ReactJS + Vite with bootstrap styling. It contains CRUD to add products and is also integrated with OpenAi",
-    demo: "https://react-ai-nu.vercel.app/#home",
+    demo: "detail/Alterra",
     preview: "https://react-ai-nu.ver",
     icon: [
       <SiVite key={"Vite"} className="w-6 h-6" />,
