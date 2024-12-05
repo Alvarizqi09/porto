@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaCode, FaEye } from "react-icons/fa";
-import { FaSpinner } from "react-icons/fa"; // Import the spinner icon
+import { FaSpinner } from "react-icons/fa";
 
 const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
   const [loaded, setLoaded] = useState(false);

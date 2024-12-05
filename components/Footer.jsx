@@ -8,7 +8,7 @@ const Footer = () => {
         variant="small"
         className="text-center font-normal text-black/80 md:mb-0 mt-6 xl:mt-0"
       >
-        &copy; {currentYear}{" "}
+        &copy; {currentYear}
         <a href="https://github.com/Alvarizqi09">
           <strong>Alvarizqi</strong>
         </a>
