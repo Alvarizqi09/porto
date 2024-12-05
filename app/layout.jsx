@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
         <meta property="og:url" content="https://alvarizqi.com" />
         <meta
           property="og:image"
-          content="https://alvarizqi.com/assets/images/og-image.jpg"
+          content="https://alvarizqi.com/assets/og-image.jpg"
         />
 
         {/* Twitter Meta Tags */}
@@ -63,13 +63,13 @@ export default function RootLayout({ children }) {
         <meta name="twitter:description" content={metadata.description} />
         <meta
           name="twitter:image"
-          content="https://alvarizqi.com/assets/images/twitter-image.jpg"
+          content="https://alvarizqi.com/assets/twitter-image.jpg"
         />
 
         {/* Favicon */}
         <link
           rel="icon"
-          href="https://alvarizqi.com/assets/icons/favicon.ico"
+          href="https://alvarizqi.com/favicon.ico"
           type="image/x-icon"
         />
         <title>{metadata.title}</title>
