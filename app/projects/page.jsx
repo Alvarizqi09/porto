@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
 import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
@@ -105,25 +106,32 @@ const Projects = () => {
   return (
     <div className="mb-10">
       <div className="container">
-        <h2 className="text-center text-4xl font-bold text-black my-8">
+        <motion.h2
+          className="text-center text-4xl font-bold text-black my-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1 }} // Fade-in dengan delay 2 detik
+        >
           My Project
-        </h2>
+        </motion.h2>
         <div className="text-black flex flex-row justify-center items-center gap-2 py-6">
-          <ProjectTag
-            onClick={handleTagChange}
-            name="All"
-            isSelected={tag === "All"}
-          />
-          <ProjectTag
-            onClick={handleTagChange}
-            name="Web"
-            isSelected={tag === "Web"}
-          />
-          <ProjectTag
-            onClick={handleTagChange}
-            name="Design"
-            isSelected={tag === "Design"}
-          />
+          {["All", "Web", "Design"].map((tagName, index) => (
+            <motion.div
+              key={tagName}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                duration: 1,
+                delay: 1 + index * 0.5, // Delay bertambah 0.5 detik untuk setiap tag
+              }}
+            >
+              <ProjectTag
+                onClick={handleTagChange}
+                name={tagName}
+                isSelected={tag === tagName}
+              />
+            </motion.div>
+          ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto">
           {filteredProjects.map((Project) => {

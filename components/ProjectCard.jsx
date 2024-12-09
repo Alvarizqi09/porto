@@ -11,7 +11,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoaded(true);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -24,7 +24,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
           transition={{
-            delay: 1,
+            delay: 2,
             duration: 0.4,
             ease: "easeInOut",
           }}
@@ -42,7 +42,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.4, ease: "easeInOut" }}
+        transition={{ delay: 2, duration: 0.4, ease: "easeInOut" }}
       >
         <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-8 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500">
           <Link
@@ -69,7 +69,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.4, ease: "easeInOut" }}
+        transition={{ delay: 2, duration: 0.4, ease: "easeInOut" }}
       >
         <div>
           <h5 className="text-xl text-center font-semibold text-black mb-1">
