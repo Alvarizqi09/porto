@@ -153,11 +153,7 @@ const Projects = () => {
             />
           </motion.div>
         </div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { delay: 2.5, duration: 0.5 } }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto">
           {filteredProjects.map((Project) => {
             return (
               <ProjectCard
@@ -171,7 +167,7 @@ const Projects = () => {
               ></ProjectCard>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   );
