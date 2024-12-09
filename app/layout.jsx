@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
           name="twitter:image"
           content="https://alvarizqi.com/assets/twitter-image.jpg"
         />
-        <link rel="icon" href="/favicon.png?v=2" type="image/png" />
+        <link rel="icon" href="/favicon.ico?v=2" />
 
         <title>{metadata.title}</title>
       </head>
