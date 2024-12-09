@@ -110,7 +110,7 @@ const Projects = () => {
           className="text-center text-4xl font-bold text-black my-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }} // Fade-in dengan delay 2 detik
+          transition={{ duration: 1, delay: 1 }}
         >
           My Project
         </motion.h2>
@@ -122,7 +122,7 @@ const Projects = () => {
               animate={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 1 + index * 0.5, // Delay bertambah 0.5 detik untuk setiap tag
+                delay: 1 + index * 0.5,
               }}
             >
               <ProjectTag
