@@ -60,7 +60,6 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
         </div>
       </motion.div>
 
-      {/* Project description */}
       <motion.div
         className={`rounded-b-xl bg-[#DFD3C3] min-h-[10rem] py-2 px-6 flex flex-col justify-between transition-opacity duration-500 ${
           loaded ? "opacity-100" : "opacity-0"
