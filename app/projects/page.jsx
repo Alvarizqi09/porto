@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
 import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
@@ -103,7 +103,6 @@ const Projects = () => {
   const filteredProjects = Project.filter((Project) =>
     Project.tag.includes(tag)
   );
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
