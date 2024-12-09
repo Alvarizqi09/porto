@@ -110,7 +110,7 @@ const Projects = () => {
           className="text-center text-4xl font-bold text-black my-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }} // Fade-in dengan delay 2 detik
+          transition={{ duration: 1, delay: 1 }} // Fade-in dengan delay 2 detik
         >
           My Project
         </motion.h2>
