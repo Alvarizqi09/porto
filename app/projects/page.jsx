@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
@@ -104,54 +103,27 @@ const Projects = () => {
     Project.tag.includes(tag)
   );
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-        transition: { delay: 1, duration: 0.5, ease: "easeInOut" },
-      }}
-      exit={{ opacity: 0, transition: { duration: 0.5, ease: "easeInOut" } }}
-      className="mb-10"
-    >
+    <div className="mb-10">
       <div className="container">
-        <motion.h2
-          className="text-center text-4xl font-bold text-black my-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { delay: 1.5, duration: 0.5 } }}
-        >
+        <h2 className="text-center text-4xl font-bold text-black my-8">
           My Project
-        </motion.h2>
+        </h2>
         <div className="text-black flex flex-row justify-center items-center gap-2 py-6">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { delay: 2, duration: 0.5 } }}
-          >
-            <ProjectTag
-              onClick={handleTagChange}
-              name="All"
-              isSelected={tag === "All"}
-            />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { delay: 2.1, duration: 0.5 } }}
-          >
-            <ProjectTag
-              onClick={handleTagChange}
-              name="Web"
-              isSelected={tag === "Web"}
-            />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { delay: 2.2, duration: 0.5 } }}
-          >
-            <ProjectTag
-              onClick={handleTagChange}
-              name="Design"
-              isSelected={tag === "Design"}
-            />
-          </motion.div>
+          <ProjectTag
+            onClick={handleTagChange}
+            name="All"
+            isSelected={tag === "All"}
+          />
+          <ProjectTag
+            onClick={handleTagChange}
+            name="Web"
+            isSelected={tag === "Web"}
+          />
+          <ProjectTag
+            onClick={handleTagChange}
+            name="Design"
+            isSelected={tag === "Design"}
+          />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto">
           {filteredProjects.map((Project) => {
@@ -169,7 +141,7 @@ const Projects = () => {
           })}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
