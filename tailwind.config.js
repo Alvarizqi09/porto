@@ -11,13 +11,17 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "15px",
+      padding: {
+        DEFAULT: "1rem", // Default for smaller screens
+        sm: "2rem", // Increased padding for larger screens
+        lg: "4rem",
+      },
     },
     screens: {
-      sm: "640px",
+      sm: "480px", // Adjusted for smaller devices
       md: "768px",
-      lg: "960px",
-      xl: "1200px",
+      lg: "1024px", // Larger screens
+      xl: "1280px",
     },
     fontFamily: { primary: "var(--font-jetbrainsMono)" },
     extend: {
@@ -28,6 +32,10 @@ module.exports = {
           hover: "#D0B8A8",
         },
       },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -37,10 +45,6 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
