@@ -39,15 +39,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={JetBrainsMono.variable}>
       <head>
-        {/* Metadata */}
         <meta name="viewport" content={metadata.viewport} />
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
         <meta name="author" content={metadata.author} />
         <meta name="robots" content={metadata.robots} />
         <meta name="theme-color" content={metadata.themeColor} />
-
-        {/* Open Graph Meta Tags */}
         <meta property="og:title" content={metadata.title} />
         <meta property="og:description" content={metadata.description} />
         <meta property="og:type" content="website" />
@@ -56,8 +53,6 @@ export default function RootLayout({ children }) {
           property="og:image"
           content="https://alvarizqi.com/assets/og-image.jpg"
         />
-
-        {/* Twitter Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={metadata.title} />
         <meta name="twitter:description" content={metadata.description} />
@@ -65,13 +60,7 @@ export default function RootLayout({ children }) {
           name="twitter:image"
           content="https://alvarizqi.com/assets/twitter-image.jpg"
         />
-
-        {/* Favicon */}
-        <link
-          rel="icon"
-          href="https://alvarizqi.com/favicon.ico"
-          type="image/x-icon"
-        />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <title>{metadata.title}</title>
       </head>
       <body className={JetBrainsMono.variable}>
