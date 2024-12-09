@@ -27,7 +27,7 @@ const Photo = () => {
             src={photo}
             alt="foto-diri"
             priority
-            quality={70}
+            quality={100}
             fill
             className="object-contain"
           />
