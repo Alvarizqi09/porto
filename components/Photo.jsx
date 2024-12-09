@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 import Image from "next/image";
-import photo from "@/public/assets/Photo.png";
+import photo from "@/public/assets/Photo.svg";
 
 const Photo = () => {
   return (
