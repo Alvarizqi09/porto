@@ -7,19 +7,7 @@ import Footer from "@/components/Footer";
 
 const JetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  Weight: [
-    "100",
-    "200",
-    "300",
-    "400",
-    "400",
-    "400",
-    "500",
-    "600",
-    "700",
-    "800",
-    "900",
-  ],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-jetbrainsMono",
 });
 
@@ -31,20 +19,22 @@ export const metadata = {
     "Front-End Developer, React Developer, Next.js, Laravel, UI/UX Design, Web Developer Portfolio",
   author: "Alvarizqi",
   robots: "index, follow",
-  viewport: "width=device-width, initial-scale=1.0",
-  themeColor: "#ffffff",
 };
+
+export const viewport = "width=device-width, initial-scale=1.0";
+
+export const themeColor = "#ffffff";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={JetBrainsMono.variable}>
       <head>
-        <meta name="viewport" content={metadata.viewport} />
+        <meta name="viewport" content={viewport} />
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
         <meta name="author" content={metadata.author} />
         <meta name="robots" content={metadata.robots} />
-        <meta name="theme-color" content={metadata.themeColor} />
+        <meta name="theme-color" content={themeColor} />
         <meta property="og:title" content={metadata.title} />
         <meta property="og:description" content={metadata.description} />
         <meta property="og:type" content="website" />
@@ -60,7 +50,8 @@ export default function RootLayout({ children }) {
           name="twitter:image"
           content="https://alvarizqi.com/assets/twitter-image.jpg"
         />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+
         <title>{metadata.title}</title>
       </head>
       <body className={JetBrainsMono.variable}>
