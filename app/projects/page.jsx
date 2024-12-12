@@ -7,10 +7,12 @@ import ProjectTag from "@/components/ProjectTag";
 import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
 import {
   SiBootstrap,
+  SiCodeigniter,
   SiFigma,
   SiNextdotjs,
   SiTailwindcss,
   SiVite,
+  SiVuedotjs,
 } from "react-icons/si";
 
 const Project = [
@@ -89,6 +91,45 @@ const Project = [
     icon: [
       <SiNextdotjs key={"Next"} className="w-6 h-6" />,
       <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
+    ],
+  },
+  {
+    id: "7",
+    image: "/assets/TechAnn.jpg",
+    title: "TechAnn",
+    tag: ["All", "Web"],
+    desc: "An online shop website that has a simple CRUD project feature made with Vue3 and uses Vue-router for page routing, the first project for practicing using the VueJS Framework.",
+    demo: "https://tech-ann.vercel.app/",
+    preview: "https://tech-ann.vercel.app/",
+    icon: [
+      <SiVuedotjs key={"Vue"} className="w-6 h-6" />,
+      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
+    ],
+  },
+  {
+    id: "8",
+    image: "/assets/AmdMandiri.jpg",
+    title: "AMD Mandiri(MixPitch)",
+    tag: ["All", "Web"],
+    desc: "Developing and deploying 20+ new features with superior monitoring & evaluation (monev) features in 2 of the 5 top banks in Indonesia, namely BNI (Bank Negara Indonesia) and Bank Mandiri.",
+    demo: "https://mandiri.ideaboxapp.com/",
+    preview: "https://mandiri.ideaboxapp.com/",
+    icon: [
+      <SiCodeigniter key={"CI4"} className="w-6 h-6" />,
+      <SiBootstrap key={"Bootstrap"} className="w-6 h-6" />,
+    ],
+  },
+  {
+    id: "8",
+    image: "/assets/BNI.jpg",
+    title: "Ideabox BNI",
+    tag: ["All", "Web"],
+    desc: "Developing and deploying 20+ new features with superior monitoring & evaluation (monev) features in 2 of the 5 top banks in Indonesia, namely BNI (Bank Negara Indonesia) and Bank Mandiri.",
+    demo: "https://bni.ideaboxapp.com",
+    preview: "https://bni.ideaboxapp.com",
+    icon: [
+      <SiCodeigniter key={"CI4"} className="w-6 h-6" />,
+      <SiBootstrap key={"Tailwind"} className="w-6 h-6" />,
     ],
   },
 ];
