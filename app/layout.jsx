@@ -14,9 +14,9 @@ const JetBrainsMono = JetBrains_Mono({
 export const metadata = {
   title: "Alvarizqi | Front-End Web Developer",
   description:
-    "Welcome to Alvarizqi's portfolio! I'm a skilled Front-End Developer with expertise in React, Next.js, and Laravel, dedicated to crafting seamless and stunning web experiences.",
+    "Welcome to Alvarizqi's portfolio! I'm a skilled Front-End Developer with expertise in React, Vue, Next.js, and Laravel, dedicated to crafting seamless and stunning web experiences.",
   keywords:
-    "Front-End Developer, React Developer, Next.js, Laravel, UI/UX Design, Web Developer Portfolio",
+    "Front-End Developer, React, Vue, Next.js, Laravel, UI/UX Design, Web Developer Portfolio",
   author: "Alvarizqi",
   robots: "index, follow",
 };

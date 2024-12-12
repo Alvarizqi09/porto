@@ -25,8 +25,8 @@ const Home = () => {
               <span className="text-accent">Alvarizqi</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-black/80">
-              With expertise in React, Next.js, and Laravel, I transform ideas
-              into seamless, visually stunning web experiences. Let's
+              With expertise in React, Vue, Next.js, and Laravel, I transform
+              ideas into seamless, visually stunning web experiences. Let's
               collaborate to create something truly extraordinary together!
             </p>
             <div className="flex flex-col xl:flex-row items-center gap-8">

@@ -14,6 +14,7 @@ import {
   SiCoreldraw,
   SiBootstrap,
   SiNextdotjs,
+  SiVuedotjs,
 } from "react-icons/si";
 
 import { motion } from "framer-motion";
@@ -93,6 +94,7 @@ const skills = {
     { icon: <FaCss3 />, name: "CSS" },
     { icon: <FaJs />, name: "JavaScript" },
     { icon: <FaReact />, name: "React" },
+    { icon: <SiVuedotjs />, name: "Vue.js" },
     { icon: <SiTailwindcss />, name: "Tailwind CSS" },
     { icon: <SiBootstrap />, name: "Bootstrap" },
     { icon: <SiNextdotjs />, name: "Next.js" },
