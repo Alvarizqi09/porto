@@ -24,8 +24,8 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
           transition={{
-            delay: 2,
-            duration: 0.4,
+            delay: 1,
+            duration: 0.2,
             ease: "easeInOut",
           }}
         >
@@ -69,7 +69,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.4, ease: "easeInOut" }}
+        transition={{ delay: 1, duration: 0.2, ease: "easeInOut" }}
       >
         <div>
           <h5 className="text-xl text-center font-semibold text-black mb-1">
