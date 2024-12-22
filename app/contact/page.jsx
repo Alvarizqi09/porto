@@ -53,13 +53,18 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { firstName, lastName, email, phone, service, message } = formData;
-    const url = `https://wa.me/6281327963181?text=${encodeURIComponent(
+    const mailtoLink = `mailto:Alvarizki80@gmail.com?subject=${encodeURIComponent(
+      `Inquiry about ${service} service`
+    )}&body=${encodeURIComponent(
       `Hello, my name is ${firstName} ${lastName}. I am interested in your ${service} service. Here are my details:
+
 Email: ${email}
 Phone: ${phone}
-Message: ${message}`
+
+Message:
+${message}`
     )}`;
-    window.open(url, "_blank");
+    window.location.href = mailtoLink;
   };
 
   return (
