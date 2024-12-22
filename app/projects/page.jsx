@@ -120,7 +120,7 @@ const Project = [
     ],
   },
   {
-    id: "8",
+    id: "9",
     image: "/assets/BNI.jpg",
     title: "Ideabox BNI",
     tag: ["All", "Web"],
