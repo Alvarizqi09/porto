@@ -151,7 +151,7 @@ const Projects = () => {
           className="text-center text-4xl font-bold text-black my-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
+          transition={{ duration: 2.4, delay: 2 }}
         >
           My Project
         </motion.h2>
@@ -162,8 +162,8 @@ const Projects = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{
-                duration: 1,
-                delay: 1 + index * 0.5,
+                duration: 2.4,
+                delay: 2 + index * 0.5,
               }}
             >
               <ProjectTag
@@ -177,7 +177,7 @@ const Projects = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }}
+          transition={{ duration: 2.4, delay: 2 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto"
         >
           {filteredProjects.map((Project) => {
