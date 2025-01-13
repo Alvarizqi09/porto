@@ -32,7 +32,6 @@ const Contact = () => {
     lastName: "",
     email: "",
     phone: "",
-    service: "",
     message: "",
   });
 
@@ -43,20 +42,13 @@ const Contact = () => {
     });
   };
 
-  const handleSelectChange = (value) => {
-    setFormData({
-      ...formData,
-      service: value,
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, phone, service, message } = formData;
+    const { firstName, lastName, email, phone, message } = formData;
     const mailtoLink = `mailto:Alvarizki80@gmail.com?subject=${encodeURIComponent(
-      `Inquiry about ${service} service`
+      `Inquiry about your service`
     )}&body=${encodeURIComponent(
-      `Hello, my name is ${firstName} ${lastName}. I am interested in your ${service} service. Here are my details:
+      `Hello, my name is ${firstName} ${lastName}. I am interested in your service. Here are my details:
 
 Email: ${email}
 Phone: ${phone}
@@ -135,23 +127,7 @@ ${message}`
                   onChange={handleChange}
                 />
               </div>
-              <Select onValueChange={handleSelectChange}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a Service" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Select A service</SelectLabel>
-                    <SelectItem value="Web Development">
-                      Web Development
-                    </SelectItem>
-                    <SelectItem value="UI Design">UI Design</SelectItem>
-                    <SelectItem value="Graphic Design">
-                      Graphic Design
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+
               <Textarea
                 className="h-[200px]"
                 name="message"
