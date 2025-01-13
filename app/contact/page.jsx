@@ -46,7 +46,7 @@ const Contact = () => {
     e.preventDefault();
     const { firstName, lastName, email, phone, message } = formData;
     const mailtoLink = `mailto:Alvarizki80@gmail.com?subject=${encodeURIComponent(
-      `Inquiry about your service`
+      `Interested about your service`
     )}&body=${encodeURIComponent(
       `Hello, my name is ${firstName} ${lastName}. I am interested in your service. Here are my details:
 
