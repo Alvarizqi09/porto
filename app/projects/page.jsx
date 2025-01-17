@@ -10,7 +10,9 @@ import {
   SiCodeigniter,
   SiFigma,
   SiNextdotjs,
+  SiReact,
   SiTailwindcss,
+  SiTypescript,
   SiVite,
   SiVuedotjs,
 } from "react-icons/si";
@@ -44,7 +46,7 @@ const Project = [
     ],
   },
   {
-    id: "3",
+    id: "10",
     image: "/assets/Alterra.jpg",
     title: "Alterra Submission",
     tag: ["All", "Web"],
@@ -130,6 +132,21 @@ const Project = [
     icon: [
       <SiCodeigniter key={"CI4"} className="w-6 h-6" />,
       <SiBootstrap key={"Tailwind"} className="w-6 h-6" />,
+    ],
+  },
+  {
+    id: "3",
+    image: "/assets/indra.jpg",
+    title: "Company Profile - CVINDRADEWANTI",
+    tag: ["All", "Web"],
+    desc: "Company Profile Website for CVINDRADEWANTI, a company engaged in the field of construction services. This website was created with ReactJS and TailwindCSS then deployed with Vercel",
+    preview: "https://cvindradewanti.com",
+    demo: "detail/Cvindradewanti",
+    icon: [
+      <SiReact key={"ReactJS"} className="w-6 h-6" />,
+      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
+      <SiTypescript key={"Typescript"} className="w-6 h-6" />,
+      <SiVite key={"Vite"} className="w-6 h-6" />,
     ],
   },
 ];
