@@ -10,7 +10,7 @@ import { FiDownload } from "react-icons/fi";
 const Home = () => {
   const handleDownloadCV = () => {
     window.open(
-      "https://drive.google.com/file/d/11YRAOFvOXAOxNJQOb2e1UByP1WQRCc0E/view?usp=drive_link",
+      "https://drive.google.com/file/d/1tN3F2haGux10CCJ2fxbsNqJh0AGs4UTG/view?usp=sharing",
       "_blank"
     );
   };
