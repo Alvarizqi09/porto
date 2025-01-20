@@ -19,20 +19,7 @@ import {
 
 const Project = [
   {
-    id: "1",
-    image: "/assets/farmasi.jpg",
-    title: "Rosati Farmasi",
-    tag: ["All", "Web"],
-    desc: "Rosati Pharmacy is a website created for the final project of a software engineering course. This website was created with Laravel and Bootstrap then deployed with Digital Ocean",
-    demo: "detail/Rosati",
-    preview: "http://rosatifarmasi.me",
-    icon: [
-      <FaLaravel key="laravel" className="w-6 h-6" />,
-      <FaPhp key="php" className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: "2",
+    id: 1,
     image: "/assets/vilume.jpg",
     title: "Vilume",
     tag: ["All", "Web"],
@@ -46,7 +33,7 @@ const Project = [
     ],
   },
   {
-    id: "3",
+    id: 2,
     image: "/assets/indra.jpg",
     title: "Company Profile - CVINDRADEWANTI",
     tag: ["All", "Web"],
@@ -61,29 +48,20 @@ const Project = [
     ],
   },
   {
-    id: "4",
-    image: "/assets/Kliq.jpg",
-    title: "Kliq Chat Prototype",
-    tag: ["All", "Design"],
-    desc: "Prototype and design of Kliq Chat Application",
-    demo: "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
-    preview:
-      "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
-    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
-  },
-  {
-    id: "5",
+    id: 3,
     image: "/assets/farmasi.jpg",
-    title: "Rosati Prototype",
-    tag: ["All", "Design"],
-    desc: "Prototype and design of Rosati Farmasi Website",
-    demo: "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
-    preview:
-      "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
-    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
+    title: "Rosati Farmasi",
+    tag: ["All", "Web"],
+    desc: "Rosati Pharmacy is a website created for the final project of a software engineering course. This website was created with Laravel and Bootstrap then deployed with Digital Ocean",
+    demo: "detail/Rosati",
+    preview: "http://rosatifarmasi.me",
+    icon: [
+      <FaLaravel key="laravel" className="w-6 h-6" />,
+      <FaPhp key="php" className="w-6 h-6" />,
+    ],
   },
   {
-    id: "6",
+    id: 4,
     image: "/assets/Qbills.jpg",
     title: "QBILLS POS APP",
     tag: ["All", "Web"],
@@ -96,7 +74,7 @@ const Project = [
     ],
   },
   {
-    id: "7",
+    id: 5,
     image: "/assets/TechAnn.jpg",
     title: "TechAnn",
     tag: ["All", "Web"],
@@ -109,7 +87,7 @@ const Project = [
     ],
   },
   {
-    id: "8",
+    id: 6,
     image: "/assets/AmdMandiri.jpg",
     title: "AMD Mandiri(MixPitch)",
     tag: ["All", "Web"],
@@ -122,7 +100,7 @@ const Project = [
     ],
   },
   {
-    id: "9",
+    id: 7,
     image: "/assets/BNI.jpg",
     title: "Ideabox BNI",
     tag: ["All", "Web"],
@@ -134,9 +112,30 @@ const Project = [
       <SiBootstrap key={"Tailwind"} className="w-6 h-6" />,
     ],
   },
-
   {
-    id: "10",
+    id: 8,
+    image: "/assets/Kliq.jpg",
+    title: "Kliq Chat Prototype",
+    tag: ["All", "Design"],
+    desc: "Prototype and design of Kliq Chat Application",
+    demo: "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
+    preview:
+      "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
+    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
+  },
+  {
+    id: 9,
+    image: "/assets/farmasi.jpg",
+    title: "Rosati Prototype",
+    tag: ["All", "Design"],
+    desc: "Prototype and design of Rosati Farmasi Website",
+    demo: "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
+    preview:
+      "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
+    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
+  },
+  {
+    id: 10,
     image: "/assets/Alterra.jpg",
     title: "Alterra Submission",
     tag: ["All", "Web"],

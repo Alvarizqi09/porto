@@ -36,7 +36,7 @@ const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
             {desc}
           </p>
         </div>
-        <div className="flex flex-row gap-4 mt-10">{icon}</div>
+        <div className="flex flex-row gap-4 mt-5">{icon}</div>
       </div>
     </div>
   );
