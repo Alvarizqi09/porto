@@ -10,7 +10,14 @@ import { FiDownload } from "react-icons/fi";
 const Home = () => {
   const handleDownloadCV = () => {
     window.open(
-      "https://drive.google.com/file/d/1tN3F2haGux10CCJ2fxbsNqJh0AGs4UTG/view?usp=sharing",
+      "https://drive.google.com/file/d/1Vk34ftfhFnI_N-sFaseJ9U1QZyc7pMkP/view?usp=drive_link",
+      "_blank"
+    );
+  };
+
+  const handleDownloadCVenglish = () => {
+    window.open(
+      "https://drive.google.com/file/d/1LmY1pBOsQm8XtSNrxFVUQfnZsV7Y0I2V/view?usp=drive_link",
       "_blank"
     );
   };
@@ -29,16 +36,27 @@ const Home = () => {
               ideas into seamless, visually stunning web experiences. Let's
               collaborate to create something truly extraordinary together!
             </p>
-            <div className="flex flex-col xl:flex-row items-center gap-8">
-              <Button
-                variant="outline"
-                size="lg"
-                className="uppercase flex items-center gap-2"
-                onClick={handleDownloadCV}
-              >
-                <span>Download CV</span>
-                <FiDownload className="text-xl" />
-              </Button>
+            <div className="flex flex-col items-center justify-center xl:justify-start gap-6 mb-8">
+              <div className="flex flex-col xl:flex-row items-center gap-8">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="uppercase flex items-center gap-2"
+                  onClick={handleDownloadCV}
+                >
+                  <span>Download CV</span>
+                  <FiDownload className="text-xl" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="uppercase flex items-center gap-2"
+                  onClick={handleDownloadCVenglish}
+                >
+                  <span>English version</span>
+                  <FiDownload className="text-xl" />
+                </Button>
+              </div>
               <div className="mb-8 xl:mb-0">
                 <Socials
                   containerStyles="flex gap-6"
