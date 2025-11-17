@@ -1,19 +1,36 @@
 import { NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { connectDB } from "@/lib/db";
+import Project from "@/lib/models/Project";
 
-// GET - Ambil semua projects
+// Cache untuk production (memory cache)
+const cache = new Map();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 export async function GET(request) {
   try {
-    const client = await clientPromise;
-    const db = client.db("portfolio"); // Nama database
-
-    // Parse query params untuk filtering
     const { searchParams } = new URL(request.url);
     const tag = searchParams.get("tag");
     const featured = searchParams.get("featured");
 
-    // Build filter
+    // Generate cache key
+    const cacheKey = `projects-${tag || "all"}-${featured || "false"}`;
+
+    // Check cache
+    if (cache.has(cacheKey)) {
+      const cachedData = cache.get(cacheKey);
+      if (Date.now() - cachedData.timestamp < CACHE_DURATION) {
+        return NextResponse.json(cachedData.data, {
+          headers: {
+            "Cache-Control": "public, max-age=300", // 5 minutes
+          },
+        });
+      }
+    }
+
+    // Connect to database
+    await connectDB();
+
+    // Build filter dengan optimasi
     const filter = {};
     if (tag && tag !== "All") {
       filter.tag = tag;
@@ -22,16 +39,30 @@ export async function GET(request) {
       filter.featured = true;
     }
 
-    const projects = await db
-      .collection("projects")
-      .find(filter)
+    // Query dengan select() untuk hanya ambil field yang diperlukan (lebih cepat)
+    const projects = await Project.find(filter)
+      .select("title desc image tag demo preview tech_stack featured order")
       .sort({ order: 1, createdAt: -1 })
-      .toArray();
+      .limit(50)
+      .lean() // Gunakan lean untuk performa query yang lebih cepat
+      .exec();
 
-    return NextResponse.json({
+    const responseData = {
       success: true,
       count: projects.length,
       data: projects,
+    };
+
+    // Set cache untuk semua environment
+    cache.set(cacheKey, {
+      data: responseData,
+      timestamp: Date.now(),
+    });
+
+    return NextResponse.json(responseData, {
+      headers: {
+        "Cache-Control": "public, max-age=300", // 5 minutes
+      },
     });
   } catch (error) {
     console.error("GET Error:", error);
@@ -42,11 +73,12 @@ export async function GET(request) {
   }
 }
 
+// POST method tetap sama...
+
 // POST - Tambah project baru
 export async function POST(request) {
   try {
-    const client = await clientPromise;
-    const db = client.db("portfolio");
+    await connectDB();
 
     const body = await request.json();
 
@@ -61,24 +93,22 @@ export async function POST(request) {
       );
     }
 
-    // Prepare data
+    // Create project menggunakan mongoose
     const projectData = {
       ...body,
       featured: body.featured || false,
       order: body.order || 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     };
 
-    const result = await db.collection("projects").insertOne(projectData);
+    const newProject = await Project.create(projectData);
+
+    // Invalidate cache setelah POST
+    cache.clear();
 
     return NextResponse.json(
       {
         success: true,
-        data: {
-          _id: result.insertedId,
-          ...projectData,
-        },
+        data: newProject.toObject(),
       },
       { status: 201 }
     );

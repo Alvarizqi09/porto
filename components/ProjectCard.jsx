@@ -1,17 +1,21 @@
 "use client";
 import Link from "next/link";
 import { FaCode, FaEye } from "react-icons/fa";
+import Image from "next/image";
 
 const ProjectCard = ({ image, title, desc, preview, icon, demo }) => {
   return (
-    <div className="shadow-xl border-accent border-4 rounded-2xl w-full sm:max-w-[25rem] h-auto sm:h-[400px] flex flex-col justify-between mx-auto relative">
-      <div
-        className="w-full h-[280px] sm:h-[240px] rounded-t-xl relative group"
-        style={{
-          background: `url(${image}) center center/cover no-repeat`,
-        }}
-      >
-        <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-8 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500">
+    <div className="shadow-xl border-accent border-4 rounded-2xl w-full sm:max-w-[25rem] h-auto sm:h-[400px] flex flex-col justify-between mx-auto relative overflow-hidden">
+      <div className="w-full h-[280px] sm:h-[240px] rounded-t-xl relative group overflow-hidden bg-gray-200">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          loading="lazy"
+          sizes="(max-width: 640px) 100vw, 25rem"
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
+        />
+        <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-8 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500 z-10">
           <Link
             href={demo}
             className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link"

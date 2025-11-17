@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { connectDB } from "@/lib/db";
+import Project from "@/lib/models/Project";
 
 // GET - Ambil project by ID
 export async function GET(request, { params }) {
   try {
-    const client = await clientPromise;
-    const db = client.db("portfolio");
+    await connectDB();
 
-    const project = await db
-      .collection("projects")
-      .findOne({ _id: new ObjectId(params.id) });
+    const project = await Project.findById(params.id)
+      .select("title desc image tag demo preview tech_stack featured order")
+      .lean()
+      .exec();
 
     if (!project) {
       return NextResponse.json(
@@ -35,28 +35,19 @@ export async function GET(request, { params }) {
 // PUT - Update project by ID
 export async function PUT(request, { params }) {
   try {
-    const client = await clientPromise;
-    const db = client.db("portfolio");
+    await connectDB();
 
     const body = await request.json();
 
     // Remove _id from body if exists
     delete body._id;
 
-    const updateData = {
-      ...body,
-      updatedAt: new Date(),
-    };
+    const updatedProject = await Project.findByIdAndUpdate(params.id, body, {
+      new: true,
+      runValidators: true,
+    }).exec();
 
-    const result = await db
-      .collection("projects")
-      .findOneAndUpdate(
-        { _id: new ObjectId(params.id) },
-        { $set: updateData },
-        { returnDocument: "after" }
-      );
-
-    if (!result.value) {
+    if (!updatedProject) {
       return NextResponse.json(
         { success: false, error: "Project not found" },
         { status: 404 }
@@ -65,7 +56,7 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json({
       success: true,
-      data: result.value,
+      data: updatedProject.toObject(),
     });
   } catch (error) {
     console.error("PUT Error:", error);
@@ -79,14 +70,11 @@ export async function PUT(request, { params }) {
 // DELETE - Hapus project by ID
 export async function DELETE(request, { params }) {
   try {
-    const client = await clientPromise;
-    const db = client.db("portfolio");
+    await connectDB();
 
-    const result = await db
-      .collection("projects")
-      .deleteOne({ _id: new ObjectId(params.id) });
+    const deletedProject = await Project.findByIdAndDelete(params.id).exec();
 
-    if (result.deletedCount === 0) {
+    if (!deletedProject) {
       return NextResponse.json(
         { success: false, error: "Project not found" },
         { status: 404 }

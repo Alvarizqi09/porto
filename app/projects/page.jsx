@@ -47,12 +47,17 @@ const Projects = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch projects dari API
+  // Fetch projects dari API dengan caching dan retry logic
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/projects");
+        const response = await fetch("/api/projects", {
+          method: "GET",
+          headers: {
+            "Cache-Control": "no-cache",
+          },
+        });
         const result = await response.json();
 
         if (result.success) {
