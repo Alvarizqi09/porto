@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
@@ -41,60 +42,50 @@ const techIconMap = {
   Express: <SiExpress key="Express" className="w-6 h-6" />,
 };
 
+// Fetch function
+const fetchProjects = async () => {
+  const response = await fetch("/api/projects");
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.error || "Failed to fetch projects");
+  }
+
+  return result.data;
+};
+
 const Projects = () => {
   const [tag, setTag] = useState("All");
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Fetch projects dari API dengan caching dan retry logic
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("/api/projects", {
-          method: "GET",
-          headers: {
-            "Cache-Control": "no-cache",
-          },
-        });
-        const result = await response.json();
-
-        if (result.success) {
-          // Transform tech_stack array ke icon components
-          const projectsWithIcons = result.data.map((project) => ({
-            ...project,
-            id: project._id,
-            icon:
-              project.tech_stack
-                ?.map((tech) => techIconMap[tech])
-                .filter(Boolean) || [],
-          }));
-
-          setProjects(projectsWithIcons);
-        } else {
-          setError(result.error);
-        }
-      } catch (err) {
-        setError(err.message);
-        console.error("Fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
+  // Menggunakan TanStack Query
+  const {
+    data: projects = [],
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+  });
 
   const handleTagChange = (newTag) => {
     setTag(newTag);
   };
 
-  const filteredProjects = projects.filter((project) =>
+  // Transform projects dengan icons
+  const projectsWithIcons = projects.map((project) => ({
+    ...project,
+    id: project._id,
+    icon:
+      project.tech_stack?.map((tech) => techIconMap[tech]).filter(Boolean) ||
+      [],
+  }));
+
+  const filteredProjects = projectsWithIcons.filter((project) =>
     project.tag.includes(tag)
   );
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
@@ -102,10 +93,10 @@ const Projects = () => {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
-        <div className="text-red-500 text-xl mb-4">Error: {error}</div>
+        <div className="text-red-500 text-xl mb-4">Error: {error?.message}</div>
         <button
           onClick={() => window.location.reload()}
           className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/80"
