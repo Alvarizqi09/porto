@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node scripts/seed.js"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.1",
@@ -19,8 +20,11 @@
     "@vercel/speed-insights": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
     "framer-motion": "^11.3.28",
     "lucide-react": "^0.428.0",
+    "mongodb": "^7.0.0",
+    "mongoose": "^8.19.4",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",

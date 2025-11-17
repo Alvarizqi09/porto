@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
@@ -12,189 +12,105 @@ import {
   SiFigma,
   SiMongodb,
   SiNextdotjs,
-  SiNodedotjs,
   SiReact,
   SiSupabase,
   SiTailwindcss,
   SiTypescript,
   SiVite,
   SiVuedotjs,
+  SiNodedotjs,
 } from "react-icons/si";
 
-const Project = [
-  {
-    id: 1,
-    image: "/assets/vilume.jpg",
-    title: "Vilume",
-    tag: ["All", "Web"],
-    desc: "VILUME is a website created to fulfill the tasks of the Alterra Academy mini-project. This website was created with ReactJS+Vite and also styled using Tailwind. There is also Firebase integration for login and OpenAi for Customer Services",
-    demo: "detail/Vilume",
-    preview: "https://vilume.vercel.app",
-    icon: [
-      <SiVite key={"Vite"} className="w-6 h-6" />,
-      <FaReact key={"React"} className="w-6 h-6" />,
-      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 2,
-    image: "/assets/indra.jpg",
-    title: "Company Profile - CVINDRADEWANTI",
-    tag: ["All", "Web"],
-    desc: "Company Profile Website for CVINDRADEWANTI, a company engaged in the field of construction services. This website was created with ReactJS and TailwindCSS then deployed with Vercel",
-    preview: "https://cvindradewanti.com",
-    demo: "detail/Cvindradewanti",
-    icon: [
-      <SiReact key={"ReactJS"} className="w-6 h-6" />,
-      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
-      <SiTypescript key={"Typescript"} className="w-6 h-6" />,
-      <SiVite key={"Vite"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 3,
-    image: "/assets/farmasi.jpg",
-    title: "Rosati Farmasi",
-    tag: ["All", "Web"],
-    desc: "Rosati Pharmacy is a website created for the final project of a software engineering course. This website was created with Laravel and Bootstrap then deployed with Digital Ocean",
-    demo: "detail/Rosati",
-    preview: "http://rosatifarmasi.me",
-    icon: [
-      <FaLaravel key="laravel" className="w-6 h-6" />,
-      <FaPhp key="php" className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 4,
-    image: "/assets/Qbills.jpg",
-    title: "QBILLS POS APP",
-    tag: ["All", "Web"],
-    desc: "QBILLS is a Point of Sale application that I created for the final project of the Alterra Academy MSIB Batch 5 Programs. This website was created with NextJS and TailwindCSS then deployed with Vercel",
-    demo: "https://qbills.vercel.app/",
-    preview: "https://qbills.vercel.app/",
-    icon: [
-      <SiNextdotjs key={"Next"} className="w-6 h-6" />,
-      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 5,
-    image: "/assets/TechAnn.jpg",
-    title: "TechAnn",
-    tag: ["All", "Web"],
-    desc: "An online shop website that has a simple CRUD project feature made with Vue3 and uses Vue-router for page routing, the first project for practicing using the VueJS Framework.",
-    demo: "https://tech-ann.vercel.app/",
-    preview: "https://tech-ann.vercel.app/",
-    icon: [
-      <SiVuedotjs key={"Vue"} className="w-6 h-6" />,
-      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 6,
-    image: "/assets/AmdMandiri.jpg",
-    title: "AMD Mandiri(MixPitch)",
-    tag: ["All", "Web"],
-    desc: "Developing and deploying 20+ new features with superior monitoring & evaluation (monev) features in 2 of the 5 top banks in Indonesia, namely BNI (Bank Negara Indonesia) and Bank Mandiri.",
-    demo: "https://mandiri.ideaboxapp.com/",
-    preview: "https://mandiri.ideaboxapp.com/",
-    icon: [
-      <SiCodeigniter key={"CI4"} className="w-6 h-6" />,
-      <SiBootstrap key={"Bootstrap"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 7,
-    image: "/assets/BNI.jpg",
-    title: "Ideabox BNI",
-    tag: ["All", "Web"],
-    desc: "Developing and deploying 20+ new features with superior monitoring & evaluation (monev) features in 2 of the 5 top banks in Indonesia, namely BNI (Bank Negara Indonesia) and Bank Mandiri.",
-    demo: "https://bni.ideaboxapp.com",
-    preview: "https://bni.ideaboxapp.com",
-    icon: [
-      <SiCodeigniter key={"CI4"} className="w-6 h-6" />,
-      <SiBootstrap key={"Tailwind"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 8,
-    image: "/assets/Kliq.jpg",
-    title: "Kliq Chat Prototype",
-    tag: ["All", "Design"],
-    desc: "Prototype and design of Kliq Chat Application",
-    demo: "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
-    preview:
-      "https://www.figma.com/proto/vdG44rI7YvM4ulDvRyYHL4/Untitled?node-id=32-319&scaling=scale-down&page-id=0%3A1&starting-point-node-id=0%3A3&t=g6ZzcObxLkLOHk5S-1",
-    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
-  },
-  {
-    id: 9,
-    image: "/assets/farmasi.jpg",
-    title: "Rosati Prototype",
-    tag: ["All", "Design"],
-    desc: "Prototype and design of Rosati Farmasi Website",
-    demo: "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
-    preview:
-      "https://www.figma.com/proto/MQApVvVWRme1DlK8eMuPsR/Farmasi?node-id=367-5293&t=WVgwxU8QO2YzmKe1-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=357%3A1592",
-    icon: [<SiFigma key={"Figma"} className="w-6 h-6" />],
-  },
-  {
-    id: 10,
-    image: "/assets/Alterra.jpg",
-    title: "Alterra Submission",
-    tag: ["All", "Web"],
-    desc: "Alterra Submission is one of the tasks from Alterra Academy which is required by several criteria. I created this website with ReactJS + Vite with bootstrap styling. It contains CRUD to add products and is also integrated with OpenAi",
-    demo: "detail/Alterra",
-    preview: "https://react-ai-nu.ver",
-    icon: [
-      <SiVite key={"Vite"} className="w-6 h-6" />,
-      <FaReact key={"React"} className="w-6 h-6" />,
-      <SiBootstrap key={"Bootstrap"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 11,
-    image: "/assets/Apshort.jpg",
-    title: "Apshort",
-    tag: ["All", "Web"],
-    desc: "APShort is a fullstack website with simple mission: to create the most reliable, secure, and user-friendly URL shortening service on the market.",
-    demo: "detail/Apshort",
-    preview: "https://apshort.vercel.app/",
-    icon: [
-      <SiVite key={"Vite"} className="w-6 h-6" />,
-      <FaReact key={"React"} className="w-6 h-6" />,
-      <SiSupabase key={"Supabase"} className="w-6 h-6" />,
-      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
-    ],
-  },
-  {
-    id: 12,
-    image: "/assets/stackit.png",
-    title: "Stackit",
-    tag: ["All", "Web"],
-    desc: "Stackit is a fullstack web application built with MERN technology that helps users manage financial portfolios by providing real-time data visualization and analytics. It is designed for both individual investors and financial professionals to track investments and make informed decisions.",
-    demo: "detail/Stackit",
-    preview: "https://letsstack-it.vercel.app/",
-    icon: [
-      <SiNodedotjs key={"Node.js"} className="w-6 h-6" />,
-      <FaReact key={"React"} className="w-6 h-6" />,
-      <SiMongodb key={"MongoDB"} className="w-6 h-6" />,
-      <SiTailwindcss key={"Tailwind"} className="w-6 h-6" />,
-      <SiExpress key={"Express"} className="w-6 h-6" />,
-    ],
-  },
-];
+// Mapping tech stack ke icon
+const techIconMap = {
+  Vite: <SiVite key="Vite" className="w-6 h-6" />,
+  React: <FaReact key="React" className="w-6 h-6" />,
+  ReactJS: <SiReact key="ReactJS" className="w-6 h-6" />,
+  Tailwind: <SiTailwindcss key="Tailwind" className="w-6 h-6" />,
+  Typescript: <SiTypescript key="Typescript" className="w-6 h-6" />,
+  Laravel: <FaLaravel key="Laravel" className="w-6 h-6" />,
+  PHP: <FaPhp key="PHP" className="w-6 h-6" />,
+  Next: <SiNextdotjs key="Next" className="w-6 h-6" />,
+  Vue: <SiVuedotjs key="Vue" className="w-6 h-6" />,
+  CI4: <SiCodeigniter key="CI4" className="w-6 h-6" />,
+  Bootstrap: <SiBootstrap key="Bootstrap" className="w-6 h-6" />,
+  Figma: <SiFigma key="Figma" className="w-6 h-6" />,
+  Supabase: <SiSupabase key="Supabase" className="w-6 h-6" />,
+  "Node.js": <SiNodedotjs key="Node.js" className="w-6 h-6" />,
+  MongoDB: <SiMongodb key="MongoDB" className="w-6 h-6" />,
+  Express: <SiExpress key="Express" className="w-6 h-6" />,
+};
 
 const Projects = () => {
   const [tag, setTag] = useState("All");
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch projects dari API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/projects");
+        const result = await response.json();
+
+        if (result.success) {
+          // Transform tech_stack array ke icon components
+          const projectsWithIcons = result.data.map((project) => ({
+            ...project,
+            id: project._id,
+            icon:
+              project.tech_stack
+                ?.map((tech) => techIconMap[tech])
+                .filter(Boolean) || [],
+          }));
+
+          setProjects(projectsWithIcons);
+        } else {
+          setError(result.error);
+        }
+      } catch (err) {
+        setError(err.message);
+        console.error("Fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const handleTagChange = (newTag) => {
     setTag(newTag);
   };
 
-  const filteredProjects = Project.filter((Project) =>
-    Project.tag.includes(tag)
+  const filteredProjects = projects.filter((project) =>
+    project.tag.includes(tag)
   );
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen">
+        <div className="text-red-500 text-xl mb-4">Error: {error}</div>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/80"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-10">
       <div className="container">
@@ -231,19 +147,23 @@ const Projects = () => {
           transition={{ duration: 2.4, delay: 2 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto"
         >
-          {filteredProjects.map((Project) => {
-            return (
+          {filteredProjects.length === 0 ? (
+            <div className="col-span-full text-center text-gray-500 py-10">
+              No projects found. Please add some projects to the database.
+            </div>
+          ) : (
+            filteredProjects.map((project) => (
               <ProjectCard
-                key={Project.id}
-                title={Project.title}
-                desc={Project.desc}
-                image={Project.image}
-                demo={Project.demo}
-                preview={Project.preview}
-                icon={Project.icon}
-              ></ProjectCard>
-            );
-          })}
+                key={project.id}
+                title={project.title}
+                desc={project.desc}
+                image={project.image}
+                demo={project.demo}
+                preview={project.preview}
+                icon={project.icon}
+              />
+            ))
+          )}
         </motion.div>
       </div>
     </div>
