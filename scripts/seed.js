@@ -1,10 +1,35 @@
 // ============================================
 // FILE: scripts/seed.js
-// Run: node scripts/seed.js
+// Run: npm run seed
 // ============================================
 
-const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: ".env" });
+const mongoose = require("mongoose");
+
+const MONGO_URL = process.env.MONGO_URL;
+
+if (!MONGO_URL) {
+  console.error("❌ MONGO_URL tidak ditemukan di .env.local");
+  process.exit(1);
+}
+
+// Define Project Schema
+const projectSchema = new mongoose.Schema(
+  {
+    title: String,
+    image: String,
+    tag: [String],
+    desc: String,
+    demo: String,
+    preview: String,
+    tech_stack: [String],
+    featured: Boolean,
+    order: Number,
+  },
+  { timestamps: true }
+);
+
+const Project = mongoose.model("Project", projectSchema);
 
 const projectsData = [
   {
@@ -144,63 +169,37 @@ const projectsData = [
 ];
 
 async function seedDatabase() {
-  const uri = process.env.MONGO_URL;
-
-  if (!uri) {
-    console.error("❌ MONGO_URL not found in .env.local");
-    process.exit(1);
-  }
-
-  const client = new MongoClient(uri);
-
   try {
     console.log("🔄 Connecting to MongoDB...");
-    await client.connect();
+    await mongoose.connect(MONGO_URL);
     console.log("✅ Connected to MongoDB");
-
-    const db = client.db("portfolio");
-    const collection = db.collection("projects");
 
     // Clear existing data
     console.log("🗑️  Clearing existing projects...");
-    await collection.deleteMany({});
-
-    // Add timestamps
-    const projectsWithTimestamps = projectsData.map((project) => ({
-      ...project,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }));
+    await Project.deleteMany({});
 
     // Insert new data
     console.log("📥 Inserting projects...");
-    const result = await collection.insertMany(projectsWithTimestamps);
-    console.log(`✅ Successfully inserted ${result.insertedCount} projects`);
-
-    // Create indexes
-    console.log("🔧 Creating indexes...");
-    await collection.createIndex({ tag: 1 });
-    await collection.createIndex({ featured: 1 });
-    await collection.createIndex({ order: 1 });
-    await collection.createIndex({ createdAt: -1 });
-    console.log("✅ Indexes created");
+    const result = await Project.insertMany(projectsData);
+    console.log(`✅ Successfully inserted ${result.length} projects`);
 
     // Display summary
     console.log("\n📊 Summary:");
-    console.log(`Total projects: ${result.insertedCount}`);
-    const webCount = await collection.countDocuments({ tag: "Web" });
-    const designCount = await collection.countDocuments({ tag: "Design" });
-    const featuredCount = await collection.countDocuments({ featured: true });
+    console.log(`Total projects: ${result.length}`);
+    const webCount = await Project.countDocuments({ tag: "Web" });
+    const designCount = await Project.countDocuments({ tag: "Design" });
+    const featuredCount = await Project.countDocuments({ featured: true });
     console.log(`Web projects: ${webCount}`);
     console.log(`Design projects: ${designCount}`);
     console.log(`Featured projects: ${featuredCount}`);
   } catch (error) {
-    console.error("❌ Error seeding database:", error);
+    console.error("❌ Error seeding database:", error.message);
     process.exit(1);
   } finally {
-    await client.close();
+    await mongoose.connection.close();
     console.log("\n✅ Database seeding completed!");
     console.log("🚀 You can now run: npm run dev");
+    process.exit(0);
   }
 }
 
