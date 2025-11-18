@@ -50,8 +50,6 @@ const techIconMap = {
   Quasar: <SiQuasar />,
   Laravel: <FaLaravel />,
   Figma: <FaFigma />,
-  Canva: <SiCanva />,
-  "Corel Draw": <SiCoreldraw />,
   Supabase: <SiSupabase />,
   Firebase: <SiFirebase />,
   Mongodb: <SiMongodb />,
@@ -200,9 +198,11 @@ export default function AboutClient({ aboutData }) {
                             <TooltipProvider delayDuration={100}>
                               <Tooltip>
                                 <TooltipTrigger className="w-full h-[150px] bg-[#FFF4E6] rounded-xl flex justify-center items-center group cursor-pointer hover:text-accent hover:bg-accent/10 transition-all duration-300">
-                                  <div className="text-6xl group-hover:scale-110 transition-transform duration-300">
-                                    {techIconMap[skillName] || (
-                                      <span className="text-sm">
+                                  <div className="text-6xl group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                                    {techIconMap[skillName] ? (
+                                      techIconMap[skillName]
+                                    ) : (
+                                      <span className="text-xs font-bold text-center px-2">
                                         {skillName}
                                       </span>
                                     )}

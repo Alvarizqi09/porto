@@ -4,7 +4,7 @@ import { About, Resume, Education, Skill } from "@/lib/models/About";
 
 // Cache untuk production
 const cache = new Map();
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+const CACHE_DURATION = 60 * 1000; // 1 minute (lebih cepat update)
 
 export async function GET(request) {
   try {

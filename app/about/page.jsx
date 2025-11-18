@@ -5,7 +5,7 @@ async function getAboutData() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     const response = await fetch(`${baseUrl}/api/about`, {
-      next: { revalidate: 600 }, // Revalidate every 10 minutes
+      next: { revalidate: 60 }, // Revalidate every 1 minute
     });
     const result = await response.json();
 
