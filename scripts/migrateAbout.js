@@ -81,6 +81,14 @@ const skillData = {
     { name: "Figma" },
     { name: "Canva" },
     { name: "Corel Draw" },
+    { name: "Supabase" },
+    { name: "Firebase" },
+    { name: "Mongodb" },
+    { name: "Github" },
+    { name: "Gitlab" },
+    { name: "Bitbucket" },
+    { name: "Jira" },
+    { name: "Trello" },
   ],
 };
 
