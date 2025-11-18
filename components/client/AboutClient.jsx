@@ -165,9 +165,9 @@ export default function AboutClient({ aboutData }) {
                         >
                           <span className="text-accent">{item.date}</span>
                           <h3 className="text-xl max-w-[300px] min-h-[60px] text-center lg:text-left">
-                            {item.education}
+                            {item.degree}
                           </h3>
-                          <p className="text-black/60">{item.institution}</p>
+                          <p className="text-black/60">{item.school}</p>
                         </li>
                       ))
                     ) : (
