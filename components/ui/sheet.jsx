@@ -52,6 +52,7 @@ const SheetContent = React.forwardRef(
       <SheetPrimitive.Content
         ref={ref}
         className={cn(sheetVariants({ side }), className)}
+        aria-describedby="sheet-description"
         {...props}
       >
         {children}

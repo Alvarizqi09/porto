@@ -174,24 +174,27 @@ export default function AboutClient({ aboutData }) {
                 <div className="text-black">
                   <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 xl:gap-[30px]">
                     {skill.skillList && skill.skillList.length > 0 ? (
-                      skill.skillList.map((item, index) => (
-                        <li key={index}>
-                          <TooltipProvider delayDuration={100}>
-                            <Tooltip>
-                              <TooltipTrigger className="w-full h-[150px] bg-[#FFF4E6] rounded-xl flex justify-center items-center group cursor-pointer hover:text-accent hover:bg-accent/10 transition-all duration-300">
-                                <div className="text-6xl group-hover:scale-110 transition-transform duration-300">
-                                  {techIconMap[item] || (
-                                    <span className="text-sm">{item}</span>
-                                  )}
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent className="bg-accent text-white border-none">
-                                <p>{item}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </li>
-                      ))
+                      skill.skillList.map((item, index) => {
+                        const skillName = typeof item === "string" ? item : item.name;
+                        return (
+                          <li key={index}>
+                            <TooltipProvider delayDuration={100}>
+                              <Tooltip>
+                                <TooltipTrigger className="w-full h-[150px] bg-[#FFF4E6] rounded-xl flex justify-center items-center group cursor-pointer hover:text-accent hover:bg-accent/10 transition-all duration-300">
+                                  <div className="text-6xl group-hover:scale-110 transition-transform duration-300">
+                                    {techIconMap[skillName] || (
+                                      <span className="text-sm">{skillName}</span>
+                                    )}
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent className="bg-accent text-white border-none" side="bottom">
+                                  <p>{skillName}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </li>
+                        );
+                      })
                     ) : (
                       <li className="col-span-full text-gray-400">
                         No skills available
