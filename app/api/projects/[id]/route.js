@@ -2,13 +2,18 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
 
+// Get the cache from route.js (we'll need to create a shared cache file)
+let cache = new Map();
+
 // GET - Ambil project by ID
 export async function GET(request, { params }) {
   try {
     await connectDB();
 
     const project = await Project.findById(params.id)
-      .select("title desc image tag demo preview tech_stack featured order")
+      .select(
+        "_id title desc long_desc image tag demo preview github tech_stack featured order createdAt"
+      )
       .lean()
       .exec();
 
@@ -54,6 +59,9 @@ export async function PUT(request, { params }) {
       );
     }
 
+    // Clear cache setelah PUT
+    cache.clear();
+
     return NextResponse.json({
       success: true,
       data: updatedProject.toObject(),
@@ -80,6 +88,9 @@ export async function DELETE(request, { params }) {
         { status: 404 }
       );
     }
+
+    // Clear cache setelah DELETE
+    cache.clear();
 
     return NextResponse.json({
       success: true,

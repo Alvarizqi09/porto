@@ -6,6 +6,11 @@ import Project from "@/lib/models/Project";
 const cache = new Map();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
+// Helper function to clear all cache
+function clearCache() {
+  cache.clear();
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -41,7 +46,7 @@ export async function GET(request) {
 
     // Query dengan select() untuk hanya ambil field yang diperlukan (lebih cepat)
     const projects = await Project.find(filter)
-      .select("title desc image tag demo preview tech_stack featured order")
+      .select("_id title desc image tag demo preview tech_stack featured order")
       .sort({ order: 1, createdAt: -1 })
       .limit(50)
       .lean() // Gunakan lean untuk performa query yang lebih cepat
@@ -73,8 +78,6 @@ export async function GET(request) {
   }
 }
 
-// POST method tetap sama...
-
 // POST - Tambah project baru
 export async function POST(request) {
   try {
@@ -103,7 +106,7 @@ export async function POST(request) {
     const newProject = await Project.create(projectData);
 
     // Invalidate cache setelah POST
-    cache.clear();
+    clearCache();
 
     return NextResponse.json(
       {

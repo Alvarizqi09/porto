@@ -151,6 +151,7 @@ const Projects = () => {
             filteredProjects.map((project) => (
               <ProjectCard
                 key={project.id}
+                id={project.id}
                 title={project.title}
                 desc={project.desc}
                 image={project.image}
