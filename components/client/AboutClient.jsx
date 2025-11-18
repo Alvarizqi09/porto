@@ -16,6 +16,15 @@ import {
   SiNextdotjs,
   SiVuedotjs,
   SiTypescript,
+  SiSupabase,
+  SiMongodb,
+  SiFirebase,
+  SiQuasar,
+  SiGithub,
+  SiGitlab,
+  SiBitbucket,
+  SiJira,
+  SiTrello,
 } from "react-icons/si";
 
 import { motion } from "framer-motion";
@@ -35,13 +44,22 @@ const techIconMap = {
   TypeScript: <SiTypescript />,
   React: <FaReact />,
   "Vue.js": <SiVuedotjs />,
+  "Next.js": <SiNextdotjs />,
   "Tailwind CSS": <SiTailwindcss />,
   Bootstrap: <SiBootstrap />,
-  "Next.js": <SiNextdotjs />,
+  Quasar: <SiQuasar />,
   Laravel: <FaLaravel />,
   Figma: <FaFigma />,
   Canva: <SiCanva />,
   "Corel Draw": <SiCoreldraw />,
+  Supabase: <SiSupabase />,
+  Firebase: <SiFirebase />,
+  Mongodb: <SiMongodb />,
+  Github: <SiGithub />,
+  Gitlab: <SiGitlab />,
+  Bitbucket: <SiBitbucket />,
+  Jira: <SiJira />,
+  Trello: <SiTrello />,
 };
 
 export default function AboutClient({ aboutData }) {
@@ -175,7 +193,8 @@ export default function AboutClient({ aboutData }) {
                   <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 xl:gap-[30px]">
                     {skill.skillList && skill.skillList.length > 0 ? (
                       skill.skillList.map((item, index) => {
-                        const skillName = typeof item === "string" ? item : item.name;
+                        const skillName =
+                          typeof item === "string" ? item : item.name;
                         return (
                           <li key={index}>
                             <TooltipProvider delayDuration={100}>
@@ -183,11 +202,16 @@ export default function AboutClient({ aboutData }) {
                                 <TooltipTrigger className="w-full h-[150px] bg-[#FFF4E6] rounded-xl flex justify-center items-center group cursor-pointer hover:text-accent hover:bg-accent/10 transition-all duration-300">
                                   <div className="text-6xl group-hover:scale-110 transition-transform duration-300">
                                     {techIconMap[skillName] || (
-                                      <span className="text-sm">{skillName}</span>
+                                      <span className="text-sm">
+                                        {skillName}
+                                      </span>
                                     )}
                                   </div>
                                 </TooltipTrigger>
-                                <TooltipContent className="bg-accent text-white border-none" side="bottom">
+                                <TooltipContent
+                                  className="bg-accent text-white border-none"
+                                  side="bottom"
+                                >
                                   <p>{skillName}</p>
                                 </TooltipContent>
                               </Tooltip>
