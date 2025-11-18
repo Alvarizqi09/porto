@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import {
   FaHtml5,
   FaCss3,
@@ -45,52 +42,35 @@ const techIconMap = {
   "Corel Draw": <SiCoreldraw />,
 };
 
-export default function About() {
-  const [aboutData, setAboutData] = useState({
-    about: { title: "About Me", description: "", info: [] },
-    resume: { title: "Experience", description: "", items: [] },
-    education: { title: "My Education", description: "", items: [] },
-    skill: { title: "My Skills", description: "", skillList: [] },
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// Fetch data at server-side
+async function getAboutData() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/about`, {
+      next: { revalidate: 600 }, // Revalidate every 10 minutes
+    });
+    const result = await response.json();
 
-  useEffect(() => {
-    const fetchAboutData = async () => {
-      try {
-        const response = await fetch("/api/about");
-        const result = await response.json();
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Failed to fetch about data");
+    }
 
-        if (!response.ok || !result.success) {
-          throw new Error(result.error || "Failed to fetch about data");
-        }
-
-        setAboutData(result.data);
-      } catch (err) {
-        console.error("Error fetching about data:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAboutData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
-      </div>
-    );
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching about data:", err);
+    return null;
   }
+}
 
-  if (error) {
+export default async function About() {
+  const aboutData = await getAboutData();
+
+  if (!aboutData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-red-500 text-center">
           <h2 className="text-2xl font-bold mb-2">Error Loading About Data</h2>
-          <p>{error}</p>
+          <p>Failed to load about data. Please try again later.</p>
         </div>
       </div>
     );

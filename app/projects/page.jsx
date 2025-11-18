@@ -1,170 +1,27 @@
-"use client";
+import ProjectsClient from "@/components/ProjectsClient";
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import ProjectCard from "@/components/ProjectCard";
-import ProjectTag from "@/components/ProjectTag";
-import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
-import {
-  SiBootstrap,
-  SiCodeigniter,
-  SiExpress,
-  SiFigma,
-  SiMongodb,
-  SiNextdotjs,
-  SiReact,
-  SiSupabase,
-  SiTailwindcss,
-  SiTypescript,
-  SiVite,
-  SiVuedotjs,
-  SiNodedotjs,
-} from "react-icons/si";
+// Server-side data fetching
+async function getProjects() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/projects`, {
+      next: { revalidate: 300 }, // Revalidate every 5 minutes
+    });
+    const result = await response.json();
 
-// Mapping tech stack ke icon
-const techIconMap = {
-  Vite: <SiVite key="Vite" className="w-6 h-6" />,
-  React: <FaReact key="React" className="w-6 h-6" />,
-  ReactJS: <SiReact key="ReactJS" className="w-6 h-6" />,
-  Tailwind: <SiTailwindcss key="Tailwind" className="w-6 h-6" />,
-  Typescript: <SiTypescript key="Typescript" className="w-6 h-6" />,
-  Laravel: <FaLaravel key="Laravel" className="w-6 h-6" />,
-  PHP: <FaPhp key="PHP" className="w-6 h-6" />,
-  Next: <SiNextdotjs key="Next" className="w-6 h-6" />,
-  Vue: <SiVuedotjs key="Vue" className="w-6 h-6" />,
-  CI4: <SiCodeigniter key="CI4" className="w-6 h-6" />,
-  Bootstrap: <SiBootstrap key="Bootstrap" className="w-6 h-6" />,
-  Figma: <SiFigma key="Figma" className="w-6 h-6" />,
-  Supabase: <SiSupabase key="Supabase" className="w-6 h-6" />,
-  "Node.js": <SiNodedotjs key="Node.js" className="w-6 h-6" />,
-  MongoDB: <SiMongodb key="MongoDB" className="w-6 h-6" />,
-  Express: <SiExpress key="Express" className="w-6 h-6" />,
-};
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Failed to fetch projects");
+    }
 
-// Fetch function
-const fetchProjects = async () => {
-  const response = await fetch("/api/projects");
-  const result = await response.json();
-
-  if (!result.success) {
-    throw new Error(result.error || "Failed to fetch projects");
+    return result.data;
+  } catch (err) {
+    console.error("Error fetching projects:", err);
+    return [];
   }
+}
 
-  return result.data;
-};
+export default async function Projects() {
+  const projects = await getProjects();
 
-const Projects = () => {
-  const [tag, setTag] = useState("All");
-
-  // Menggunakan TanStack Query
-  const {
-    data: projects = [],
-    isLoading,
-    error,
-    isError,
-  } = useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects,
-  });
-
-  const handleTagChange = (newTag) => {
-    setTag(newTag);
-  };
-
-  // Transform projects dengan icons
-  const projectsWithIcons = projects.map((project) => ({
-    ...project,
-    id: project._id,
-    icon:
-      project.tech_stack?.map((tech) => techIconMap[tech]).filter(Boolean) ||
-      [],
-  }));
-
-  const filteredProjects = projectsWithIcons.filter((project) =>
-    project.tag.includes(tag)
-  );
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        <div className="text-red-500 text-xl mb-4">Error: {error?.message}</div>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/80"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mb-10">
-      <div className="container">
-        <motion.h2
-          className="text-center text-4xl font-bold text-black my-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2.4, delay: 2 }}
-        >
-          My Project
-        </motion.h2>
-        <div className="text-black flex flex-row justify-center items-center gap-2 py-6">
-          {["All", "Web", "Design"].map((tagName, index) => (
-            <motion.div
-              key={tagName}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                duration: 2.4,
-                delay: 2 + index * 0.5,
-              }}
-            >
-              <ProjectTag
-                onClick={handleTagChange}
-                name={tagName}
-                isSelected={tag === tagName}
-              />
-            </motion.div>
-          ))}
-        </div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2.4, delay: 2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto"
-        >
-          {filteredProjects.length === 0 ? (
-            <div className="col-span-full text-center text-gray-500 py-10">
-              No projects found. Please add some projects to the database.
-            </div>
-          ) : (
-            filteredProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                id={project.id}
-                title={project.title}
-                desc={project.desc}
-                image={project.image}
-                demo={project.demo}
-                preview={project.preview}
-                icon={project.icon}
-              />
-            ))
-          )}
-        </motion.div>
-      </div>
-    </div>
-  );
-};
-
-export default Projects;
+  return <ProjectsClient projects={projects} />;
+}
