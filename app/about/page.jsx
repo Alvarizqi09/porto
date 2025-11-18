@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   FaHtml5,
   FaCss3,
@@ -27,87 +28,76 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const resume = {
-  title: "About Me",
-  description:
-    "Hi, I`m Alvarizqi! I specialize in wireframing, prototyping, and have hands-on experience with HTML, CSS, JavaScript, and graphic design tools like Canva and Corel Draw. Right now, I`m deepening my skills in Next.js and Laravel. As a creative problem solver, Im passionate about turning innovative ideas into user-centric designs. Let`s collaborate and make great things happen!",
-  info: [
-    { fieldName: "Name", fieldValue: "Alvarizqi" },
-    { fieldName: "Phone", fieldValue: "(+62) 8132 7963 181" },
-    { fieldName: "Email", fieldValue: "Alvarizqi80@gmail.com" },
-    { fieldName: "Instagram", fieldValue: "@Alvarizqi__" },
-    { fieldName: "Location", fieldValue: "Semarang,Indonesia" },
-  ],
+// Tech skill icons mapping
+const techIconMap = {
+  HTML: <FaHtml5 />,
+  CSS: <FaCss3 />,
+  JavaScript: <FaJs />,
+  TypeScript: <SiTypescript />,
+  React: <FaReact />,
+  "Vue.js": <SiVuedotjs />,
+  "Tailwind CSS": <SiTailwindcss />,
+  Bootstrap: <SiBootstrap />,
+  "Next.js": <SiNextdotjs />,
+  Laravel: <FaLaravel />,
+  Figma: <FaFigma />,
+  Canva: <SiCanva />,
+  "Corel Draw": <SiCoreldraw />,
 };
 
-const experience = {
-  title: "Experience",
-  description:
-    " I have worked on several personal projects, including a portfolio website and a blog. I am always looking for new opportunities to learn and grow as a designer and developer.",
-  items: [
-    {
-      company: "Telkom Indonesia",
-      date: "Feb 2024 - Jun 2024",
-      position: "Front-end Web Developer Intern",
-    },
-    {
-      company: "Alterra Academy",
-      date: "Aug 2023 - Dec 2023",
-      position: "Students in Alterra Academy",
-    },
-    {
-      company: "BEM FMIPA 2022",
-      date: "Feb 2022 - Dec 2022",
-      position: "Staff of Information and Media Division",
-    },
-    {
-      company: "SKETSA FMIPA 2023",
-      date: "Mar 2023 - Dec 2023",
-      position: "Head of Relation and Media Division",
-    },
-  ],
-};
+export default function About() {
+  const [aboutData, setAboutData] = useState({
+    about: { title: "About Me", description: "", info: [] },
+    resume: { title: "Experience", description: "", items: [] },
+    education: { title: "My Education", description: "", items: [] },
+    skill: { title: "My Skills", description: "", skillList: [] },
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-const education = {
-  title: "My Education",
-  description:
-    "I am currently pursuing a Bachelor's degree in Computer Science at Universitas Negeri Semarang. I have completed several courses in UI/UX design, front-end development, and web development. I am passionate about learning and always looking for new opportunities to expand my knowledge and skills.",
-  items: [
-    {
-      school: "Universitas Negeri Semarang",
-      date: "2021 - Present",
-      degree: "Bachelor's Degree in Computer Science",
-    },
-    {
-      school: "SMAN 1 Ajibarang",
-      date: "2018 - 2021",
-      degree: "High School",
-    },
-  ],
-};
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        const response = await fetch("/api/about");
+        const result = await response.json();
 
-const skills = {
-  title: "My Skills",
-  description:
-    "I have experience working with a variety of tools and technologies. Here are some of the skills that I have developed over the years:",
-  skillList: [
-    { icon: <FaHtml5 />, name: "HTML" },
-    { icon: <FaCss3 />, name: "CSS" },
-    { icon: <FaJs />, name: "JavaScript" },
-    { icon: <SiTypescript />, name: "TypeScript" },
-    { icon: <FaReact />, name: "React" },
-    { icon: <SiVuedotjs />, name: "Vue.js" },
-    { icon: <SiTailwindcss />, name: "Tailwind CSS" },
-    { icon: <SiBootstrap />, name: "Bootstrap" },
-    { icon: <SiNextdotjs />, name: "Next.js" },
-    { icon: <FaLaravel />, name: "Laravel" },
-    { icon: <FaFigma />, name: "Figma" },
-    { icon: <SiCanva />, name: "Canva" },
-    { icon: <SiCoreldraw />, name: "Corel Draw" },
-  ],
-};
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || "Failed to fetch about data");
+        }
 
-const about = () => {
+        setAboutData(result.data);
+      } catch (err) {
+        console.error("Error fetching about data:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-500 text-center">
+          <h2 className="text-2xl font-bold mb-2">Error Loading About Data</h2>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const { about, resume, education, skill } = aboutData;
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -115,7 +105,7 @@ const about = () => {
         opacity: 1,
         transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
       }}
-      className="min-h-[80vh] flex items-center justify-center my-10 py-12 xl:py-0 "
+      className="min-h-[80vh] flex items-center justify-center my-10 py-12 xl:py-0"
     >
       <div className="container mx-auto">
         <Tabs
@@ -129,18 +119,19 @@ const about = () => {
             <TabsTrigger value="skills">Skills</TabsTrigger>
           </TabsList>
           <div className="min-h-[70vh] w-full">
+            {/* Resume Tab */}
             <TabsContent
               value="resume"
               className="w-full text-center xl:text-left"
             >
               <div className="flex flex-col gap-[30px]">
-                <h3 className="text-4xl font-bold">{resume.title}</h3>
+                <h3 className="text-4xl font-bold">{about.title}</h3>
                 <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
-                  {resume.description}
+                  {about.description}
                 </p>
                 <ul className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
-                  {resume.info.map((item, index) => {
-                    return (
+                  {about.info && about.info.length > 0 ? (
+                    about.info.map((item, index) => (
                       <li
                         key={index}
                         className="flex items-center justify-center xl:justify-start gap-4"
@@ -148,95 +139,117 @@ const about = () => {
                         <span className="text-black/80">{item.fieldName}</span>
                         <span className="text-lg">{item.fieldValue}</span>
                       </li>
-                    );
-                  })}
+                    ))
+                  ) : (
+                    <li className="col-span-2 text-gray-400">
+                      No info available
+                    </li>
+                  )}
                 </ul>
               </div>
             </TabsContent>
+
+            {/* Experience Tab */}
             <TabsContent value="experience" className="w-full">
               <div className="flex flex-col gap-[30px] text-center xl:text-left">
-                <h3 className="text-4xl font-bold">{experience.title}</h3>
-                <p className="max-w-[600px] active:text-white text-black/80 mx-auto xl:mx-0">
-                  {experience.description}
+                <h3 className="text-4xl font-bold">{resume.title}</h3>
+                <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
+                  {resume.description}
                 </p>
-                <div className="">
+                <div>
                   <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
-                    {experience.items.map((items, index) => {
-                      return (
+                    {resume.items && resume.items.length > 0 ? (
+                      resume.items.map((item, index) => (
                         <li
                           key={index}
                           className="bg-[#DFD3C3] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
-                          <span className="text-accent">{items.date}</span>
+                          <span className="text-accent">{item.date}</span>
                           <h3 className="text-xl max-w-[300px] min-h-[60px] text-center lg:text-left">
-                            {items.position}
+                            {item.position}
                           </h3>
                           <div className="flex items-center gap-3">
                             <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                            <p className="text-black/80">{items.company}</p>
+                            <p className="text-black/80">{item.company}</p>
                           </div>
                         </li>
-                      );
-                    })}
+                      ))
+                    ) : (
+                      <li className="col-span-2 text-gray-400">
+                        No experience added yet
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
             </TabsContent>
+
+            {/* Education Tab */}
             <TabsContent value="education" className="w-full">
               <div className="flex flex-col gap-[30px] text-center xl:text-left">
                 <h3 className="text-4xl font-bold">{education.title}</h3>
                 <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
                   {education.description}
                 </p>
-                <div className="">
+                <div>
                   <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
-                    {education.items.map((items, index) => {
-                      return (
+                    {education.items && education.items.length > 0 ? (
+                      education.items.map((item, index) => (
                         <li
                           key={index}
                           className="bg-[#DFD3C3] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
-                          <span className="text-accent">{items.date}</span>
+                          <span className="text-accent">{item.date}</span>
                           <h3 className="text-xl max-w-[300px] min-h-[60px] text-center lg:text-left">
-                            {items.degree}
+                            {item.degree}
                           </h3>
                           <div className="flex items-center gap-3">
                             <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                            <p className="text-black/80">{items.school}</p>
+                            <p className="text-black/80">{item.school}</p>
                           </div>
                         </li>
-                      );
-                    })}
+                      ))
+                    ) : (
+                      <li className="col-span-2 text-gray-400">
+                        No education added yet
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
             </TabsContent>
+
+            {/* Skills Tab */}
             <TabsContent value="skills" className="w-full h-full">
               <div className="flex flex-col gap-[30px]">
-                <div className="flex flex-col gap-[30px] text-center xl:text-left ">
-                  <h3 className="text-4xl font-bold">{skills.title}</h3>
+                <div className="flex flex-col gap-[30px] text-center xl:text-left">
+                  <h3 className="text-4xl font-bold">{skill.title}</h3>
                   <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
-                    {skills.description}
+                    {skill.description}
                   </p>
                   <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:gap-[30px] gap-4">
-                    {skills.skillList.map((items, index) => {
-                      return (
+                    {skill.skillList && skill.skillList.length > 0 ? (
+                      skill.skillList.map((item, index) => (
                         <li key={index}>
                           <TooltipProvider delayDuration={100}>
                             <Tooltip>
                               <TooltipTrigger className="w-full h-[150px] bg-[#DFD3C3] rounded-xl flex justify-center items-center">
                                 <div className="text-6xl hover:text-accent transition-all duration-300">
-                                  {items.icon}
+                                  {techIconMap[item.name] || "?"}
                                 </div>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p className="capitalize">{items.name}</p>
+                                <p className="capitalize">{item.name}</p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
                         </li>
-                      );
-                    })}
+                      ))
+                    ) : (
+                      <li className="col-span-full text-gray-400">
+                        No skills added yet
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -246,6 +259,4 @@ const about = () => {
       </div>
     </motion.div>
   );
-};
-
-export default about;
+}
