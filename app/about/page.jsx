@@ -1,4 +1,4 @@
-import AboutClient from "@/components/AboutClient";
+import AboutClient from "@/components/client/AboutClient";
 
 // Server-side data fetching
 async function getAboutData() {

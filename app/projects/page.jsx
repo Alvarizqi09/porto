@@ -1,4 +1,4 @@
-import ProjectsClient from "@/components/ProjectsClient";
+import ProjectsClient from "@/components/client/ProjectsClient";
 
 // Server-side data fetching
 async function getProjects() {
