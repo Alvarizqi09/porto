@@ -186,7 +186,10 @@ const AdminProjects = () => {
       let swapIndex;
       if (direction === "up" && currentIndex > 0) {
         swapIndex = currentIndex - 1;
-      } else if (direction === "down" && currentIndex < sortedProjects.length - 1) {
+      } else if (
+        direction === "down" &&
+        currentIndex < sortedProjects.length - 1
+      ) {
         swapIndex = currentIndex + 1;
       } else {
         return; // Can't move further

@@ -2,15 +2,12 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
-
-// Cache untuk production (memory cache)
-const cache = new Map();
-const CACHE_DURATION = 1000; // 1 second cache
-
-// Helper function to clear all cache
-function clearCache() {
-  cache.clear();
-}
+import {
+  getFromCache,
+  setCache,
+  clearCacheByPrefix,
+  getCacheKey,
+} from "@/lib/apiCache";
 
 export async function GET(request) {
   try {
@@ -19,18 +16,16 @@ export async function GET(request) {
     const featured = searchParams.get("featured");
 
     // Generate cache key
-    const cacheKey = `projects-${tag || "all"}-${featured || "false"}`;
+    const cacheKey = getCacheKey("projects", { tag, featured });
 
-    // Check cache (disabled if CACHE_DURATION is 0)
-    if (CACHE_DURATION > 0 && cache.has(cacheKey)) {
-      const cachedData = cache.get(cacheKey);
-      if (Date.now() - cachedData.timestamp < CACHE_DURATION) {
-        return NextResponse.json(cachedData.data, {
-          headers: {
-            "Cache-Control": "public, max-age=300", // 5 minutes
-          },
-        });
-      }
+    // Check cache
+    const cachedData = getFromCache(cacheKey);
+    if (cachedData) {
+      return NextResponse.json(cachedData, {
+        headers: {
+          "Cache-Control": "public, max-age=60",
+        },
+      });
     }
 
     // Connect to database
@@ -59,17 +54,12 @@ export async function GET(request) {
       data: projects,
     };
 
-    // Set cache untuk semua environment
-    cache.set(cacheKey, {
-      data: responseData,
-      timestamp: Date.now(),
-    });
+    // Set cache
+    setCache(cacheKey, responseData);
 
     return NextResponse.json(responseData, {
       headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Pragma": "no-cache",
-        "Expires": "0",
+        "Cache-Control": "public, max-age=60",
       },
     });
   } catch (error) {
@@ -109,7 +99,7 @@ export async function POST(request) {
     const newProject = await Project.create(projectData);
 
     // Invalidate cache setelah POST
-    clearCache();
+    clearCacheByPrefix("projects");
     revalidatePath("/projects"); // Invalidate projects page cache
     revalidatePath("/"); // Invalidate home page jika menampilkan projects
 

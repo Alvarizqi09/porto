@@ -68,7 +68,7 @@ export default function AboutClient({ aboutData }) {
       initial={{ opacity: 0 }}
       animate={{
         opacity: 1,
-        transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
+        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" },
       }}
       className="min-h-[80vh] flex items-center justify-center my-10 py-12 xl:py-0"
     >
@@ -129,11 +129,15 @@ export default function AboutClient({ aboutData }) {
                           key={index}
                           className="bg-[#DFD3C3] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
-                          <span className="text-accent text-sm">{item.date}</span>
+                          <span className="text-accent text-sm">
+                            {item.date}
+                          </span>
                           <h3 className="text-lg font-semibold max-w-[300px] text-center lg:text-left line-clamp-3 leading-tight">
                             {item.position}
                           </h3>
-                          <p className="text-black/60 text-sm">{item.company}</p>
+                          <p className="text-black/60 text-sm">
+                            {item.company}
+                          </p>
                         </li>
                       ))
                     ) : (
@@ -161,7 +165,9 @@ export default function AboutClient({ aboutData }) {
                           key={index}
                           className="bg-[#DFD3C3] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
-                          <span className="text-accent text-sm">{item.date}</span>
+                          <span className="text-accent text-sm">
+                            {item.date}
+                          </span>
                           <h3 className="text-lg font-semibold max-w-[300px] text-center lg:text-left line-clamp-3 leading-tight">
                             {item.degree}
                           </h3>

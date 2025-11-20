@@ -2,26 +2,21 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import { About, Resume, Education, Skill } from "@/lib/models/About";
-
-// Cache untuk production
-const cache = new Map();
-const CACHE_DURATION = 1000; // 1 second cache to ensure fresh data
+import { getFromCache, setCache, clearCacheByPrefix } from "@/lib/apiCache";
 
 export async function GET(request) {
   try {
     const cacheKey = "about-all";
 
-    // Skip cache - always fetch fresh data
-    // if (cache.has(cacheKey) && CACHE_DURATION > 0) {
-    //   const cachedData = cache.get(cacheKey);
-    //   if (Date.now() - cachedData.timestamp < CACHE_DURATION) {
-    //     return NextResponse.json(cachedData.data, {
-    //       headers: {
-    //         "Cache-Control": "public, max-age=600",
-    //       },
-    //     });
-    //   }
-    // }
+    // Check cache - return cached data if available
+    const cachedData = getFromCache(cacheKey);
+    if (cachedData) {
+      return NextResponse.json(cachedData, {
+        headers: {
+          "Cache-Control": "public, max-age=60",
+        },
+      });
+    }
 
     await connectDB();
 
@@ -67,18 +62,12 @@ export async function GET(request) {
       },
     };
 
-    // Clear cache before setting new data
-    cache.clear();
-    cache.set(cacheKey, {
-      data: responseData,
-      timestamp: Date.now(),
-    });
+    // Set cache
+    setCache(cacheKey, responseData);
 
     return NextResponse.json(responseData, {
       headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Pragma": "no-cache",
-        "Expires": "0",
+        "Cache-Control": "public, max-age=60",
       },
     });
   } catch (error) {
@@ -88,10 +77,6 @@ export async function GET(request) {
       { status: 500 }
     );
   }
-}
-
-function clearCache() {
-  cache.clear();
 }
 
 export async function POST(request) {
@@ -138,7 +123,7 @@ export async function POST(request) {
         );
     }
 
-    clearCache();
+    clearCacheByPrefix("about");
     revalidatePath("/about");
     revalidatePath("/");
 

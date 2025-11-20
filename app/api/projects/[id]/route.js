@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
-
-// Get the cache from route.js (we'll need to create a shared cache file)
-let cache = new Map();
+import { clearCacheByPrefix } from "@/lib/apiCache";
 
 // GET - Ambil project by ID
 export async function GET(request, { params }) {
@@ -61,7 +59,7 @@ export async function PUT(request, { params }) {
     }
 
     // Clear cache setelah PUT
-    cache.clear();
+    clearCacheByPrefix("projects");
     revalidatePath("/projects");
     revalidatePath("/");
 
@@ -93,7 +91,7 @@ export async function DELETE(request, { params }) {
     }
 
     // Clear cache setelah DELETE
-    cache.clear();
+    clearCacheByPrefix("projects");
     revalidatePath("/projects");
     revalidatePath("/");
 
