@@ -32,6 +32,27 @@ export async function GET(request) {
       Skill.findOne().lean(),
     ]);
 
+    // Sort resume items - put items with lower index/order first
+    if (resume && resume.items && Array.isArray(resume.items)) {
+      resume.items = resume.items.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+    }
+
+    // Sort education items
+    if (education && education.items && Array.isArray(education.items)) {
+      education.items = education.items.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+    }
+
+    // Sort skill list
+    if (skill && skill.skillList && Array.isArray(skill.skillList)) {
+      skill.skillList = skill.skillList.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+    }
+
     const responseData = {
       success: true,
       data: {

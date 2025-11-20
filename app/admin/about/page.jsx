@@ -359,8 +359,13 @@ export default function AdminAbout() {
                       setResumeData({
                         ...resumeData,
                         items: [
+                          {
+                            company: "",
+                            date: "",
+                            position: "",
+                            order: resumeData.items.length,
+                          },
                           ...resumeData.items,
-                          { company: "", date: "", position: "" },
                         ],
                       })
                     }
@@ -375,6 +380,51 @@ export default function AdminAbout() {
                       key={index}
                       className="border p-4 rounded-lg space-y-3"
                     >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-gray-500">
+                          Item #{index + 1}
+                        </span>
+                        <div className="flex gap-2">
+                          {index > 0 && (
+                            <button
+                              onClick={() => {
+                                const newItems = [...resumeData.items];
+                                [newItems[index], newItems[index - 1]] = [
+                                  newItems[index - 1],
+                                  newItems[index],
+                                ];
+                                setResumeData({
+                                  ...resumeData,
+                                  items: newItems,
+                                });
+                              }}
+                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                              title="Move Up"
+                            >
+                              ↑
+                            </button>
+                          )}
+                          {index < resumeData.items.length - 1 && (
+                            <button
+                              onClick={() => {
+                                const newItems = [...resumeData.items];
+                                [newItems[index], newItems[index + 1]] = [
+                                  newItems[index + 1],
+                                  newItems[index],
+                                ];
+                                setResumeData({
+                                  ...resumeData,
+                                  items: newItems,
+                                });
+                              }}
+                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                              title="Move Down"
+                            >
+                              ↓
+                            </button>
+                          )}
+                        </div>
+                      </div>
                       <input
                         type="text"
                         placeholder="Company"
@@ -483,8 +533,13 @@ export default function AdminAbout() {
                       setEducationData({
                         ...educationData,
                         items: [
+                          {
+                            school: "",
+                            date: "",
+                            degree: "",
+                            order: educationData.items.length,
+                          },
                           ...educationData.items,
-                          { school: "", date: "", degree: "" },
                         ],
                       })
                     }
@@ -499,6 +554,51 @@ export default function AdminAbout() {
                       key={index}
                       className="border p-4 rounded-lg space-y-3"
                     >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-gray-500">
+                          Item #{index + 1}
+                        </span>
+                        <div className="flex gap-2">
+                          {index > 0 && (
+                            <button
+                              onClick={() => {
+                                const newItems = [...educationData.items];
+                                [newItems[index], newItems[index - 1]] = [
+                                  newItems[index - 1],
+                                  newItems[index],
+                                ];
+                                setEducationData({
+                                  ...educationData,
+                                  items: newItems,
+                                });
+                              }}
+                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                              title="Move Up"
+                            >
+                              ↑
+                            </button>
+                          )}
+                          {index < educationData.items.length - 1 && (
+                            <button
+                              onClick={() => {
+                                const newItems = [...educationData.items];
+                                [newItems[index], newItems[index + 1]] = [
+                                  newItems[index + 1],
+                                  newItems[index],
+                                ];
+                                setEducationData({
+                                  ...educationData,
+                                  items: newItems,
+                                });
+                              }}
+                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                              title="Move Down"
+                            >
+                              ↓
+                            </button>
+                          )}
+                        </div>
+                      </div>
                       <input
                         type="text"
                         placeholder="School/University"
@@ -616,8 +716,12 @@ export default function AdminAbout() {
                       setSkillData({
                         ...skillData,
                         skillList: [
+                          {
+                            name: "",
+                            category: "Other",
+                            order: skillData.skillList.length,
+                          },
                           ...skillData.skillList,
-                          { name: "", category: "Other" },
                         ],
                       })
                     }
@@ -628,7 +732,47 @@ export default function AdminAbout() {
                 </div>
                 <div className="space-y-3">
                   {skillData.skillList?.map((skill, index) => (
-                    <div key={index} className="flex gap-3">
+                    <div key={index} className="flex gap-3 items-start">
+                      <div className="flex flex-col gap-2 pt-2">
+                        {index > 0 && (
+                          <button
+                            onClick={() => {
+                              const newSkills = [...skillData.skillList];
+                              [newSkills[index], newSkills[index - 1]] = [
+                                newSkills[index - 1],
+                                newSkills[index],
+                              ];
+                              setSkillData({
+                                ...skillData,
+                                skillList: newSkills,
+                              });
+                            }}
+                            className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                            title="Move Up"
+                          >
+                            ↑
+                          </button>
+                        )}
+                        {index < skillData.skillList.length - 1 && (
+                          <button
+                            onClick={() => {
+                              const newSkills = [...skillData.skillList];
+                              [newSkills[index], newSkills[index + 1]] = [
+                                newSkills[index + 1],
+                                newSkills[index],
+                              ];
+                              setSkillData({
+                                ...skillData,
+                                skillList: newSkills,
+                              });
+                            }}
+                            className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                            title="Move Down"
+                          >
+                            ↓
+                          </button>
+                        )}
+                      </div>
                       <input
                         type="text"
                         placeholder="Skill Name (e.g., React, HTML, etc)"

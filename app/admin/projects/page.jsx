@@ -59,12 +59,23 @@ const AdminProjects = () => {
   const handleAddProject = async (formData) => {
     setIsSubmitting(true);
     try {
+      // Auto set order to the highest + 1 if not specified
+      const maxOrder =
+        projects.length > 0
+          ? Math.max(...projects.map((p) => p.order || 0))
+          : -1;
+
+      const newFormData = {
+        ...formData,
+        order: formData.order === 0 ? maxOrder + 1 : formData.order,
+      };
+
       const response = await fetch("/api/projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(newFormData),
       });
 
       const result = await response.json();
@@ -155,6 +166,39 @@ const AdminProjects = () => {
   const handleLogout = async () => {
     await signOut({ redirect: false });
     router.push("/admin/login");
+  };
+
+  const handleMoveProject = async (project, direction) => {
+    try {
+      const newOrder =
+        direction === "up" ? project.order - 1 : project.order + 1;
+      const response = await fetch(`/api/projects/${project._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...project,
+          order: newOrder,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Gagal mengubah urutan project");
+      }
+
+      setMessage({ type: "success", text: "Urutan project berhasil diubah!" });
+
+      // Invalidate dan refetch data
+      await queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
+      await queryClient.invalidateQueries({ queryKey: ["projects"] });
+
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    }
   };
 
   return (
@@ -350,7 +394,27 @@ const AdminProjects = () => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2 flex-shrink-0">
+                    <div className="flex flex-col gap-2 flex-shrink-0">
+                      <div className="flex gap-2">
+                        {projects.indexOf(project) > 0 && (
+                          <button
+                            onClick={() => handleMoveProject(project, "up")}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            title="Move Up"
+                          >
+                            ↑
+                          </button>
+                        )}
+                        {projects.indexOf(project) < projects.length - 1 && (
+                          <button
+                            onClick={() => handleMoveProject(project, "down")}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            title="Move Down"
+                          >
+                            ↓
+                          </button>
+                        )}
+                      </div>
                       <button
                         onClick={() => {
                           setEditingProject(project);
