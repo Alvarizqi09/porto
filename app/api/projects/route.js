@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
 
@@ -107,6 +108,8 @@ export async function POST(request) {
 
     // Invalidate cache setelah POST
     clearCache();
+    revalidatePath("/projects"); // Invalidate projects page cache
+    revalidatePath("/"); // Invalidate home page jika menampilkan projects
 
     return NextResponse.json(
       {

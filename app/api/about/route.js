@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import { About, Resume, Education, Skill } from "@/lib/models/About";
 
@@ -114,6 +115,8 @@ export async function POST(request) {
     }
 
     clearCache();
+    revalidatePath("/about");
+    revalidatePath("/");
 
     return NextResponse.json({
       success: true,

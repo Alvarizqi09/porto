@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
 
@@ -61,6 +62,8 @@ export async function PUT(request, { params }) {
 
     // Clear cache setelah PUT
     cache.clear();
+    revalidatePath("/projects");
+    revalidatePath("/");
 
     return NextResponse.json({
       success: true,
@@ -91,6 +94,8 @@ export async function DELETE(request, { params }) {
 
     // Clear cache setelah DELETE
     cache.clear();
+    revalidatePath("/projects");
+    revalidatePath("/");
 
     return NextResponse.json({
       success: true,
