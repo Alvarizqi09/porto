@@ -5,7 +5,7 @@ import Project from "@/lib/models/Project";
 
 // Cache untuk production (memory cache)
 const cache = new Map();
-const CACHE_DURATION = 0; // Disable cache - fetch fresh data every time
+const CACHE_DURATION = 1000; // 1 second cache
 
 // Helper function to clear all cache
 function clearCache() {
@@ -67,7 +67,9 @@ export async function GET(request) {
 
     return NextResponse.json(responseData, {
       headers: {
-        "Cache-Control": "public, max-age=300", // 5 minutes
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0",
       },
     });
   } catch (error) {

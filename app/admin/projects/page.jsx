@@ -170,23 +170,66 @@ const AdminProjects = () => {
 
   const handleMoveProject = async (project, direction) => {
     try {
-      const newOrder =
-        direction === "up" ? project.order - 1 : project.order + 1;
-      const response = await fetch(`/api/projects/${project._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...project,
-          order: newOrder,
+      // Find the project to swap with
+      const sortedProjects = [...projects].sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+      const currentIndex = sortedProjects.findIndex(
+        (p) => p._id === project._id
+      );
+
+      if (currentIndex === -1) {
+        throw new Error("Project tidak ditemukan");
+      }
+
+      // Determine swap target
+      let swapIndex;
+      if (direction === "up" && currentIndex > 0) {
+        swapIndex = currentIndex - 1;
+      } else if (direction === "down" && currentIndex < sortedProjects.length - 1) {
+        swapIndex = currentIndex + 1;
+      } else {
+        return; // Can't move further
+      }
+
+      const swapProject = sortedProjects[swapIndex];
+
+      // Swap orders
+      const currentOrder = project.order || 0;
+      const swapOrder = swapProject.order || 0;
+
+      // Update both projects
+      const updatePromises = [
+        fetch(`/api/projects/${project._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...project,
+            order: swapOrder,
+          }),
         }),
-      });
+        fetch(`/api/projects/${swapProject._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...swapProject,
+            order: currentOrder,
+          }),
+        }),
+      ];
 
-      const result = await response.json();
+      const responses = await Promise.all(updatePromises);
 
-      if (!response.ok) {
-        throw new Error(result.error || "Gagal mengubah urutan project");
+      // Check for errors
+      for (const response of responses) {
+        if (!response.ok) {
+          const result = await response.json();
+          throw new Error(result.error || "Gagal mengubah urutan project");
+        }
       }
 
       setMessage({ type: "success", text: "Urutan project berhasil diubah!" });

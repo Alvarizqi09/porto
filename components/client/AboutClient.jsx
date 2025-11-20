@@ -127,13 +127,13 @@ export default function AboutClient({ aboutData }) {
                       resume.items.map((item, index) => (
                         <li
                           key={index}
-                          className="bg-[#DFD3C3] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
+                          className="bg-[#DFD3C3] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
-                          <span className="text-accent">{item.date}</span>
-                          <h3 className="text-xl max-w-[300px] min-h-[60px] text-center lg:text-left">
+                          <span className="text-accent text-sm">{item.date}</span>
+                          <h3 className="text-lg font-semibold max-w-[300px] text-center lg:text-left line-clamp-3 leading-tight">
                             {item.position}
                           </h3>
-                          <p className="text-black/60">{item.company}</p>
+                          <p className="text-black/60 text-sm">{item.company}</p>
                         </li>
                       ))
                     ) : (
@@ -159,13 +159,13 @@ export default function AboutClient({ aboutData }) {
                       education.items.map((item, index) => (
                         <li
                           key={index}
-                          className="bg-[#DFD3C3] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
+                          className="bg-[#DFD3C3] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
                         >
-                          <span className="text-accent">{item.date}</span>
-                          <h3 className="text-xl max-w-[300px] min-h-[60px] text-center lg:text-left">
+                          <span className="text-accent text-sm">{item.date}</span>
+                          <h3 className="text-lg font-semibold max-w-[300px] text-center lg:text-left line-clamp-3 leading-tight">
                             {item.degree}
                           </h3>
-                          <p className="text-black/60">{item.school}</p>
+                          <p className="text-black/60 text-sm">{item.school}</p>
                         </li>
                       ))
                     ) : (
