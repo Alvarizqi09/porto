@@ -89,24 +89,27 @@ const AdminDashboard = () => {
             </motion.div>
           </Link>
 
-          {/* Settings Card (Coming Soon) */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white rounded-2xl shadow-lg p-8 opacity-50 cursor-not-allowed"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="bg-gray-100 p-4 rounded-lg">
-                <FiSettings className="w-8 h-8 text-gray-600" />
+          {/* About Card*/}
+          <Link href="/admin/about">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="bg-white rounded-2xl shadow-lg p-8 opacity-50 cursor-not-allowed"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-gray-100 p-4 rounded-lg">
+                  <FiSettings className="w-8 h-8 text-gray-600" />
+                </div>
+                <h2 className="text-2xl font-bold text-black">About</h2>
               </div>
-              <h2 className="text-2xl font-bold text-black">Settings</h2>
-            </div>
-            <p className="text-gray-600 mb-4">
-              Konfigurasi pengaturan admin. Fitur ini sedang dalam pengembangan.
-            </p>
-            <div className="flex items-center text-gray-500 font-semibold">
-              Coming Soon...
-            </div>
-          </motion.div>
+              <p className="text-gray-600 mb-4">
+                Atur informasi tentang diri Anda yang akan ditampilkan di
+                halaman About.
+              </p>
+              <div className="flex items-center text-gray-500 font-semibold">
+                Manage About →
+              </div>
+            </motion.div>
+          </Link>
         </motion.div>
 
         {/* Info Section */}
