@@ -6,6 +6,7 @@ async function getProjects() {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     const response = await fetch(`${baseUrl}/api/projects`, {
       next: { revalidate: 0 }, // No cache - revalidate on every request
+      cache: "no-store", // Disable cache completely
     });
     const result = await response.json();
 

@@ -5,14 +5,14 @@ import { About, Resume, Education, Skill } from "@/lib/models/About";
 
 // Cache untuk production
 const cache = new Map();
-const CACHE_DURATION = 60 * 1000; // 1 minute (lebih cepat update)
+const CACHE_DURATION = 0; // Disable caching - fetch fresh data every time
 
 export async function GET(request) {
   try {
     const cacheKey = "about-all";
 
     // Check cache
-    if (cache.has(cacheKey)) {
+    if (cache.has(cacheKey) && CACHE_DURATION > 0) {
       const cachedData = cache.get(cacheKey);
       if (Date.now() - cachedData.timestamp < CACHE_DURATION) {
         return NextResponse.json(cachedData.data, {

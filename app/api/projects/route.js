@@ -5,7 +5,7 @@ import Project from "@/lib/models/Project";
 
 // Cache untuk production (memory cache)
 const cache = new Map();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 0; // Disable cache - fetch fresh data every time
 
 // Helper function to clear all cache
 function clearCache() {
@@ -21,8 +21,8 @@ export async function GET(request) {
     // Generate cache key
     const cacheKey = `projects-${tag || "all"}-${featured || "false"}`;
 
-    // Check cache
-    if (cache.has(cacheKey)) {
+    // Check cache (disabled if CACHE_DURATION is 0)
+    if (CACHE_DURATION > 0 && cache.has(cacheKey)) {
       const cachedData = cache.get(cacheKey);
       if (Date.now() - cachedData.timestamp < CACHE_DURATION) {
         return NextResponse.json(cachedData.data, {

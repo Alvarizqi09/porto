@@ -53,7 +53,9 @@ export default function ProjectDetailPage() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch(`/api/projects/${params.id}`);
+        const response = await fetch(`/api/projects/${params.id}`, {
+          cache: "no-store", // Disable cache untuk fresh data
+        });
         const data = await response.json();
 
         if (!response.ok || !data.success) {
