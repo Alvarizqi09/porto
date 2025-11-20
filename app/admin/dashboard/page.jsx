@@ -93,7 +93,7 @@ const AdminDashboard = () => {
           <Link href="/admin/about">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-white rounded-2xl shadow-lg p-8 opacity-50 cursor-not-allowed"
+              className="bg-white rounded-2xl shadow-lg p-8 cursor-pointer hover:shadow-xl transition-all"
             >
               <div className="flex items-center gap-4 mb-4">
                 <div className="bg-gray-100 p-4 rounded-lg">
