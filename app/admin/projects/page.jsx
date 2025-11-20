@@ -143,6 +143,9 @@ const AdminProjects = () => {
       await queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
       await queryClient.invalidateQueries({ queryKey: ["projects"] });
 
+      // Refresh server-side components
+      router.refresh();
+
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
       setMessage({ type: "error", text: error.message });
