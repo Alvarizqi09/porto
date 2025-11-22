@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FiX, FiPlus } from "react-icons/fi";
+import { FiX, FiPlus, FiEdit2 } from "react-icons/fi";
 import { aboutApi } from "@/lib/aboutApi";
-import { CertificateImageUpload } from "@/components/CertificateImageUpload";
+import CertificateEditModal from "@/components/CertificateEditModal";
 
 export default function AdminAbout() {
   const router = useRouter();
@@ -45,6 +45,10 @@ export default function AdminAbout() {
     description: "",
     items: [],
   });
+
+  // Certificate modal state
+  const [showCertificateModal, setShowCertificateModal] = useState(false);
+  const [editingCertificate, setEditingCertificate] = useState(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -135,10 +139,55 @@ export default function AdminAbout() {
   const handleSaveCertificate = async () => {
     setIsSubmitting(true);
     try {
-      await aboutApi.saveCertificate(certificateData);
+      const result = await aboutApi.saveCertificate(certificateData);
+
       setMessage({ type: "success", text: "Certificates data updated!" });
     } catch (error) {
+      console.error("Save certificate error:", error);
       setMessage({ type: "error", text: error.message });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setMessage(""), 3000);
+    }
+  };
+
+  const handleEditCertificate = (index) => {
+    setEditingCertificate({
+      ...certificateData.items[index],
+      _index: index,
+    });
+    setShowCertificateModal(true);
+  };
+
+  const handleSaveCertificateModal = async (formData) => {
+    setIsSubmitting(true);
+    try {
+      const index = formData._index;
+      const newCerts = [...certificateData.items];
+      const { _index, ...certData } = formData;
+      newCerts[index] = certData;
+
+      const updatedCertificateData = {
+        ...certificateData,
+        items: newCerts,
+      };
+
+      // Directly save to database
+      const result = await aboutApi.saveCertificate(updatedCertificateData);
+
+      setCertificateData(updatedCertificateData);
+      setShowCertificateModal(false);
+      setEditingCertificate(null);
+      setMessage({
+        type: "success",
+        text: "Certificate saved successfully!",
+      });
+    } catch (error) {
+      console.error("Save certificate error:", error);
+      setMessage({
+        type: "error",
+        text: error.message || "Failed to save certificate",
+      });
     } finally {
       setIsSubmitting(false);
       setTimeout(() => setMessage(""), 3000);
@@ -664,23 +713,37 @@ export default function AdminAbout() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white p-8 rounded-lg shadow-lg"
+            className="bg-white p-4 md:p-8 rounded-lg shadow-lg"
           >
             <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium mb-2">Title</label>
-                <input
-                  type="text"
-                  value={skillData.title}
-                  onChange={(e) =>
-                    setSkillData({ ...skillData, title: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                />
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">
+                    Section Title
+                  </label>
+                  <input
+                    type="text"
+                    value={skillData.title}
+                    onChange={(e) =>
+                      setSkillData({ ...skillData, title: e.target.value })
+                    }
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition"
+                    placeholder="e.g., My Skills"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">
+                    Total Skills
+                  </label>
+                  <div className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 font-semibold">
+                    {skillData.skillList?.length || 0} skills
+                  </div>
+                </div>
               </div>
+
               <div>
-                <label className="block text-sm font-medium mb-2">
-                  Description
+                <label className="block text-sm font-medium mb-2 text-gray-700">
+                  Section Description
                 </label>
                 <textarea
                   value={skillData.description}
@@ -690,15 +753,23 @@ export default function AdminAbout() {
                       description: e.target.value,
                     })
                   }
-                  rows="5"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                  rows="3"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition resize-none"
+                  placeholder="Brief description about your skills..."
                 />
               </div>
 
               {/* Skills List */}
               <div>
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold">Skills</h3>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-800">
+                      Skills List
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Add and organize your skills by category
+                    </p>
+                  </div>
                   <button
                     onClick={() =>
                       setSkillData({
@@ -713,111 +784,161 @@ export default function AdminAbout() {
                         ],
                       })
                     }
-                    className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90"
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition shadow-md hover:shadow-lg font-medium"
                   >
-                    <FiPlus /> Add Skill
+                    <FiPlus className="text-lg" /> Add Skill
                   </button>
                 </div>
-                <div className="space-y-3">
-                  {skillData.skillList?.map((skill, index) => (
-                    <div key={index} className="flex gap-3 items-start">
-                      <div className="flex flex-col gap-2 pt-2">
-                        {index > 0 && (
-                          <button
-                            onClick={() => {
-                              const newSkills = [...skillData.skillList];
-                              [newSkills[index], newSkills[index - 1]] = [
-                                newSkills[index - 1],
-                                newSkills[index],
-                              ];
-                              setSkillData({
-                                ...skillData,
-                                skillList: newSkills,
-                              });
-                            }}
-                            className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
-                            title="Move Up"
-                          >
-                            ↑
-                          </button>
-                        )}
-                        {index < skillData.skillList.length - 1 && (
-                          <button
-                            onClick={() => {
-                              const newSkills = [...skillData.skillList];
-                              [newSkills[index], newSkills[index + 1]] = [
-                                newSkills[index + 1],
-                                newSkills[index],
-                              ];
-                              setSkillData({
-                                ...skillData,
-                                skillList: newSkills,
-                              });
-                            }}
-                            className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
-                            title="Move Down"
-                          >
-                            ↓
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Skill Name (e.g., React, HTML, etc)"
-                        value={skill.name}
-                        onChange={(e) => {
-                          const newSkills = [...skillData.skillList];
-                          newSkills[index].name = e.target.value;
-                          setSkillData({
-                            ...skillData,
-                            skillList: newSkills,
-                          });
-                        }}
-                        className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                      />
-                      <select
-                        value={skill.category}
-                        onChange={(e) => {
-                          const newSkills = [...skillData.skillList];
-                          newSkills[index].category = e.target.value;
-                          setSkillData({
-                            ...skillData,
-                            skillList: newSkills,
-                          });
-                        }}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                      >
-                        <option value="Frontend">Frontend</option>
-                        <option value="Backend">Backend</option>
-                        <option value="Design">Design</option>
-                        <option value="Other">Other</option>
-                      </select>
-                      <button
-                        onClick={() => {
-                          const newSkills = skillData.skillList.filter(
-                            (_, i) => i !== index
-                          );
-                          setSkillData({
-                            ...skillData,
-                            skillList: newSkills,
-                          });
-                        }}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
-                      >
-                        <FiX />
-                      </button>
+
+                {skillData.skillList?.length === 0 ? (
+                  <div className="text-center py-12 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+                    <div className="text-gray-400 mb-2">
+                      <FiPlus className="inline text-4xl" />
                     </div>
-                  ))}
-                </div>
+                    <p className="text-gray-600 font-medium">
+                      No skills added yet
+                    </p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Click "Add Skill" to get started
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid gap-3">
+                    {skillData.skillList?.map((skill, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="group relative border-2 border-gray-200 rounded-xl p-4 bg-gradient-to-r from-white to-gray-50 hover:border-accent hover:shadow-md transition-all"
+                      >
+                        <div className="flex flex-col lg:flex-row gap-3 lg:items-center">
+                          {/* Order Controls */}
+                          <div className="flex lg:flex-col gap-1 order-3 lg:order-1">
+                            <button
+                              onClick={() => {
+                                const newSkills = [...skillData.skillList];
+                                [newSkills[index], newSkills[index - 1]] = [
+                                  newSkills[index - 1],
+                                  newSkills[index],
+                                ];
+                                setSkillData({
+                                  ...skillData,
+                                  skillList: newSkills,
+                                });
+                              }}
+                              disabled={index === 0}
+                              className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                              title="Move Up"
+                            >
+                              ↑
+                            </button>
+                            <button
+                              onClick={() => {
+                                const newSkills = [...skillData.skillList];
+                                [newSkills[index], newSkills[index + 1]] = [
+                                  newSkills[index + 1],
+                                  newSkills[index],
+                                ];
+                                setSkillData({
+                                  ...skillData,
+                                  skillList: newSkills,
+                                });
+                              }}
+                              disabled={
+                                index === skillData.skillList.length - 1
+                              }
+                              className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                              title="Move Down"
+                            >
+                              ↓
+                            </button>
+                          </div>
+
+                          {/* Skill Number Badge */}
+                          <div className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent font-bold order-2">
+                            {index + 1}
+                          </div>
+
+                          {/* Input Fields */}
+                          <div className="flex-1 grid sm:grid-cols-2 gap-3 order-1 lg:order-3">
+                            <input
+                              type="text"
+                              placeholder="Skill name (e.g., React)"
+                              value={skill.name}
+                              onChange={(e) => {
+                                const newSkills = [...skillData.skillList];
+                                newSkills[index].name = e.target.value;
+                                setSkillData({
+                                  ...skillData,
+                                  skillList: newSkills,
+                                });
+                              }}
+                              className="px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition"
+                            />
+                            <select
+                              value={skill.category}
+                              onChange={(e) => {
+                                const newSkills = [...skillData.skillList];
+                                newSkills[index].category = e.target.value;
+                                setSkillData({
+                                  ...skillData,
+                                  skillList: newSkills,
+                                });
+                              }}
+                              className="px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition bg-white"
+                            >
+                              <option value="Frontend">🎨 Frontend</option>
+                              <option value="Backend">⚙️ Backend</option>
+                              <option value="Design">✨ Design</option>
+                              <option value="Other">📦 Other</option>
+                            </select>
+                          </div>
+
+                          {/* Delete Button */}
+                          <button
+                            onClick={() => {
+                              const newSkills = skillData.skillList.filter(
+                                (_, i) => i !== index
+                              );
+                              setSkillData({
+                                ...skillData,
+                                skillList: newSkills,
+                              });
+                            }}
+                            className="lg:order-4 order-2 p-2.5 text-red-500 hover:bg-red-50 rounded-lg transition group-hover:scale-110"
+                            title="Delete skill"
+                          >
+                            <FiX className="text-xl" />
+                          </button>
+                        </div>
+
+                        {/* Category Badge (mobile) */}
+                        <div className="lg:hidden mt-2 inline-flex items-center gap-1 px-3 py-1 bg-accent/10 text-accent text-xs font-medium rounded-full">
+                          #{index + 1} • {skill.category}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <button
-                onClick={handleSaveSkill}
-                disabled={isSubmitting}
-                className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white font-semibold rounded-lg"
-              >
-                {isSubmitting ? "Saving..." : "Save Skills"}
-              </button>
+              <div className="pt-4 border-t">
+                <button
+                  onClick={handleSaveSkill}
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 bg-accent hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Saving...
+                    </span>
+                  ) : (
+                    "💾 Save Skills"
+                  )}
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
@@ -866,73 +987,92 @@ export default function AdminAbout() {
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-semibold">Certificates</h3>
                   <button
-                    onClick={() =>
+                    onClick={() => {
+                      const newCert = {
+                        name: "",
+                        publisher: "",
+                        image: "",
+                        date: "",
+                        order: certificateData.items.length,
+                      };
+                      handleEditCertificate(certificateData.items.length);
+                      // Prepare for new certificate
+                      setEditingCertificate({
+                        ...newCert,
+                        _index: certificateData.items.length,
+                      });
                       setCertificateData({
                         ...certificateData,
-                        items: [
-                          {
-                            name: "",
-                            publisher: "",
-                            image: "",
-                            date: "",
-                            order: certificateData.items.length,
-                          },
-                          ...certificateData.items,
-                        ],
-                      })
-                    }
+                        items: [...certificateData.items, newCert],
+                      });
+                      setShowCertificateModal(true);
+                    }}
                     className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90"
                   >
                     <FiPlus /> Add Certificate
                   </button>
                 </div>
-                <div className="space-y-4">
+
+                <div className="space-y-2">
                   {certificateData.items?.map((cert, index) => (
                     <div
                       key={index}
-                      className="p-4 border rounded-lg bg-gray-50"
+                      className="flex items-center justify-between p-4 border rounded-lg bg-gray-50 hover:bg-gray-100 transition"
                     >
-                      <div className="flex gap-3 mb-3">
-                        <div className="flex flex-col gap-2 pt-2">
-                          {index > 0 && (
-                            <button
-                              onClick={() => {
-                                const newCerts = [...certificateData.items];
-                                [newCerts[index], newCerts[index - 1]] = [
-                                  newCerts[index - 1],
-                                  newCerts[index],
-                                ];
-                                setCertificateData({
-                                  ...certificateData,
-                                  items: newCerts,
-                                });
-                              }}
-                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
-                              title="Move Up"
-                            >
-                              ↑
-                            </button>
-                          )}
-                          {index < certificateData.items.length - 1 && (
-                            <button
-                              onClick={() => {
-                                const newCerts = [...certificateData.items];
-                                [newCerts[index], newCerts[index + 1]] = [
-                                  newCerts[index + 1],
-                                  newCerts[index],
-                                ];
-                                setCertificateData({
-                                  ...certificateData,
-                                  items: newCerts,
-                                });
-                              }}
-                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
-                              title="Move Down"
-                            >
-                              ↓
-                            </button>
-                          )}
+                      <div className="flex-1">
+                        <div className="font-semibold text-gray-900">
+                          {cert.name || "Unnamed Certificate"}
                         </div>
+                        <div className="text-sm text-gray-600">
+                          {cert.publisher || "No publisher"}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        {index > 0 && (
+                          <button
+                            onClick={() => {
+                              const newCerts = [...certificateData.items];
+                              [newCerts[index], newCerts[index - 1]] = [
+                                newCerts[index - 1],
+                                newCerts[index],
+                              ];
+                              setCertificateData({
+                                ...certificateData,
+                                items: newCerts,
+                              });
+                            }}
+                            className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                            title="Move Up"
+                          >
+                            ↑
+                          </button>
+                        )}
+                        {index < certificateData.items.length - 1 && (
+                          <button
+                            onClick={() => {
+                              const newCerts = [...certificateData.items];
+                              [newCerts[index], newCerts[index + 1]] = [
+                                newCerts[index + 1],
+                                newCerts[index],
+                              ];
+                              setCertificateData({
+                                ...certificateData,
+                                items: newCerts,
+                              });
+                            }}
+                            className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                            title="Move Down"
+                          >
+                            ↓
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleEditCertificate(index)}
+                          className="px-3 py-2 text-sm bg-accent text-white rounded hover:bg-accent/90 flex items-center gap-1"
+                        >
+                          <FiEdit2 size={16} /> Edit
+                        </button>
                         <button
                           onClick={() => {
                             const newCerts = certificateData.items.filter(
@@ -943,65 +1083,10 @@ export default function AdminAbout() {
                               items: newCerts,
                             });
                           }}
-                          className="ml-auto p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                          className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
                         >
                           <FiX />
                         </button>
-                      </div>
-                      <div className="space-y-3">
-                        <input
-                          type="text"
-                          placeholder="Certificate Name (e.g., Frontend)"
-                          value={cert.name}
-                          onChange={(e) => {
-                            const newCerts = [...certificateData.items];
-                            newCerts[index].name = e.target.value;
-                            setCertificateData({
-                              ...certificateData,
-                              items: newCerts,
-                            });
-                          }}
-                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Publisher (e.g., Alterra)"
-                          value={cert.publisher}
-                          onChange={(e) => {
-                            const newCerts = [...certificateData.items];
-                            newCerts[index].publisher = e.target.value;
-                            setCertificateData({
-                              ...certificateData,
-                              items: newCerts,
-                            });
-                          }}
-                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                        />
-                        <CertificateImageUpload
-                          currentImageUrl={cert.image}
-                          onImageUrlChange={(url) => {
-                            const newCerts = [...certificateData.items];
-                            newCerts[index].image = url;
-                            setCertificateData({
-                              ...certificateData,
-                              items: newCerts,
-                            });
-                          }}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Valid Until (e.g., 2025-12-31)"
-                          value={cert.date}
-                          onChange={(e) => {
-                            const newCerts = [...certificateData.items];
-                            newCerts[index].date = e.target.value;
-                            setCertificateData({
-                              ...certificateData,
-                              items: newCerts,
-                            });
-                          }}
-                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                        />
                       </div>
                     </div>
                   ))}
@@ -1018,6 +1103,18 @@ export default function AdminAbout() {
             </div>
           </motion.div>
         )}
+
+        {/* Certificate Edit Modal */}
+        <CertificateEditModal
+          isOpen={showCertificateModal}
+          onClose={() => {
+            setShowCertificateModal(false);
+            setEditingCertificate(null);
+          }}
+          certificate={editingCertificate}
+          onSubmit={handleSaveCertificateModal}
+          isLoading={isSubmitting}
+        />
       </div>
     </div>
   );
