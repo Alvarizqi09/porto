@@ -62,7 +62,13 @@ const techIconMap = {
 };
 
 export default function AboutClient({ aboutData }) {
-  const { about, resume, education, skill, certificate } = aboutData;
+  const {
+    about = { title: "About Me", description: "", info: [] },
+    resume = { title: "Experience", description: "", items: [] },
+    education = { title: "My Education", description: "", items: [] },
+    skill = { title: "My Skills", description: "", skillList: [] },
+    certificate = { title: "My Certificates", description: "", items: [] },
+  } = aboutData || {};
 
   return (
     <motion.div

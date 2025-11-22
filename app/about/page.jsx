@@ -1,22 +1,73 @@
 import AboutClient from "@/components/client/AboutClient";
+import { connectDB } from "@/lib/db";
+import { About as AboutModel, Resume, Education, Skill, Certificate } from "@/lib/models/About";
 
-// Server-side data fetching
+// Server-side data fetching - Direct DB query (no API call)
 async function getAboutData() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/about`, {
-      next: { revalidate: 10 }, // Cache for 10 seconds, then revalidate
-    });
-    const result = await response.json();
+    await connectDB();
+    
+    const [about, resume, education, skill, certificate] = await Promise.all([
+      AboutModel.findOne().lean(),
+      Resume.findOne().lean(),
+      Education.findOne().lean(),
+      Skill.findOne().lean(),
+      Certificate.findOne().lean(),
+    ]);
 
-    if (!response.ok || !result.success) {
-      throw new Error(result.error || "Failed to fetch about data");
+    // Sort resume items
+    if (resume && resume.items && Array.isArray(resume.items)) {
+      resume.items = resume.items.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
     }
 
-    return result.data;
+    // Sort education items
+    if (education && education.items && Array.isArray(education.items)) {
+      education.items = education.items.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+    }
+
+    // Sort skill list
+    if (skill && skill.skillList && Array.isArray(skill.skillList)) {
+      skill.skillList = skill.skillList.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+    }
+
+    // Sort certificate items
+    if (certificate && certificate.items && Array.isArray(certificate.items)) {
+      certificate.items = certificate.items.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+    }
+
+    return {
+      about: about || { title: "About Me", description: "", info: [] },
+      resume: resume || { title: "Experience", description: "", items: [] },
+      education: education || {
+        title: "My Education",
+        description: "",
+        items: [],
+      },
+      skill: skill || { title: "My Skills", description: "", skillList: [] },
+      certificate: certificate || {
+        title: "My Certificates",
+        description: "",
+        items: [],
+      },
+    };
   } catch (err) {
     console.error("Error fetching about data:", err);
-    return null;
+    // Return default data if fetch fails
+    return {
+      about: { title: "About Me", description: "", info: [] },
+      resume: { title: "Experience", description: "", items: [] },
+      education: { title: "My Education", description: "", items: [] },
+      skill: { title: "My Skills", description: "", skillList: [] },
+      certificate: { title: "My Certificates", description: "", items: [] },
+    };
   }
 }
 

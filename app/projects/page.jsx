@@ -1,19 +1,17 @@
 import ProjectsClient from "@/components/client/ProjectsClient";
+import { connectDB } from "@/lib/db";
+import Project from "@/lib/models/Project";
 
-// Server-side data fetching
+// Server-side data fetching - Direct DB query (no API call)
 async function getProjects() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/projects`, {
-      next: { revalidate: 10 }, // Cache for 10 seconds, then revalidate
-    });
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-      throw new Error(result.error || "Failed to fetch projects");
-    }
-
-    return result.data;
+    await connectDB();
+    const projects = await Project.find({})
+      .select("_id title desc image tag demo preview tech_stack featured order")
+      .sort({ order: 1, createdAt: -1 })
+      .lean()
+      .exec();
+    return projects;
   } catch (err) {
     console.error("Error fetching projects:", err);
     return [];
