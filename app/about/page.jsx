@@ -1,12 +1,18 @@
 import AboutClient from "@/components/client/AboutClient";
 import { connectDB } from "@/lib/db";
-import { About as AboutModel, Resume, Education, Skill, Certificate } from "@/lib/models/About";
+import {
+  About as AboutModel,
+  Resume,
+  Education,
+  Skill,
+  Certificate,
+} from "@/lib/models/About";
 
 // Server-side data fetching - Direct DB query (no API call)
 async function getAboutData() {
   try {
     await connectDB();
-    
+
     const [about, resume, education, skill, certificate] = await Promise.all([
       AboutModel.findOne().lean(),
       Resume.findOne().lean(),
