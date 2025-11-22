@@ -39,6 +39,12 @@ export default function AdminAbout() {
     skillList: [],
   });
 
+  const [certificateData, setCertificateData] = useState({
+    title: "My Certificates",
+    description: "",
+    items: [],
+  });
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/admin/login");
@@ -56,6 +62,7 @@ export default function AdminAbout() {
         setResumeData(data.resume);
         setEducationData(data.education);
         setSkillData(data.skill);
+        setCertificateData(data.certificate);
       } catch (error) {
         console.error("Error fetching data:", error);
         setMessage({ type: "error", text: error.message });
@@ -124,6 +131,19 @@ export default function AdminAbout() {
     }
   };
 
+  const handleSaveCertificate = async () => {
+    setIsSubmitting(true);
+    try {
+      await aboutApi.saveCertificate(certificateData);
+      setMessage({ type: "success", text: "Certificates data updated!" });
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setMessage(""), 3000);
+    }
+  };
+
   if (status === "loading" || loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -157,19 +177,21 @@ export default function AdminAbout() {
 
         {/* Tabs */}
         <div className="flex gap-4 mb-8 border-b">
-          {["about", "resume", "education", "skill"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setCurrentTab(tab)}
-              className={`px-6 py-3 font-semibold transition-colors capitalize ${
-                currentTab === tab
-                  ? "text-accent border-b-2 border-accent"
-                  : "text-gray-600 hover:text-black"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+          {["about", "resume", "education", "skill", "certificate"].map(
+            (tab) => (
+              <button
+                key={tab}
+                onClick={() => setCurrentTab(tab)}
+                className={`px-6 py-3 font-semibold transition-colors capitalize ${
+                  currentTab === tab
+                    ? "text-accent border-b-2 border-accent"
+                    : "text-gray-600 hover:text-black"
+                }`}
+              >
+                {tab}
+              </button>
+            )
+          )}
         </div>
 
         {/* About Tab */}
@@ -794,6 +816,206 @@ export default function AdminAbout() {
                 className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white font-semibold rounded-lg"
               >
                 {isSubmitting ? "Saving..." : "Save Skills"}
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Certificates Tab */}
+        {currentTab === "certificate" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="bg-white p-8 rounded-lg shadow-lg"
+          >
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium mb-2">Title</label>
+                <input
+                  type="text"
+                  value={certificateData.title}
+                  onChange={(e) =>
+                    setCertificateData({
+                      ...certificateData,
+                      title: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Description
+                </label>
+                <textarea
+                  value={certificateData.description}
+                  onChange={(e) =>
+                    setCertificateData({
+                      ...certificateData,
+                      description: e.target.value,
+                    })
+                  }
+                  rows="5"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+
+              {/* Certificates List */}
+              <div>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold">Certificates</h3>
+                  <button
+                    onClick={() =>
+                      setCertificateData({
+                        ...certificateData,
+                        items: [
+                          {
+                            name: "",
+                            publisher: "",
+                            image: "",
+                            date: "",
+                            order: certificateData.items.length,
+                          },
+                          ...certificateData.items,
+                        ],
+                      })
+                    }
+                    className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90"
+                  >
+                    <FiPlus /> Add Certificate
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  {certificateData.items?.map((cert, index) => (
+                    <div
+                      key={index}
+                      className="p-4 border rounded-lg bg-gray-50"
+                    >
+                      <div className="flex gap-3 mb-3">
+                        <div className="flex flex-col gap-2 pt-2">
+                          {index > 0 && (
+                            <button
+                              onClick={() => {
+                                const newCerts = [...certificateData.items];
+                                [newCerts[index], newCerts[index - 1]] = [
+                                  newCerts[index - 1],
+                                  newCerts[index],
+                                ];
+                                setCertificateData({
+                                  ...certificateData,
+                                  items: newCerts,
+                                });
+                              }}
+                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                              title="Move Up"
+                            >
+                              ↑
+                            </button>
+                          )}
+                          {index < certificateData.items.length - 1 && (
+                            <button
+                              onClick={() => {
+                                const newCerts = [...certificateData.items];
+                                [newCerts[index], newCerts[index + 1]] = [
+                                  newCerts[index + 1],
+                                  newCerts[index],
+                                ];
+                                setCertificateData({
+                                  ...certificateData,
+                                  items: newCerts,
+                                });
+                              }}
+                              className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                              title="Move Down"
+                            >
+                              ↓
+                            </button>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => {
+                            const newCerts = certificateData.items.filter(
+                              (_, i) => i !== index
+                            );
+                            setCertificateData({
+                              ...certificateData,
+                              items: newCerts,
+                            });
+                          }}
+                          className="ml-auto p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                        >
+                          <FiX />
+                        </button>
+                      </div>
+                      <div className="space-y-3">
+                        <input
+                          type="text"
+                          placeholder="Certificate Name (e.g., Frontend)"
+                          value={cert.name}
+                          onChange={(e) => {
+                            const newCerts = [...certificateData.items];
+                            newCerts[index].name = e.target.value;
+                            setCertificateData({
+                              ...certificateData,
+                              items: newCerts,
+                            });
+                          }}
+                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Publisher (e.g., Alterra)"
+                          value={cert.publisher}
+                          onChange={(e) => {
+                            const newCerts = [...certificateData.items];
+                            newCerts[index].publisher = e.target.value;
+                            setCertificateData({
+                              ...certificateData,
+                              items: newCerts,
+                            });
+                          }}
+                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Image URL (Cloudinary link)"
+                          value={cert.image}
+                          onChange={(e) => {
+                            const newCerts = [...certificateData.items];
+                            newCerts[index].image = e.target.value;
+                            setCertificateData({
+                              ...certificateData,
+                              items: newCerts,
+                            });
+                          }}
+                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Valid Until (e.g., 2025-12-31)"
+                          value={cert.date}
+                          onChange={(e) => {
+                            const newCerts = [...certificateData.items];
+                            newCerts[index].date = e.target.value;
+                            setCertificateData({
+                              ...certificateData,
+                              items: newCerts,
+                            });
+                          }}
+                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={handleSaveCertificate}
+                disabled={isSubmitting}
+                className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white font-semibold rounded-lg"
+              >
+                {isSubmitting ? "Saving..." : "Save Certificates"}
               </button>
             </div>
           </motion.div>

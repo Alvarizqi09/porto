@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
-import { About, Resume, Education, Skill } from "@/lib/models/About";
+import {
+  About,
+  Resume,
+  Education,
+  Skill,
+  Certificate,
+} from "@/lib/models/About";
 import { getFromCache, setCache, clearCacheByPrefix } from "@/lib/apiCache";
 import { setCorsHeaders, handleCorsOptions } from "@/lib/cors";
 
@@ -27,11 +33,12 @@ export async function GET(request) {
 
     await connectDB();
 
-    const [about, resume, education, skill] = await Promise.all([
+    const [about, resume, education, skill, certificate] = await Promise.all([
       About.findOne().lean(),
       Resume.findOne().lean(),
       Education.findOne().lean(),
       Skill.findOne().lean(),
+      Certificate.findOne().lean(),
     ]);
 
     // Sort resume items - put items with lower index/order first
@@ -55,6 +62,13 @@ export async function GET(request) {
       );
     }
 
+    // Sort certificate items
+    if (certificate && certificate.items && Array.isArray(certificate.items)) {
+      certificate.items = certificate.items.sort(
+        (a, b) => (a.order || 0) - (b.order || 0)
+      );
+    }
+
     const responseData = {
       success: true,
       data: {
@@ -66,6 +80,11 @@ export async function GET(request) {
           items: [],
         },
         skill: skill || { title: "My Skills", description: "", skillList: [] },
+        certificate: certificate || {
+          title: "My Certificates",
+          description: "",
+          items: [],
+        },
       },
     };
 
@@ -122,6 +141,13 @@ export async function POST(request) {
         break;
       case "skill":
         result = await Skill.findOneAndUpdate({}, data, {
+          upsert: true,
+          new: true,
+          runValidators: true,
+        });
+        break;
+      case "certificate":
+        result = await Certificate.findOneAndUpdate({}, data, {
           upsert: true,
           new: true,
           runValidators: true,

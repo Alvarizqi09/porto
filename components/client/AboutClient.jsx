@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   FaHtml5,
   FaCss3,
@@ -61,7 +62,7 @@ const techIconMap = {
 };
 
 export default function AboutClient({ aboutData }) {
-  const { about, resume, education, skill } = aboutData;
+  const { about, resume, education, skill, certificate } = aboutData;
 
   return (
     <motion.div
@@ -81,6 +82,7 @@ export default function AboutClient({ aboutData }) {
             <TabsTrigger value="resume">Resume</TabsTrigger>
             <TabsTrigger value="experience">Experience</TabsTrigger>
             <TabsTrigger value="education">Education</TabsTrigger>
+            <TabsTrigger value="certificates">Certificates</TabsTrigger>
             <TabsTrigger value="skills">Skills</TabsTrigger>
           </TabsList>
           <div className="min-h-[70vh] w-full">
@@ -177,6 +179,58 @@ export default function AboutClient({ aboutData }) {
                     ) : (
                       <li className="col-span-2 text-gray-400">
                         No education data available
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </TabsContent>
+
+            {/* Certificates Tab */}
+            <TabsContent value="certificates" className="w-full">
+              <div className="flex flex-col gap-[30px] text-center xl:text-left">
+                <h3 className="text-4xl font-bold">{certificate.title}</h3>
+                <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
+                  {certificate.description}
+                </p>
+                <div>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px]">
+                    {certificate.items && certificate.items.length > 0 ? (
+                      certificate.items.map((item, index) => (
+                        <li
+                          key={index}
+                          className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                        >
+                          {/* Certificate Image */}
+                          {item.image && (
+                            <div className="w-full h-[200px] bg-gray-200 overflow-hidden relative">
+                              <Image
+                                src={item.image}
+                                alt={`${item.name}-${item.publisher}`}
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          )}
+                          {/* Certificate Info */}
+                          <div className="p-6 flex flex-col gap-3 flex-grow">
+                            <h4 className="text-lg font-semibold text-black">
+                              {item.name}
+                            </h4>
+                            <p className="text-sm text-accent font-medium">
+                              {item.publisher}
+                            </p>
+                            {item.date && (
+                              <p className="text-xs text-black/60 mt-auto">
+                                Valid until: {item.date}
+                              </p>
+                            )}
+                          </div>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="col-span-full text-gray-400">
+                        No certificates available
                       </li>
                     )}
                   </ul>
