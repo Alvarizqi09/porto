@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FiX, FiPlus } from "react-icons/fi";
 import { aboutApi } from "@/lib/aboutApi";
+import { CertificateImageUpload } from "@/components/CertificateImageUpload";
 
 export default function AdminAbout() {
   const router = useRouter();
@@ -976,19 +977,16 @@ export default function AdminAbout() {
                           }}
                           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                         />
-                        <input
-                          type="text"
-                          placeholder="Image URL (Cloudinary link)"
-                          value={cert.image}
-                          onChange={(e) => {
+                        <CertificateImageUpload
+                          currentImageUrl={cert.image}
+                          onImageUrlChange={(url) => {
                             const newCerts = [...certificateData.items];
-                            newCerts[index].image = e.target.value;
+                            newCerts[index].image = url;
                             setCertificateData({
                               ...certificateData,
                               items: newCerts,
                             });
                           }}
-                          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                         />
                         <input
                           type="text"
