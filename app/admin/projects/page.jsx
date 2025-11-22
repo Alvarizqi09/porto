@@ -2,30 +2,26 @@
 
 import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import ProjectForm from "@/components/ProjectForm";
+import ProjectEditModal from "@/components/ProjectEditModal";
 import { FiLogOut, FiPlus, FiEdit2, FiTrash2, FiX } from "react-icons/fi";
 import Image from "next/image";
-
-const fetchProjects = async () => {
-  const response = await fetch("/api/projects");
-  const result = await response.json();
-  if (!result.success) {
-    throw new Error(result.error || "Failed to fetch projects");
-  }
-  return result.data;
-};
+import { projectsApi, useProjectsQueryClient } from "@/lib/projectsApi";
+import { useRouter } from "next/navigation";
 
 const AdminProjects = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const queryClient = useQueryClient();
+  const { invalidateProjects } = useProjectsQueryClient();
   const [showForm, setShowForm] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
+  const [localProjects, setLocalProjects] = useState([]);
 
   const {
     data: projects = [],
@@ -33,9 +29,15 @@ const AdminProjects = () => {
     error,
   } = useQuery({
     queryKey: ["admin-projects"],
-    queryFn: fetchProjects,
-    refetchInterval: 5000, // Auto refetch setiap 5 detik
+    queryFn: () => projectsApi.fetchProjects(),
+    refetchInterval: 5000,
   });
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      setLocalProjects(projects);
+    }
+  }, [projects]);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -59,38 +61,18 @@ const AdminProjects = () => {
   const handleAddProject = async (formData) => {
     setIsSubmitting(true);
     try {
-      // Auto set order to the highest + 1 if not specified
       const maxOrder =
-        projects.length > 0
-          ? Math.max(...projects.map((p) => p.order || 0))
+        localProjects.length > 0
+          ? Math.max(...localProjects.map((p) => p.order || 0))
           : -1;
 
-      const newFormData = {
-        ...formData,
-        order: formData.order === 0 ? maxOrder + 1 : formData.order,
-      };
-
-      const response = await fetch("/api/projects", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newFormData),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Gagal menambah project");
-      }
+      const newProject = await projectsApi.addProject(formData, maxOrder);
+      setLocalProjects([...localProjects, newProject]);
 
       setMessage({ type: "success", text: "Project berhasil ditambahkan!" });
       setShowForm(false);
 
-      // Invalidate dan refetch data
-      await queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
-      await queryClient.invalidateQueries({ queryKey: ["projects"] });
-
+      await invalidateProjects();
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
       setMessage({ type: "error", text: error.message });
@@ -102,28 +84,13 @@ const AdminProjects = () => {
   const handleEditProject = async (formData) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch(`/api/projects/${editingProject._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Gagal update project");
-      }
+      await projectsApi.editProject(editingProject._id, formData);
 
       setMessage({ type: "success", text: "Project berhasil diupdate!" });
       setEditingProject(null);
-      setShowForm(false);
+      setShowEditModal(false);
 
-      // Invalidate dan refetch data
-      await queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
-      await queryClient.invalidateQueries({ queryKey: ["projects"] });
-
+      await invalidateProjects();
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
       setMessage({ type: "error", text: error.message });
@@ -138,25 +105,13 @@ const AdminProjects = () => {
     }
 
     try {
-      const response = await fetch(`/api/projects/${projectId}`, {
-        method: "DELETE",
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Gagal menghapus project");
-      }
+      await projectsApi.deleteProject(projectId);
+      setLocalProjects(localProjects.filter((p) => p._id !== projectId));
 
       setMessage({ type: "success", text: "Project berhasil dihapus!" });
 
-      // Invalidate dan refetch data
-      await queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
-      await queryClient.invalidateQueries({ queryKey: ["projects"] });
-
-      // Refresh server-side components
+      await invalidateProjects();
       router.refresh();
-
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
       setMessage({ type: "error", text: error.message });
@@ -169,81 +124,51 @@ const AdminProjects = () => {
   };
 
   const handleMoveProject = async (project, direction) => {
+    const sortedProjects = [...localProjects].sort(
+      (a, b) => (a.order || 0) - (b.order || 0)
+    );
+    const currentIndex = sortedProjects.findIndex((p) => p._id === project._id);
+
+    if (currentIndex === -1) {
+      return;
+    }
+
+    let swapIndex;
+    if (direction === "up" && currentIndex > 0) {
+      swapIndex = currentIndex - 1;
+    } else if (
+      direction === "down" &&
+      currentIndex < sortedProjects.length - 1
+    ) {
+      swapIndex = currentIndex + 1;
+    } else {
+      return;
+    }
+
+    const swapProject = sortedProjects[swapIndex];
+
+    // Update local state immediately
+    const updatedProjects = localProjects.map((p) => {
+      if (p._id === project._id) {
+        return { ...p, order: swapProject.order };
+      }
+      if (p._id === swapProject._id) {
+        return { ...p, order: project.order };
+      }
+      return p;
+    });
+    setLocalProjects(updatedProjects);
+
+    // Send to API in background
     try {
-      // Find the project to swap with
-      const sortedProjects = [...projects].sort(
-        (a, b) => (a.order || 0) - (b.order || 0)
-      );
-      const currentIndex = sortedProjects.findIndex(
-        (p) => p._id === project._id
-      );
-
-      if (currentIndex === -1) {
-        throw new Error("Project tidak ditemukan");
-      }
-
-      // Determine swap target
-      let swapIndex;
-      if (direction === "up" && currentIndex > 0) {
-        swapIndex = currentIndex - 1;
-      } else if (
-        direction === "down" &&
-        currentIndex < sortedProjects.length - 1
-      ) {
-        swapIndex = currentIndex + 1;
-      } else {
-        return; // Can't move further
-      }
-
-      const swapProject = sortedProjects[swapIndex];
-
-      // Swap orders
-      const currentOrder = project.order || 0;
-      const swapOrder = swapProject.order || 0;
-
-      // Update both projects
-      const updatePromises = [
-        fetch(`/api/projects/${project._id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...project,
-            order: swapOrder,
-          }),
-        }),
-        fetch(`/api/projects/${swapProject._id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...swapProject,
-            order: currentOrder,
-          }),
-        }),
-      ];
-
-      const responses = await Promise.all(updatePromises);
-
-      // Check for errors
-      for (const response of responses) {
-        if (!response.ok) {
-          const result = await response.json();
-          throw new Error(result.error || "Gagal mengubah urutan project");
-        }
-      }
-
+      await projectsApi.moveProject(project, swapProject);
       setMessage({ type: "success", text: "Urutan project berhasil diubah!" });
-
-      // Invalidate dan refetch data
-      await queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
-      await queryClient.invalidateQueries({ queryKey: ["projects"] });
-
+      await invalidateProjects();
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
+      setLocalProjects(localProjects);
       setMessage({ type: "error", text: error.message });
+      setTimeout(() => setMessage(""), 3000);
     }
   };
 
@@ -290,8 +215,8 @@ const AdminProjects = () => {
           </motion.div>
         )}
 
-        {/* Form Section */}
-        {showForm && (
+        {/* Form Section - Only for Add New */}
+        {showForm && !editingProject && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -299,7 +224,7 @@ const AdminProjects = () => {
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-black">
-                {editingProject ? "Edit Project" : "Tambah Project Baru"}
+                Tambah Project Baru
               </h2>
               <button
                 onClick={() => {
@@ -312,9 +237,9 @@ const AdminProjects = () => {
               </button>
             </div>
             <ProjectForm
-              onSubmit={editingProject ? handleEditProject : handleAddProject}
+              onSubmit={handleAddProject}
               isLoading={isSubmitting}
-              initialData={editingProject}
+              initialData={null}
             />
           </motion.div>
         )}
@@ -349,143 +274,170 @@ const AdminProjects = () => {
             <div className="p-4 bg-red-100 text-red-700 rounded-lg">
               Error: {error.message}
             </div>
-          ) : projects.length === 0 ? (
+          ) : localProjects.length === 0 ? (
             <div className="p-8 text-center text-gray-500 bg-white rounded-lg">
               Belum ada project. Tambahkan project baru!
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">
-              {projects.map((project) => (
-                <motion.div
-                  key={project._id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6"
-                >
-                  <div className="flex gap-6">
-                    {/* Image */}
-                    <div className="flex-shrink-0">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        width={150}
-                        height={150}
-                        className="w-32 h-32 object-cover rounded-lg"
-                      />
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-grow">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="text-xl font-bold text-black">
-                            {project.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm mt-1">
-                            {project.desc}
-                          </p>
-                        </div>
-                        {project.featured && (
-                          <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded">
-                            Featured
-                          </span>
-                        )}
+              {localProjects
+                .sort((a, b) => (a.order || 0) - (b.order || 0))
+                .map((project, index, sortedArray) => (
+                  <motion.div
+                    key={project._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6"
+                  >
+                    <div className="flex gap-6">
+                      {/* Image */}
+                      <div className="flex-shrink-0">
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          width={150}
+                          height={150}
+                          className="w-32 h-32 object-cover rounded-lg"
+                        />
                       </div>
 
-                      {/* Tags & Tech Stack */}
-                      <div className="mt-3 space-y-2">
-                        <div className="flex gap-2 flex-wrap">
-                          {project.tag?.map((t) => (
-                            <span
-                              key={t}
-                              className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
-                            >
-                              {t}
+                      {/* Content */}
+                      <div className="flex-grow">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h3 className="text-xl font-bold text-black">
+                              {project.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm mt-1">
+                              {project.desc}
+                            </p>
+                          </div>
+                          {project.featured && (
+                            <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded">
+                              Featured
                             </span>
-                          ))}
+                          )}
                         </div>
-                        {project.tech_stack?.length > 0 && (
+
+                        {/* Tags & Tech Stack */}
+                        <div className="mt-3 space-y-2">
                           <div className="flex gap-2 flex-wrap">
-                            {project.tech_stack.map((tech) => (
+                            {project.tag?.map((t) => (
                               <span
-                                key={tech}
-                                className="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded"
+                                key={t}
+                                className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
                               >
-                                {tech}
+                                {t}
                               </span>
                             ))}
                           </div>
-                        )}
+                          {project.tech_stack?.length > 0 && (
+                            <div className="flex gap-2 flex-wrap">
+                              {project.tech_stack.map((tech) => (
+                                <span
+                                  key={tech}
+                                  className="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Links */}
+                        <div className="mt-3 flex gap-4 text-sm">
+                          <a
+                            href={project.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                          >
+                            Demo
+                          </a>
+                          <a
+                            href={project.preview}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                          >
+                            Preview
+                          </a>
+                        </div>
                       </div>
 
-                      {/* Links */}
-                      <div className="mt-3 flex gap-4 text-sm">
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
+                      {/* Actions */}
+                      <div className="flex flex-col gap-2 flex-shrink-0">
+                        <div className="flex gap-2">
+                          {index > 0 && (
+                            <button
+                              onClick={() => handleMoveProject(project, "up")}
+                              className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                              title="Move Up"
+                            >
+                              ↑
+                            </button>
+                          )}
+                          {index < sortedArray.length - 1 && (
+                            <button
+                              onClick={() => handleMoveProject(project, "down")}
+                              className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                              title="Move Down"
+                            >
+                              ↓
+                            </button>
+                          )}
+                        </div>
+                        <button
+                          onClick={async () => {
+                            // Fetch fresh data from server
+                            try {
+                              const { data } = await axios.get(
+                                `/api/projects/${project._id}`
+                              );
+                              if (data.success) {
+                                setEditingProject(data.data);
+                                setShowEditModal(true);
+                              }
+                            } catch (error) {
+                              console.error("Error fetching project:", error);
+                              // Fallback to current project if fetch fails
+                              setEditingProject(project);
+                              setShowEditModal(true);
+                            }
+                          }}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Edit"
                         >
-                          Demo
-                        </a>
-                        <a
-                          href={project.preview}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
+                          <FiEdit2 className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteProject(project._id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete"
                         >
-                          Preview
-                        </a>
+                          <FiTrash2 className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
-
-                    {/* Actions */}
-                    <div className="flex flex-col gap-2 flex-shrink-0">
-                      <div className="flex gap-2">
-                        {projects.indexOf(project) > 0 && (
-                          <button
-                            onClick={() => handleMoveProject(project, "up")}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                            title="Move Up"
-                          >
-                            ↑
-                          </button>
-                        )}
-                        {projects.indexOf(project) < projects.length - 1 && (
-                          <button
-                            onClick={() => handleMoveProject(project, "down")}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                            title="Move Down"
-                          >
-                            ↓
-                          </button>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => {
-                          setEditingProject(project);
-                          setShowForm(true);
-                        }}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        title="Edit"
-                      >
-                        <FiEdit2 className="w-5 h-5" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteProject(project._id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Delete"
-                      >
-                        <FiTrash2 className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
             </div>
           )}
         </motion.div>
       </div>
+
+      {/* Edit Project Modal */}
+      <ProjectEditModal
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false);
+          setEditingProject(null);
+        }}
+        project={editingProject}
+        onSubmit={handleEditProject}
+        isLoading={isSubmitting}
+      />
     </div>
   );
 };

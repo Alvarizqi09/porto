@@ -8,6 +8,11 @@ import {
   clearCacheByPrefix,
   getCacheKey,
 } from "@/lib/apiCache";
+import { setCorsHeaders, handleCorsOptions } from "@/lib/cors";
+
+export async function OPTIONS(request) {
+  return handleCorsOptions(request);
+}
 
 export async function GET(request) {
   try {
@@ -21,11 +26,13 @@ export async function GET(request) {
     // Check cache
     const cachedData = getFromCache(cacheKey);
     if (cachedData) {
-      return NextResponse.json(cachedData, {
-        headers: {
-          "Cache-Control": "public, max-age=60",
-        },
-      });
+      return setCorsHeaders(
+        NextResponse.json(cachedData, {
+          headers: {
+            "Cache-Control": "public, max-age=10",
+          },
+        })
+      );
     }
 
     // Connect to database
@@ -57,16 +64,20 @@ export async function GET(request) {
     // Set cache
     setCache(cacheKey, responseData);
 
-    return NextResponse.json(responseData, {
-      headers: {
-        "Cache-Control": "public, max-age=60",
-      },
-    });
+    return setCorsHeaders(
+      NextResponse.json(responseData, {
+        headers: {
+          "Cache-Control": "public, max-age=10",
+        },
+      })
+    );
   } catch (error) {
     console.error("GET Error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+    return setCorsHeaders(
+      NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     );
   }
 }
@@ -103,18 +114,22 @@ export async function POST(request) {
     revalidatePath("/projects"); // Invalidate projects page cache
     revalidatePath("/"); // Invalidate home page jika menampilkan projects
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: newProject.toObject(),
-      },
-      { status: 201 }
+    return setCorsHeaders(
+      NextResponse.json(
+        {
+          success: true,
+          data: newProject.toObject(),
+        },
+        { status: 201 }
+      )
     );
   } catch (error) {
     console.error("POST Error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+    return setCorsHeaders(
+      NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     );
   }
 }

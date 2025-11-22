@@ -3,6 +3,11 @@ import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
 import { clearCacheByPrefix } from "@/lib/apiCache";
+import { setCorsHeaders, handleCorsOptions } from "@/lib/cors";
+
+export async function OPTIONS(request) {
+  return handleCorsOptions(request);
+}
 
 // GET - Ambil project by ID
 export async function GET(request, { params }) {
@@ -17,21 +22,27 @@ export async function GET(request, { params }) {
       .exec();
 
     if (!project) {
-      return NextResponse.json(
-        { success: false, error: "Project not found" },
-        { status: 404 }
+      return setCorsHeaders(
+        NextResponse.json(
+          { success: false, error: "Project not found" },
+          { status: 404 }
+        )
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      data: project,
-    });
+    return setCorsHeaders(
+      NextResponse.json({
+        success: true,
+        data: project,
+      })
+    );
   } catch (error) {
     console.error("GET by ID Error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+    return setCorsHeaders(
+      NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     );
   }
 }
@@ -52,9 +63,11 @@ export async function PUT(request, { params }) {
     }).exec();
 
     if (!updatedProject) {
-      return NextResponse.json(
-        { success: false, error: "Project not found" },
-        { status: 404 }
+      return setCorsHeaders(
+        NextResponse.json(
+          { success: false, error: "Project not found" },
+          { status: 404 }
+        )
       );
     }
 
@@ -63,15 +76,19 @@ export async function PUT(request, { params }) {
     revalidatePath("/projects");
     revalidatePath("/");
 
-    return NextResponse.json({
-      success: true,
-      data: updatedProject.toObject(),
-    });
+    return setCorsHeaders(
+      NextResponse.json({
+        success: true,
+        data: updatedProject.toObject(),
+      })
+    );
   } catch (error) {
     console.error("PUT Error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+    return setCorsHeaders(
+      NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     );
   }
 }
@@ -84,9 +101,11 @@ export async function DELETE(request, { params }) {
     const deletedProject = await Project.findByIdAndDelete(params.id).exec();
 
     if (!deletedProject) {
-      return NextResponse.json(
-        { success: false, error: "Project not found" },
-        { status: 404 }
+      return setCorsHeaders(
+        NextResponse.json(
+          { success: false, error: "Project not found" },
+          { status: 404 }
+        )
       );
     }
 
@@ -95,15 +114,19 @@ export async function DELETE(request, { params }) {
     revalidatePath("/projects");
     revalidatePath("/");
 
-    return NextResponse.json({
-      success: true,
-      message: "Project deleted successfully",
-    });
+    return setCorsHeaders(
+      NextResponse.json({
+        success: true,
+        message: "Project deleted successfully",
+      })
+    );
   } catch (error) {
     console.error("DELETE Error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+    return setCorsHeaders(
+      NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     );
   }
 }

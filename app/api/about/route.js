@@ -3,6 +3,11 @@ import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import { About, Resume, Education, Skill } from "@/lib/models/About";
 import { getFromCache, setCache, clearCacheByPrefix } from "@/lib/apiCache";
+import { setCorsHeaders, handleCorsOptions } from "@/lib/cors";
+
+export async function OPTIONS(request) {
+  return handleCorsOptions(request);
+}
 
 export async function GET(request) {
   try {
@@ -11,11 +16,13 @@ export async function GET(request) {
     // Check cache - return cached data if available
     const cachedData = getFromCache(cacheKey);
     if (cachedData) {
-      return NextResponse.json(cachedData, {
-        headers: {
-          "Cache-Control": "public, max-age=60",
-        },
-      });
+      return setCorsHeaders(
+        NextResponse.json(cachedData, {
+          headers: {
+            "Cache-Control": "public, max-age=10",
+          },
+        })
+      );
     }
 
     await connectDB();
@@ -65,16 +72,20 @@ export async function GET(request) {
     // Set cache
     setCache(cacheKey, responseData);
 
-    return NextResponse.json(responseData, {
-      headers: {
-        "Cache-Control": "public, max-age=60",
-      },
-    });
+    return setCorsHeaders(
+      NextResponse.json(responseData, {
+        headers: {
+          "Cache-Control": "public, max-age=10",
+        },
+      })
+    );
   } catch (error) {
     console.error("GET About Error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+    return setCorsHeaders(
+      NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     );
   }
 }
@@ -117,9 +128,11 @@ export async function POST(request) {
         });
         break;
       default:
-        return NextResponse.json(
-          { success: false, error: "Invalid section" },
-          { status: 400 }
+        return setCorsHeaders(
+          NextResponse.json(
+            { success: false, error: "Invalid section" },
+            { status: 400 }
+          )
         );
     }
 
@@ -127,15 +140,19 @@ export async function POST(request) {
     revalidatePath("/about");
     revalidatePath("/");
 
-    return NextResponse.json({
-      success: true,
-      data: result,
-    });
+    return setCorsHeaders(
+      NextResponse.json({
+        success: true,
+        data: result,
+      })
+    );
   } catch (error) {
     console.error("POST About Error:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+    return setCorsHeaders(
+      NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     );
   }
 }

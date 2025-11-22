@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
 import {
   SiBootstrap,
@@ -53,18 +54,17 @@ export default function ProjectDetailPage() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch(`/api/projects/${params.id}`, {
-          cache: "no-store", // Disable cache untuk fresh data
-        });
-        const data = await response.json();
+        const { data } = await axios.get(`/api/projects/${params.id}`);
 
-        if (!response.ok || !data.success) {
+        if (!data.success) {
           throw new Error(data.error || "Failed to fetch project");
         }
 
         setProject(data.data);
       } catch (err) {
-        setError(err.message);
+        setError(
+          err.response?.data?.error || err.message || "Failed to load project"
+        );
         console.error("Error fetching project:", err);
       } finally {
         setLoading(false);

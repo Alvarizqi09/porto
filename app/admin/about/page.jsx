@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FiX, FiPlus } from "react-icons/fi";
+import { aboutApi } from "@/lib/aboutApi";
 
 export default function AdminAbout() {
   const router = useRouter();
@@ -47,16 +48,17 @@ export default function AdminAbout() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/about");
-        const result = await response.json();
-        if (result.success) {
-          setAboutData(result.data.about);
-          setResumeData(result.data.resume);
-          setEducationData(result.data.education);
-          setSkillData(result.data.skill);
+        const data = await aboutApi.fetchAboutData();
+        if (!data || !data.about) {
+          throw new Error("Failed to fetch about data");
         }
+        setAboutData(data.about);
+        setResumeData(data.resume);
+        setEducationData(data.education);
+        setSkillData(data.skill);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setMessage({ type: "error", text: error.message });
       } finally {
         setLoading(false);
       }
@@ -64,24 +66,17 @@ export default function AdminAbout() {
 
     if (status === "authenticated") {
       fetchData();
+
+      // Refetch data every 10 seconds to sync with changes
+      const interval = setInterval(fetchData, 10000);
+      return () => clearInterval(interval);
     }
   }, [status]);
-
   const handleSaveAbout = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/about", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: "about", data: aboutData }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        setMessage({ type: "success", text: "About data updated!" });
-      } else {
-        setMessage({ type: "error", text: result.error });
-      }
+      await aboutApi.saveAbout(aboutData);
+      setMessage({ type: "success", text: "About data updated!" });
     } catch (error) {
       setMessage({ type: "error", text: error.message });
     } finally {
@@ -93,18 +88,8 @@ export default function AdminAbout() {
   const handleSaveResume = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/about", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: "resume", data: resumeData }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        setMessage({ type: "success", text: "Experience data updated!" });
-      } else {
-        setMessage({ type: "error", text: result.error });
-      }
+      await aboutApi.saveResume(resumeData);
+      setMessage({ type: "success", text: "Experience data updated!" });
     } catch (error) {
       setMessage({ type: "error", text: error.message });
     } finally {
@@ -116,18 +101,8 @@ export default function AdminAbout() {
   const handleSaveEducation = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/about", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: "education", data: educationData }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        setMessage({ type: "success", text: "Education data updated!" });
-      } else {
-        setMessage({ type: "error", text: result.error });
-      }
+      await aboutApi.saveEducation(educationData);
+      setMessage({ type: "success", text: "Education data updated!" });
     } catch (error) {
       setMessage({ type: "error", text: error.message });
     } finally {
@@ -139,18 +114,8 @@ export default function AdminAbout() {
   const handleSaveSkill = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/about", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: "skill", data: skillData }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        setMessage({ type: "success", text: "Skills data updated!" });
-      } else {
-        setMessage({ type: "error", text: result.error });
-      }
+      await aboutApi.saveSkill(skillData);
+      setMessage({ type: "success", text: "Skills data updated!" });
     } catch (error) {
       setMessage({ type: "error", text: error.message });
     } finally {
