@@ -30,10 +30,13 @@ export async function GET(request, { params }) {
       );
     }
 
+    // Serialize project to remove ObjectIds
+    const serializeData = (data) => JSON.parse(JSON.stringify(data));
+
     return setCorsHeaders(
       NextResponse.json({
         success: true,
-        data: project,
+        data: serializeData(project),
       })
     );
   } catch (error) {
@@ -76,10 +79,13 @@ export async function PUT(request, { params }) {
     revalidatePath("/projects");
     revalidatePath("/");
 
+    // Serialize result to remove ObjectIds
+    const serializeData = (data) => JSON.parse(JSON.stringify(data));
+
     return setCorsHeaders(
       NextResponse.json({
         success: true,
-        data: updatedProject.toObject(),
+        data: serializeData(updatedProject),
       })
     );
   } catch (error) {

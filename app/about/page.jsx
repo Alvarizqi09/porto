@@ -8,6 +8,11 @@ import {
   Certificate,
 } from "@/lib/models/About";
 
+// Helper function to serialize MongoDB objects
+function serializeData(data) {
+  return JSON.parse(JSON.stringify(data));
+}
+
 // Server-side data fetching - Direct DB query (no API call)
 async function getAboutData() {
   try {
@@ -21,44 +26,81 @@ async function getAboutData() {
       Certificate.findOne().lean(),
     ]);
 
+    // Serialize all data to convert ObjectIds and remove circular refs
+    const serializedAbout = about ? serializeData(about) : null;
+    const serializedResume = resume ? serializeData(resume) : null;
+    const serializedEducation = education ? serializeData(education) : null;
+    const serializedSkill = skill ? serializeData(skill) : null;
+    const serializedCertificate = certificate
+      ? serializeData(certificate)
+      : null;
+
     // Sort resume items
-    if (resume && resume.items && Array.isArray(resume.items)) {
-      resume.items = resume.items.sort(
+    if (
+      serializedResume &&
+      serializedResume.items &&
+      Array.isArray(serializedResume.items)
+    ) {
+      serializedResume.items = serializedResume.items.sort(
         (a, b) => (a.order || 0) - (b.order || 0)
       );
     }
 
     // Sort education items
-    if (education && education.items && Array.isArray(education.items)) {
-      education.items = education.items.sort(
+    if (
+      serializedEducation &&
+      serializedEducation.items &&
+      Array.isArray(serializedEducation.items)
+    ) {
+      serializedEducation.items = serializedEducation.items.sort(
         (a, b) => (a.order || 0) - (b.order || 0)
       );
     }
 
     // Sort skill list
-    if (skill && skill.skillList && Array.isArray(skill.skillList)) {
-      skill.skillList = skill.skillList.sort(
+    if (
+      serializedSkill &&
+      serializedSkill.skillList &&
+      Array.isArray(serializedSkill.skillList)
+    ) {
+      serializedSkill.skillList = serializedSkill.skillList.sort(
         (a, b) => (a.order || 0) - (b.order || 0)
       );
     }
 
     // Sort certificate items
-    if (certificate && certificate.items && Array.isArray(certificate.items)) {
-      certificate.items = certificate.items.sort(
+    if (
+      serializedCertificate &&
+      serializedCertificate.items &&
+      Array.isArray(serializedCertificate.items)
+    ) {
+      serializedCertificate.items = serializedCertificate.items.sort(
         (a, b) => (a.order || 0) - (b.order || 0)
       );
     }
 
     return {
-      about: about || { title: "About Me", description: "", info: [] },
-      resume: resume || { title: "Experience", description: "", items: [] },
-      education: education || {
+      about: serializedAbout || {
+        title: "About Me",
+        description: "",
+        info: [],
+      },
+      resume: serializedResume || {
+        title: "Experience",
+        description: "",
+        items: [],
+      },
+      education: serializedEducation || {
         title: "My Education",
         description: "",
         items: [],
       },
-      skill: skill || { title: "My Skills", description: "", skillList: [] },
-      certificate: certificate || {
+      skill: serializedSkill || {
+        title: "My Skills",
+        description: "",
+        skillList: [],
+      },
+      certificate: serializedCertificate || {
         title: "My Certificates",
         description: "",
         items: [],

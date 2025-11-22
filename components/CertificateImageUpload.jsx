@@ -32,11 +32,20 @@ export function CertificateImageUpload({ onImageUrlChange, currentImageUrl }) {
 
     setUploadingImage(true);
     try {
-      const { url } = await uploadToCloudinary(imageFile);
-      onImageUrlChange(url);
+      const response = await uploadToCloudinary(imageFile);
+
+      // Handle both direct response { url, publicId } and wrapped response { success, url, publicId }
+      const imageUrl = response.url || response.data?.url;
+
+      if (!imageUrl) {
+        throw new Error("Tidak ada URL yang dikembalikan dari upload");
+      }
+
+      onImageUrlChange(imageUrl);
       setImageFile(null);
       setError("");
     } catch (err) {
+      console.error("Upload error:", err);
       setError(err.message || "Gagal upload gambar");
     } finally {
       setUploadingImage(false);

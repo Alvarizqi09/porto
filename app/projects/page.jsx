@@ -2,6 +2,11 @@ import ProjectsClient from "@/components/client/ProjectsClient";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
 
+// Helper function to serialize MongoDB objects
+function serializeData(data) {
+  return JSON.parse(JSON.stringify(data));
+}
+
 // Server-side data fetching - Direct DB query (no API call)
 async function getProjects() {
   try {
@@ -11,7 +16,9 @@ async function getProjects() {
       .sort({ order: 1, createdAt: -1 })
       .lean()
       .exec();
-    return projects;
+
+    // Serialize projects to remove ObjectIds
+    return projects.map((project) => serializeData(project));
   } catch (err) {
     console.error("Error fetching projects:", err);
     return [];

@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
+import { setCorsHeaders, handleCorsOptions } from "@/lib/cors";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -7,13 +8,19 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+export async function OPTIONS(request) {
+  return handleCorsOptions(request);
+}
+
 export async function POST(request) {
   try {
     const formData = await request.formData();
     const file = formData.get("file");
 
     if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      return setCorsHeaders(
+        NextResponse.json({ error: "No file provided" }, { status: 400 })
+      );
     }
 
     const bytes = await file.arrayBuffer();
@@ -33,12 +40,23 @@ export async function POST(request) {
       stream.end(buffer);
     });
 
-    return NextResponse.json({
-      url: result.secure_url,
-      publicId: result.public_id,
-    });
+    return setCorsHeaders(
+      NextResponse.json({
+        success: true,
+        url: result.secure_url,
+        publicId: result.public_id,
+      })
+    );
   } catch (error) {
     console.error("Cloudinary upload error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return setCorsHeaders(
+      NextResponse.json(
+        {
+          success: false,
+          error: error.message || "Failed to upload image",
+        },
+        { status: 500 }
+      )
+    );
   }
 }

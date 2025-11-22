@@ -55,10 +55,16 @@ export async function GET(request) {
       .lean() // Gunakan lean untuk performa query yang lebih cepat
       .exec();
 
+    // Serialize projects to remove ObjectIds
+    const serializeData = (data) => JSON.parse(JSON.stringify(data));
+    const serializedProjects = projects.map((project) =>
+      serializeData(project)
+    );
+
     const responseData = {
       success: true,
-      count: projects.length,
-      data: projects,
+      count: serializedProjects.length,
+      data: serializedProjects,
     };
 
     // Set cache
@@ -114,11 +120,14 @@ export async function POST(request) {
     revalidatePath("/projects"); // Invalidate projects page cache
     revalidatePath("/"); // Invalidate home page jika menampilkan projects
 
+    // Serialize result to remove ObjectIds
+    const serializeData = (data) => JSON.parse(JSON.stringify(data));
+
     return setCorsHeaders(
       NextResponse.json(
         {
           success: true,
-          data: newProject.toObject(),
+          data: serializeData(newProject),
         },
         { status: 201 }
       )

@@ -69,22 +69,35 @@ export async function GET(request) {
       );
     }
 
+    // Serialize all data to remove ObjectIds and circular references
+    const serializeData = (data) => JSON.parse(JSON.stringify(data));
+
     const responseData = {
       success: true,
       data: {
-        about: about || { title: "About Me", description: "", info: [] },
-        resume: resume || { title: "Experience", description: "", items: [] },
-        education: education || {
-          title: "My Education",
-          description: "",
-          items: [],
-        },
-        skill: skill || { title: "My Skills", description: "", skillList: [] },
-        certificate: certificate || {
-          title: "My Certificates",
-          description: "",
-          items: [],
-        },
+        about: about
+          ? serializeData(about)
+          : { title: "About Me", description: "", info: [] },
+        resume: resume
+          ? serializeData(resume)
+          : { title: "Experience", description: "", items: [] },
+        education: education
+          ? serializeData(education)
+          : {
+              title: "My Education",
+              description: "",
+              items: [],
+            },
+        skill: skill
+          ? serializeData(skill)
+          : { title: "My Skills", description: "", skillList: [] },
+        certificate: certificate
+          ? serializeData(certificate)
+          : {
+              title: "My Certificates",
+              description: "",
+              items: [],
+            },
       },
     };
 
@@ -166,10 +179,13 @@ export async function POST(request) {
     revalidatePath("/about");
     revalidatePath("/");
 
+    // Serialize result to remove ObjectIds
+    const serializeData = (data) => JSON.parse(JSON.stringify(data));
+
     return setCorsHeaders(
       NextResponse.json({
         success: true,
-        data: result,
+        data: serializeData(result),
       })
     );
   } catch (error) {
