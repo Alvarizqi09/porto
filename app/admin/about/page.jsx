@@ -79,8 +79,8 @@ export default function AdminAbout() {
     if (status === "authenticated") {
       fetchData();
 
-      // Refetch data every 10 seconds to sync with changes
-      const interval = setInterval(fetchData, 10000);
+      // Refetch data every 30 seconds to sync with changes
+      const interval = setInterval(fetchData, 30000);
       return () => clearInterval(interval);
     }
   }, [status]);

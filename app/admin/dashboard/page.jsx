@@ -101,11 +101,11 @@ const AdminDashboard = () => {
                 </div>
                 <h2 className="text-2xl font-bold text-black">About</h2>
               </div>
-              <p className="text-gray-600 mb-4">
+              <p className="text-accent mb-4">
                 Atur informasi tentang diri Anda yang akan ditampilkan di
                 halaman About.
               </p>
-              <div className="flex items-center text-gray-500 font-semibold">
+              <div className="flex items-center text-accent font-semibold">
                 Manage About →
               </div>
             </motion.div>
