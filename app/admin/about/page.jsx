@@ -888,10 +888,10 @@ export default function AdminAbout() {
                               }}
                               className="px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition bg-white"
                             >
-                              <option value="Frontend">🎨 Frontend</option>
-                              <option value="Backend">⚙️ Backend</option>
-                              <option value="Design">✨ Design</option>
-                              <option value="Other">📦 Other</option>
+                              <option value="Frontend"> Frontend</option>
+                              <option value="Backend">Backend</option>
+                              <option value="Design">Design</option>
+                              <option value="Other"> Other</option>
                             </select>
                           </div>
 
@@ -935,7 +935,7 @@ export default function AdminAbout() {
                       Saving...
                     </span>
                   ) : (
-                    "💾 Save Skills"
+                    "Save Skills"
                   )}
                 </button>
               </div>
