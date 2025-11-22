@@ -32,6 +32,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={JetBrainsMono.variable}>
       <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://alvarizqi.com" />
         <meta name="viewport" content={viewport} />
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
@@ -54,7 +56,6 @@ export default function RootLayout({ children }) {
           content="https://alvarizqi.com/assets/twitter-image.jpg"
         />
         <link rel="icon" href="/icon.ico?v=2" />
-
         <title>{metadata.title}</title>
       </head>
       <body className={JetBrainsMono.variable}>

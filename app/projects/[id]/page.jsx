@@ -26,22 +26,28 @@ import { FaLaravel, FaPhp, FaReact as FaReactIcon } from "react-icons/fa";
 
 // Tech stack icons map
 const techIconMap = {
-  Vite: <SiVite key="Vite" className="w-8 h-8" />,
-  React: <FaReactIcon key="React" className="w-8 h-8" />,
-  ReactJS: <SiReact key="ReactJS" className="w-8 h-8" />,
-  Tailwind: <SiTailwindcss key="Tailwind" className="w-8 h-8" />,
-  Typescript: <SiTypescript key="Typescript" className="w-8 h-8" />,
-  Laravel: <FaLaravel key="Laravel" className="w-8 h-8" />,
-  PHP: <FaPhp key="PHP" className="w-8 h-8" />,
-  Next: <SiNextdotjs key="Next" className="w-8 h-8" />,
-  Vue: <SiVuedotjs key="Vue" className="w-8 h-8" />,
-  CI4: <SiCodeigniter key="CI4" className="w-8 h-8" />,
-  Bootstrap: <SiBootstrap key="Bootstrap" className="w-8 h-8" />,
-  Figma: <SiFigma key="Figma" className="w-8 h-8" />,
-  Supabase: <SiSupabase key="Supabase" className="w-8 h-8" />,
-  "Node.js": <SiNodedotjs key="Node.js" className="w-8 h-8" />,
-  MongoDB: <SiMongodb key="MongoDB" className="w-8 h-8" />,
-  Express: <SiExpress key="Express" className="w-8 h-8" />,
+  Vite: <SiVite key="Vite" className="w-8 h-8" title="Vite" />,
+  React: <FaReactIcon key="React" className="w-8 h-8" title="React" />,
+  ReactJS: <SiReact key="ReactJS" className="w-8 h-8" title="ReactJS" />,
+  Tailwind: (
+    <SiTailwindcss key="Tailwind" className="w-8 h-8" title="Tailwind CSS" />
+  ),
+  Typescript: (
+    <SiTypescript key="Typescript" className="w-8 h-8" title="TypeScript" />
+  ),
+  Laravel: <FaLaravel key="Laravel" className="w-8 h-8" title="Laravel" />,
+  PHP: <FaPhp key="PHP" className="w-8 h-8" title="PHP" />,
+  Next: <SiNextdotjs key="Next" className="w-8 h-8" title="Next.js" />,
+  Vue: <SiVuedotjs key="Vue" className="w-8 h-8" title="Vue.js" />,
+  CI4: <SiCodeigniter key="CI4" className="w-8 h-8" title="CodeIgniter" />,
+  Bootstrap: (
+    <SiBootstrap key="Bootstrap" className="w-8 h-8" title="Bootstrap" />
+  ),
+  Figma: <SiFigma key="Figma" className="w-8 h-8" title="Figma" />,
+  Supabase: <SiSupabase key="Supabase" className="w-8 h-8" title="Supabase" />,
+  "Node.js": <SiNodedotjs key="Node.js" className="w-8 h-8" title="Node.js" />,
+  MongoDB: <SiMongodb key="MongoDB" className="w-8 h-8" title="MongoDB" />,
+  Express: <SiExpress key="Express" className="w-8 h-8" title="Express" />,
 };
 
 export default function ProjectDetailPage() {
@@ -135,10 +141,12 @@ export default function ProjectDetailPage() {
           >
             <Image
               src={project.image}
-              alt={project.title}
+              alt={`${project.title} - Project showcase image`}
               fill
               className="object-cover"
               priority
+              quality={85}
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </motion.div>
 

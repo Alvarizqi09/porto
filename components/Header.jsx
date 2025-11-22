@@ -10,8 +10,14 @@ const Header = () => {
   return (
     <header className="py-7 text-black xl:py-3">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/">
-          <Image src={logo} alt="logo" className="w-20 h-20  items-center" />
+        <Link href="/" aria-label="Alvarizqi - Go to home">
+          <Image
+            src={logo}
+            alt="Alvarizqi logo"
+            className="w-20 h-20 items-center"
+            priority
+            quality={80}
+          />
         </Link>
         <div className="hidden xl:flex items-center gap-8">
           <Nav />

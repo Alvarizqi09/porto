@@ -212,10 +212,11 @@ export default function AboutClient({ aboutData }) {
                             <div className="w-full aspect-[16/9] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative">
                               <Image
                                 src={item.image}
-                                alt={`${item.name} - ${item.publisher}`}
+                                alt={`${item.name} certificate from ${item.publisher}`}
                                 fill
                                 className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                quality={80}
                               />
                             </div>
                           )}
@@ -241,6 +242,8 @@ export default function AboutClient({ aboutData }) {
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
+                                    aria-label="Certificate valid date"
+                                    role="presentation"
                                   >
                                     <path
                                       strokeLinecap="round"

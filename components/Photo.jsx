@@ -24,10 +24,9 @@ const Photo = () => {
         >
           <Image
             src={photo}
-            alt="foto-diri"
+            alt="Alvarizqi - Front-End Web Developer Portrait"
             priority
-            quality={70}
-            layout="intrinsic" // maintain aspect ratio
+            quality={85}
             className="object-contain"
           />
         </motion.div>
@@ -36,6 +35,8 @@ const Photo = () => {
           fill="transparent"
           viewBox="0 0 506 506"
           xmlns="http://www.w3.org/2000/svg"
+          aria-label="Animated decorative circle border"
+          role="presentation"
         >
           <motion.circle
             cx="253"

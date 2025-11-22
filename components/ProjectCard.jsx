@@ -11,17 +11,19 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
       <div className="w-full h-[280px] sm:h-[240px] rounded-t-xl relative group overflow-hidden bg-gray-200">
         <Image
           src={image}
-          alt={title}
+          alt={`${title} - Project preview`}
           fill
           loading="lazy"
-          sizes="(max-width: 640px) 100vw, 25rem"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25rem"
           className="object-cover group-hover:scale-110 transition-transform duration-500"
+          quality={80}
         />
         <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-8 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500 z-10">
           <Link
             href={id ? `/projects/${id}` : "#"}
             className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link flex items-center justify-center transition-all"
             title="Lihat Detail"
+            aria-label={`View details for ${title} project`}
           >
             <BsInfoCircleFill className="text-3xl text-black/80 group-hover/link:text-white transition-colors" />
           </Link>
@@ -31,6 +33,7 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
             rel="noopener noreferrer"
             className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link flex items-center justify-center transition-all"
             title="Buka Demo"
+            aria-label={`Open demo for ${title}`}
           >
             <FiExternalLink className="text-3xl text-black/80 group-hover/link:text-white transition-colors" />
           </Link>
@@ -40,6 +43,7 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
             rel="noopener noreferrer"
             className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link flex items-center justify-center transition-all"
             title="Lihat Preview"
+            aria-label={`View preview for ${title}`}
           >
             <MdPreview className="text-3xl text-black/80 group-hover/link:text-white transition-colors" />
           </Link>
