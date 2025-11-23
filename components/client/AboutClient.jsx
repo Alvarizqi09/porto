@@ -1,9 +1,5 @@
 "use client";
 
-import Image from "next/image";
-// Icons are centralized in aboutTabs/techIconMap to avoid duplicate imports
-import techIconMap from "./aboutTabs/techIconMap";
-
 import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 

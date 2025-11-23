@@ -7,10 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
-import { cloneElement } from "react";
-import techIconMap, {
-  getIcon,
-} from "@/components/client/aboutTabs/techIconMap";
+import { getIcon } from "@/utils/techIconMap";
 
 const ICON_SIZE_CLASS = "w-8 h-8";
 const createIcon = (name) => {

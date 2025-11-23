@@ -8,7 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import techIconMap from "./techIconMap";
+import techIconMap from "../../../utils/techIconMap";
 
 export default function SkillsTab({ skill }) {
   const { title = "My Skills", description = "", skillList = [] } = skill || {};
