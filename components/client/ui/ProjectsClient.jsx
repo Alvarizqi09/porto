@@ -2,9 +2,9 @@
 
 import { useState, cloneElement } from "react";
 import { motion } from "framer-motion";
-import ProjectCard from "@/components/ProjectCard";
-import ProjectTag from "@/components/ProjectTag";
-import { getIcon } from "../../utils/techIconMap";
+import ProjectCard from "@/components/project/ProjectCard";
+import ProjectTag from "@/components/project/ProjectTag";
+import { getIcon } from "../../../utils/techIconMap";
 
 // Centralized tech icons, give each a consistent size
 const ICON_SIZE_CLASS = "w-6 h-6";

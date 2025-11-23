@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CertificateImageUpload } from "@/components/CertificateImageUpload";
+import { CertificateImageUpload } from "@/components/client/aboutTabs/CertificateImageUpload";
 import {
   Sheet,
   SheetContent,

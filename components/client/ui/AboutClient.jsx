@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Tab content components (extracted for readability)
-import ResumeTab from "./aboutTabs/ResumeTab";
-import ExperienceTab from "./aboutTabs/ExperienceTab";
-import EducationTab from "./aboutTabs/EducationTab";
-import CertificatesTab from "./aboutTabs/CertificatesTab";
-import SkillsTab from "./aboutTabs/SkillsTab";
+import ResumeTab from "../aboutTabs/ResumeTab";
+import ExperienceTab from "../aboutTabs/ExperienceTab";
+import EducationTab from "../aboutTabs/EducationTab";
+import CertificatesTab from "../aboutTabs/CertificatesTab";
+import SkillsTab from "../aboutTabs/SkillsTab";
 
 export default function AboutClient({ aboutData }) {
   const {

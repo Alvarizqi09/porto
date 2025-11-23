@@ -1,4 +1,4 @@
-import ProjectsClient from "@/components/client/ProjectsClient";
+import ProjectsClient from "@/components/client/ui/ProjectsClient";
 import { connectDB } from "@/lib/db";
 import Project from "@/lib/models/Project";
 

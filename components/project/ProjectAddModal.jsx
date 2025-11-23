@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import ProjectForm from "@/components/ProjectForm";
+import ProjectForm from "@/components/project/ProjectForm";
 import {
   Sheet,
   SheetContent,
@@ -11,10 +10,9 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 
-export default function ProjectEditModal({
+export default function ProjectAddModal({
   isOpen,
   onClose,
-  project,
   onSubmit,
   isLoading,
 }) {
@@ -26,10 +24,10 @@ export default function ProjectEditModal({
       >
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold text-black">
-            Edit Project
+            Tambah Project Baru
           </SheetTitle>
           <SheetDescription className="text-gray-600">
-            Update project details and save changes
+            Isi data project baru dan simpan
           </SheetDescription>
         </SheetHeader>
 
@@ -38,13 +36,11 @@ export default function ProjectEditModal({
           animate={{ opacity: 1, y: 0 }}
           className="mt-6"
         >
-          {project && (
-            <ProjectForm
-              onSubmit={onSubmit}
-              isLoading={isLoading}
-              initialData={project}
-            />
-          )}
+          <ProjectForm
+            onSubmit={onSubmit}
+            isLoading={isLoading}
+            initialData={null}
+          />
         </motion.div>
       </SheetContent>
     </Sheet>

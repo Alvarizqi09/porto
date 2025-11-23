@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiX, FiPlus, FiEdit2 } from "react-icons/fi";
-import CertificateEditModal from "@/components/CertificateEditModal";
+import CertificateEditModal from "@/components/client/aboutTabs/CertificateEditModal";
 
 export default function CertificateTabForm({
   certificateData: initialData,

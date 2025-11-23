@@ -8,9 +8,9 @@ import { motion } from "framer-motion";
 import { FiLogOut, FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
 import Image from "next/image";
 import { projectsApi } from "@/lib/projectsApi";
-import ProjectForm from "@/components/ProjectForm";
-import ProjectEditModal from "@/components/ProjectEditModal";
-import ProjectAddModal from "@/components/ProjectAddModal";
+import ProjectForm from "@/components/project/ProjectForm";
+import ProjectEditModal from "@/components/project/ProjectEditModal";
+import ProjectAddModal from "@/components/project/ProjectAddModal";
 
 const AdminProjects = () => {
   const router = useRouter();

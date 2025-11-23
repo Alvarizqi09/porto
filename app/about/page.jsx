@@ -1,4 +1,4 @@
-import AboutClient from "@/components/client/AboutClient";
+import AboutClient from "@/components/client/ui/AboutClient";
 import { connectDB } from "@/lib/db";
 import {
   About as AboutModel,
