@@ -7,7 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { FiLogOut, FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
 import Image from "next/image";
-import { projectsApi } from "@/lib/projectsApi";
+import { projectsApi } from "@/lib/api/projectsApi";
 import ProjectForm from "@/components/project/ProjectForm";
 import ProjectEditModal from "@/components/project/ProjectEditModal";
 import ProjectAddModal from "@/components/project/ProjectAddModal";

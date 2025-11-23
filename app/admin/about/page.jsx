@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { aboutApi } from "@/lib/aboutApi";
+import { aboutApi } from "@/lib/api/aboutApi";
 import AboutTabForm from "@/components/admin/AboutTabForm";
 import ResumeTabForm from "@/components/admin/ResumeTabForm";
 import EducationTabForm from "@/components/admin/EducationTabForm";
