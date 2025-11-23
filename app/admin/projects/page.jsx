@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import ProjectForm from "@/components/ProjectForm";
 import ProjectEditModal from "@/components/ProjectEditModal";
+import ProjectAddModal from "@/components/ProjectAddModal";
 import { FiLogOut, FiPlus, FiEdit2, FiTrash2, FiX } from "react-icons/fi";
 import Image from "next/image";
 import { projectsApi, useProjectsQueryClient } from "@/lib/projectsApi";
@@ -16,6 +17,7 @@ const AdminProjects = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const { invalidateProjects } = useProjectsQueryClient();
+  const [showAddModal, setShowAddModal] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
@@ -252,11 +254,12 @@ const AdminProjects = () => {
         >
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-black">Daftar Projects</h2>
-            {!showForm && (
+            {!showAddModal && !showEditModal && (
               <button
                 onClick={() => {
-                  setShowForm(true);
+                  setShowAddModal(true);
                   setEditingProject(null);
+                  setShowForm(false);
                 }}
                 className="flex items-center gap-2 px-6 py-2 bg-accent hover:bg-accent/90 text-white rounded-lg transition-all"
               >
@@ -436,6 +439,17 @@ const AdminProjects = () => {
         }}
         project={editingProject}
         onSubmit={handleEditProject}
+        isLoading={isSubmitting}
+      />
+
+      {/* Add Project Modal */}
+      <ProjectAddModal
+        isOpen={showAddModal}
+        onClose={() => {
+          setShowAddModal(false);
+          setEditingProject(null);
+        }}
+        onSubmit={handleAddProject}
         isLoading={isSubmitting}
       />
     </div>
