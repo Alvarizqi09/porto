@@ -1,45 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, cloneElement } from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTag from "@/components/ProjectTag";
-import { FaLaravel, FaPhp, FaReact } from "react-icons/fa";
-import {
-  SiBootstrap,
-  SiCodeigniter,
-  SiExpress,
-  SiFigma,
-  SiMongodb,
-  SiNextdotjs,
-  SiReact,
-  SiSupabase,
-  SiTailwindcss,
-  SiTypescript,
-  SiVite,
-  SiVuedotjs,
-  SiNodedotjs,
-} from "react-icons/si";
+import techIconMap, { getIcon } from "./aboutTabs/techIconMap";
 
-// Mapping tech stack ke icon
-const techIconMap = {
-  Vite: <SiVite key="Vite" className="w-6 h-6" />,
-  React: <FaReact key="React" className="w-6 h-6" />,
-  ReactJS: <SiReact key="ReactJS" className="w-6 h-6" />,
-  Tailwind: <SiTailwindcss key="Tailwind" className="w-6 h-6" />,
-  Typescript: <SiTypescript key="Typescript" className="w-6 h-6" />,
-  Laravel: <FaLaravel key="Laravel" className="w-6 h-6" />,
-  PHP: <FaPhp key="PHP" className="w-6 h-6" />,
-  Next: <SiNextdotjs key="Next" className="w-6 h-6" />,
-  Vue: <SiVuedotjs key="Vue" className="w-6 h-6" />,
-  CI4: <SiCodeigniter key="CI4" className="w-6 h-6" />,
-  Bootstrap: <SiBootstrap key="Bootstrap" className="w-6 h-6" />,
-  Figma: <SiFigma key="Figma" className="w-6 h-6" />,
-  Supabase: <SiSupabase key="Supabase" className="w-6 h-6" />,
-  "Node.js": <SiNodedotjs key="Node.js" className="w-6 h-6" />,
-  MongoDB: <SiMongodb key="MongoDB" className="w-6 h-6" />,
-  Express: <SiExpress key="Express" className="w-6 h-6" />,
-};
+// Centralized tech icons, give each a consistent size
+const ICON_SIZE_CLASS = "w-6 h-6";
 
 export default function ProjectsClient({ projects: initialProjects }) {
   const [tag, setTag] = useState("All");
@@ -53,8 +21,9 @@ export default function ProjectsClient({ projects: initialProjects }) {
     ...project,
     id: project._id,
     icon:
-      project.tech_stack?.map((tech) => techIconMap[tech]).filter(Boolean) ||
-      [],
+      project.tech_stack
+        ?.map((tech) => getIcon(tech, ICON_SIZE_CLASS))
+        .filter(Boolean) || [],
   }));
 
   const filteredProjects = projectsWithIcons.filter((project) =>

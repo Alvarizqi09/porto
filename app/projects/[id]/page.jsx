@@ -7,41 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
-import {
-  SiBootstrap,
-  SiCodeigniter,
-  SiExpress,
-  SiFigma,
-  SiMongodb,
-  SiNextdotjs,
-  SiReact,
-  SiSupabase,
-  SiTailwindcss,
-  SiTypescript,
-  SiVite,
-  SiVuedotjs,
-  SiNodedotjs,
-} from "react-icons/si";
-import { FaLaravel, FaPhp, FaReact as FaReactIcon } from "react-icons/fa";
+import { cloneElement } from "react";
+import techIconMap, {
+  getIcon,
+} from "@/components/client/aboutTabs/techIconMap";
 
-// Tech stack icons map
-const techIconMap = {
-  Vite: <SiVite className="w-8 h-8" title="Vite" />,
-  React: <FaReactIcon className="w-8 h-8" title="React" />,
-  ReactJS: <SiReact className="w-8 h-8" title="ReactJS" />,
-  Tailwind: <SiTailwindcss className="w-8 h-8" title="Tailwind CSS" />,
-  Typescript: <SiTypescript className="w-8 h-8" title="TypeScript" />,
-  Laravel: <FaLaravel className="w-8 h-8" title="Laravel" />,
-  PHP: <FaPhp className="w-8 h-8" title="PHP" />,
-  Next: <SiNextdotjs className="w-8 h-8" title="Next.js" />,
-  Vue: <SiVuedotjs className="w-8 h-8" title="Vue.js" />,
-  CI4: <SiCodeigniter className="w-8 h-8" title="CodeIgniter" />,
-  Bootstrap: <SiBootstrap className="w-8 h-8" title="Bootstrap" />,
-  Figma: <SiFigma className="w-8 h-8" title="Figma" />,
-  Supabase: <SiSupabase className="w-8 h-8" title="Supabase" />,
-  "Node.js": <SiNodedotjs className="w-8 h-8" title="Node.js" />,
-  MongoDB: <SiMongodb className="w-8 h-8" title="MongoDB" />,
-  Express: <SiExpress className="w-8 h-8" title="Express" />,
+const ICON_SIZE_CLASS = "w-8 h-8";
+const createIcon = (name) => {
+  return getIcon(name, ICON_SIZE_CLASS);
 };
 
 // ✅ API function (bisa pindah ke lib/projectsApi.js)
@@ -102,7 +75,7 @@ export default function ProjectDetailPage() {
   }
 
   const techStackIcons =
-    project.tech_stack?.map((tech) => techIconMap[tech]).filter(Boolean) || [];
+    project.tech_stack?.map((tech) => createIcon(tech)).filter(Boolean) || [];
 
   return (
     <motion.div
