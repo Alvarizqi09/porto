@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,63 +26,52 @@ import { FaLaravel, FaPhp, FaReact as FaReactIcon } from "react-icons/fa";
 
 // Tech stack icons map
 const techIconMap = {
-  Vite: <SiVite key="Vite" className="w-8 h-8" title="Vite" />,
-  React: <FaReactIcon key="React" className="w-8 h-8" title="React" />,
-  ReactJS: <SiReact key="ReactJS" className="w-8 h-8" title="ReactJS" />,
-  Tailwind: (
-    <SiTailwindcss key="Tailwind" className="w-8 h-8" title="Tailwind CSS" />
-  ),
-  Typescript: (
-    <SiTypescript key="Typescript" className="w-8 h-8" title="TypeScript" />
-  ),
-  Laravel: <FaLaravel key="Laravel" className="w-8 h-8" title="Laravel" />,
-  PHP: <FaPhp key="PHP" className="w-8 h-8" title="PHP" />,
-  Next: <SiNextdotjs key="Next" className="w-8 h-8" title="Next.js" />,
-  Vue: <SiVuedotjs key="Vue" className="w-8 h-8" title="Vue.js" />,
-  CI4: <SiCodeigniter key="CI4" className="w-8 h-8" title="CodeIgniter" />,
-  Bootstrap: (
-    <SiBootstrap key="Bootstrap" className="w-8 h-8" title="Bootstrap" />
-  ),
-  Figma: <SiFigma key="Figma" className="w-8 h-8" title="Figma" />,
-  Supabase: <SiSupabase key="Supabase" className="w-8 h-8" title="Supabase" />,
-  "Node.js": <SiNodedotjs key="Node.js" className="w-8 h-8" title="Node.js" />,
-  MongoDB: <SiMongodb key="MongoDB" className="w-8 h-8" title="MongoDB" />,
-  Express: <SiExpress key="Express" className="w-8 h-8" title="Express" />,
+  Vite: <SiVite className="w-8 h-8" title="Vite" />,
+  React: <FaReactIcon className="w-8 h-8" title="React" />,
+  ReactJS: <SiReact className="w-8 h-8" title="ReactJS" />,
+  Tailwind: <SiTailwindcss className="w-8 h-8" title="Tailwind CSS" />,
+  Typescript: <SiTypescript className="w-8 h-8" title="TypeScript" />,
+  Laravel: <FaLaravel className="w-8 h-8" title="Laravel" />,
+  PHP: <FaPhp className="w-8 h-8" title="PHP" />,
+  Next: <SiNextdotjs className="w-8 h-8" title="Next.js" />,
+  Vue: <SiVuedotjs className="w-8 h-8" title="Vue.js" />,
+  CI4: <SiCodeigniter className="w-8 h-8" title="CodeIgniter" />,
+  Bootstrap: <SiBootstrap className="w-8 h-8" title="Bootstrap" />,
+  Figma: <SiFigma className="w-8 h-8" title="Figma" />,
+  Supabase: <SiSupabase className="w-8 h-8" title="Supabase" />,
+  "Node.js": <SiNodedotjs className="w-8 h-8" title="Node.js" />,
+  MongoDB: <SiMongodb className="w-8 h-8" title="MongoDB" />,
+  Express: <SiExpress className="w-8 h-8" title="Express" />,
+};
+
+// ✅ API function (bisa pindah ke lib/projectsApi.js)
+const fetchProjectById = async (id) => {
+  const { data } = await axios.get(`/api/projects/${id}`);
+  if (!data.success) {
+    throw new Error(data.error || "Failed to fetch project");
+  }
+  return data.data;
 };
 
 export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const { data } = await axios.get(`/api/projects/${params.id}`);
+  // ✅ Fetch project dengan TanStack Query
+  const {
+    data: project,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["project", params.id],
+    queryFn: () => fetchProjectById(params.id),
+    enabled: !!params.id, // Only fetch when ID exists
+    staleTime: 60000, // Cache 1 menit
+    retry: 1, // Retry 1x jika gagal
+  });
 
-        if (!data.success) {
-          throw new Error(data.error || "Failed to fetch project");
-        }
-
-        setProject(data.data);
-      } catch (err) {
-        setError(
-          err.response?.data?.error || err.message || "Failed to load project"
-        );
-        console.error("Error fetching project:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (params.id) {
-      fetchProject();
-    }
-  }, [params.id]);
-
-  if (loading) {
+  // Loading state
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
@@ -90,6 +79,7 @@ export default function ProjectDetailPage() {
     );
   }
 
+  // Error state
   if (error || !project) {
     return (
       <div className="container mx-auto py-20 px-4">
@@ -98,7 +88,7 @@ export default function ProjectDetailPage() {
             {error ? "Error" : "Project Not Found"}
           </h1>
           <p className="text-gray-600 mb-8">
-            {error || "Proyek yang dicari tidak ditemukan."}
+            {error?.message || "Proyek yang dicari tidak ditemukan."}
           </p>
           <button
             onClick={() => router.back()}
