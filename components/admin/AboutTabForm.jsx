@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { FiX, FiPlus, FiEdit2 } from "react-icons/fi";
 
 import InfoItemModal from "./modals/InfoItemModal";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function AboutTabForm({
   aboutData: initialData,

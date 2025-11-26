@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiX, FiPlus, FiEdit2 } from "react-icons/fi";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import ResumeItemModal from "./modals/ResumeItemModal";
 
 export default function ResumeTabForm({

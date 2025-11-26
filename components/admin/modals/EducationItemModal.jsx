@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiX } from "react-icons/fi";
-import { Input } from "../../ui/input";
+import { Input } from "@/components/ui/input";
 
 export default function EducationItemModal({
   isOpen,
