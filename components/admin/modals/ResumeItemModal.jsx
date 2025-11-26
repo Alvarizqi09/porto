@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiX } from "react-icons/fi";
-import { Input } from "@/components/ui/Input";
+import { Input } from "../../ui/input";
 
 export default function ResumeItemModal({
   isOpen,

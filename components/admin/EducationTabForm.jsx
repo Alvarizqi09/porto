@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiX, FiPlus, FiEdit2 } from "react-icons/fi";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import EducationItemModal from "./modals/EducationItemModal";
 
 export default function EducationTabForm({
