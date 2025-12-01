@@ -20,6 +20,7 @@ const TECH_STACK_OPTIONS = [
   "Bootstrap",
   "Figma",
   "Supabase",
+  "Firebase",
   "Node.js",
   "MongoDB",
   "Express",
