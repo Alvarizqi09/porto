@@ -20,7 +20,7 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
         />
         <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-8 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500 z-10">
           <Link
-            href={id ? `/projects/${id}` : "#"}
+            href={id ? `/pages/projects/${id}` : "#"}
             className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link flex items-center justify-center transition-all"
             title="Lihat Detail"
             aria-label={`View details for ${title} project`}

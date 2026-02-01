@@ -11,15 +11,15 @@ const links = [
   },
   {
     name: "projects",
-    path: "/projects",
+    path: "/pages/projects",
   },
   {
     name: "about",
-    path: "/about",
+    path: "/pages/about",
   },
   {
     name: "contact",
-    path: "/contact",
+    path: "/pages/contact",
   },
 ];
 const Nav = () => {
