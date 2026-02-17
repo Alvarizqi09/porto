@@ -2,7 +2,6 @@
 
 import { FaPhoneAlt, FaEnvelope, FaMapMarkedAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
-
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,29 +25,44 @@ const Contact = () => {
     phone: "",
     message: "",
   });
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, phone, message } = formData;
-    const mailtoLink = `mailto:Alvarizki80@gmail.com?subject=${encodeURIComponent(
-      `Interested about your service`,
-    )}&body=${encodeURIComponent(
-      `Hello, my name is ${firstName} ${lastName}. I am interested in your service. Here are my details:
+    setStatus("loading");
+    setErrorMsg("");
 
-Email: ${email}
-Phone: ${phone}
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-Message:
-${message}`,
-    )}`;
-    window.location.href = mailtoLink;
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal mengirim pesan");
+      }
+
+      setStatus("success");
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err.message);
+    }
   };
 
   return (
@@ -64,19 +78,17 @@ ${message}`,
         <div className="flex flex-col xl:flex-row gap-[30px]">
           <div className="flex-1 flex items-center xl:justify-end order-2 xl:order-none mb-8 xl:mb-0">
             <ul className="flex flex-col gap-10">
-              {info.map((item, index) => {
-                return (
-                  <li key={index} className="flex items-center gap-6">
-                    <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-[#DFD3C3] text-accent rounded-md flex items-center justify-center">
-                      <div className="text-[28px]">{item.icon}</div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-black/80">{item.title}</h3>
-                      <p className="text-xl">{item.desc}</p>
-                    </div>
-                  </li>
-                );
-              })}
+              {info.map((item, index) => (
+                <li key={index} className="flex items-center gap-6">
+                  <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-[#DFD3C3] text-accent rounded-md flex items-center justify-center">
+                    <div className="text-[28px]">{item.icon}</div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-black/80">{item.title}</h3>
+                    <p className="text-xl">{item.desc}</p>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -89,6 +101,19 @@ ${message}`,
               <p className="text-black/80">
                 Come contact me if you're interested in working with me
               </p>
+
+              {/* Status Messages */}
+              {status === "success" && (
+                <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                  Pesan berhasil dikirim!
+                </div>
+              )}
+              {status === "error" && (
+                <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                  {errorMsg}
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input
                   type="text"
@@ -96,6 +121,7 @@ ${message}`,
                   placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
+                  required
                 />
                 <Input
                   type="text"
@@ -110,6 +136,7 @@ ${message}`,
                   placeholder="Email Address"
                   value={formData.email}
                   onChange={handleChange}
+                  required
                 />
                 <Input
                   type="text"
@@ -126,9 +153,16 @@ ${message}`,
                 placeholder="Type your message here"
                 value={formData.message}
                 onChange={handleChange}
+                required
               />
-              <Button size="md" className="max-w-40" type="submit">
-                Send Message
+
+              <Button
+                size="md"
+                className="max-w-40"
+                type="submit"
+                disabled={status === "loading"}
+              >
+                {status === "loading" ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>
