@@ -17,7 +17,7 @@ export default function ResumeTab({ about }) {
         <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
           {description}
         </p>
-        <ul className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
+        <ul className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
           {info && info.length > 0 ? (
             info.map((item, index) => (
               <li
