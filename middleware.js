@@ -1,20 +1,25 @@
+// middleware.js
 import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export function middleware(req) {
+export async function middleware(req) {
   // Allow login page tanpa authentication
   if (req.nextUrl.pathname === "/admin/login") {
     return NextResponse.next();
   }
 
-  // Untuk semua route /admin lain, check JWT token
-  // NextAuth JWT disimpan di cookie: next-auth.session-token (development) atau __Secure-next-auth.session-token (production)
-  const token =
-    req.cookies.get("next-auth.session-token")?.value ||
-    req.cookies.get("__Secure-next-auth.session-token")?.value;
+  // Verifikasi JWT token dengan benar menggunakan getToken()
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
-  // Jika tidak ada token, redirect ke login
+  // Jika token null atau tidak valid, redirect ke login
   if (!token) {
-    return NextResponse.redirect(new URL("/admin/login", req.url));
+    const loginUrl = new URL("/admin/login", req.url);
+    // Optional: tambahkan callbackUrl supaya bisa redirect balik setelah login
+    loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
