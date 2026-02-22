@@ -16,7 +16,7 @@ export async function GET(request, { params }) {
 
     const project = await Project.findById(params.id)
       .select(
-        "_id title desc long_desc image tag demo preview github tech_stack featured order createdAt"
+        "_id title desc long_desc image tag demo preview github tech_stack featured order createdAt pages"
       )
       .lean()
       .exec();

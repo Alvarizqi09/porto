@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { motion } from "framer-motion";
-import { FiUpload, FiX } from "react-icons/fi";
+import { FiUpload, FiX, FiPlus, FiTrash2 } from "react-icons/fi";
 
 const TECH_STACK_OPTIONS = [
   "Vite",
@@ -41,12 +41,18 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
     tech_stack: initialData?.tech_stack || [],
     featured: initialData?.featured || false,
     order: initialData?.order || 0,
+    pages: initialData?.pages || [],
   });
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(initialData?.image || "");
   const [uploadingImage, setUploadingImage] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // Pages state
+  const [pageImageFiles, setPageImageFiles] = useState({});
+  const [pageImagePreviews, setPageImagePreviews] = useState({});
+  const [uploadingPageImage, setUploadingPageImage] = useState({});
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -130,6 +136,82 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
         ? prev.tech_stack.filter((t) => t !== tech)
         : [...prev.tech_stack, tech],
     }));
+  };
+
+  // === Pages handlers ===
+  const handleAddPage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      pages: [...prev.pages, { title: "", image: "" }],
+    }));
+  };
+
+  const handleRemovePage = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      pages: prev.pages.filter((_, i) => i !== index),
+    }));
+    // Cleanup file state
+    setPageImageFiles((prev) => {
+      const next = { ...prev };
+      delete next[index];
+      return next;
+    });
+    setPageImagePreviews((prev) => {
+      const next = { ...prev };
+      delete next[index];
+      return next;
+    });
+  };
+
+  const handlePageTitleChange = (index, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      pages: prev.pages.map((p, i) =>
+        i === index ? { ...p, title: value } : p
+      ),
+    }));
+  };
+
+  const handlePageImageSelect = (index, e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPageImageFiles((prev) => ({ ...prev, [index]: file }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPageImagePreviews((prev) => ({ ...prev, [index]: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUploadPageImage = async (index) => {
+    const file = pageImageFiles[index];
+    if (!file) return;
+
+    setUploadingPageImage((prev) => ({ ...prev, [index]: true }));
+    try {
+      const response = await uploadToCloudinary(file);
+      const imageUrl = response.url || response.data?.url;
+      if (!imageUrl) throw new Error("Upload gagal");
+
+      setFormData((prev) => ({
+        ...prev,
+        pages: prev.pages.map((p, i) =>
+          i === index ? { ...p, image: imageUrl } : p
+        ),
+      }));
+      setPageImageFiles((prev) => {
+        const next = { ...prev };
+        delete next[index];
+        return next;
+      });
+    } catch (error) {
+      console.error("Page image upload error:", error);
+      alert("Gagal upload gambar: " + error.message);
+    } finally {
+      setUploadingPageImage((prev) => ({ ...prev, [index]: false }));
+    }
   };
 
   const validateForm = () => {
@@ -381,6 +463,112 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             </label>
           ))}
         </div>
+      </div>
+
+      {/* Pages - Halaman Website Screenshots */}
+      <div>
+        <div className="flex justify-between items-center mb-3">
+          <label className="block text-sm font-medium text-gray-700">
+            Halaman Website (Screenshot)
+          </label>
+          <button
+            type="button"
+            onClick={handleAddPage}
+            className="flex items-center gap-1 px-3 py-1 bg-accent hover:bg-accent/90 text-white text-sm rounded-lg transition-colors"
+          >
+            <FiPlus className="w-4 h-4" /> Tambah Halaman
+          </button>
+        </div>
+
+        {formData.pages.length === 0 ? (
+          <p className="text-gray-400 text-sm italic">
+            Belum ada halaman. Klik "Tambah Halaman" untuk menambahkan screenshot halaman website.
+          </p>
+        ) : (
+          <div className="space-y-4">
+            {formData.pages.map((page, index) => (
+              <div
+                key={index}
+                className="p-4 border border-gray-200 rounded-lg bg-gray-50 relative"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleRemovePage(index)}
+                  className="absolute top-2 right-2 p-1 text-red-500 hover:bg-red-50 rounded transition-colors"
+                  title="Hapus halaman"
+                >
+                  <FiTrash2 className="w-4 h-4" />
+                </button>
+
+                <div className="pr-8 space-y-3">
+                  {/* Page Title */}
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Judul Halaman {index + 1}
+                    </label>
+                    <input
+                      type="text"
+                      value={page.title}
+                      onChange={(e) => handlePageTitleChange(index, e.target.value)}
+                      placeholder="Contoh: Home Page, Dashboard, Login, dll"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                    />
+                  </div>
+
+                  {/* Page Image */}
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Screenshot
+                    </label>
+
+                    {/* Preview */}
+                    {(pageImagePreviews[index] || page.image) && (
+                      <div className="mb-2">
+                        <Image
+                          src={pageImagePreviews[index] || page.image}
+                          alt={page.title || `Page ${index + 1}`}
+                          width={400}
+                          height={192}
+                          className="w-full h-36 object-cover rounded-lg"
+                        />
+                      </div>
+                    )}
+
+                    <div className="flex gap-2">
+                      <input
+                        type="file"
+                        id={`page-image-${index}`}
+                        accept="image/*"
+                        onChange={(e) => handlePageImageSelect(index, e)}
+                        className="hidden"
+                      />
+                      <label
+                        htmlFor={`page-image-${index}`}
+                        className="flex-1 px-3 py-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-accent transition-colors text-center text-sm"
+                      >
+                        <FiUpload className="w-4 h-4 inline mr-1" />
+                        Pilih gambar
+                      </label>
+                      {pageImageFiles[index] && (
+                        <button
+                          type="button"
+                          onClick={() => handleUploadPageImage(index)}
+                          disabled={uploadingPageImage[index]}
+                          className="px-4 py-2 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white text-sm rounded-lg"
+                        >
+                          {uploadingPageImage[index] ? "Uploading..." : "Upload"}
+                        </button>
+                      )}
+                    </div>
+                    {page.image && (
+                      <p className="text-green-600 text-xs mt-1">✓ Gambar sudah diupload</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Order & Featured */}

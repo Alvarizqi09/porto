@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
 import { getIcon } from "@/utils/techIconMap";
 
 const ICON_SIZE_CLASS = "w-8 h-8";
@@ -26,6 +27,7 @@ const fetchProjectById = async (id) => {
 export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   // ✅ Fetch project dengan TanStack Query
   const {
@@ -73,6 +75,18 @@ export default function ProjectDetailPage() {
 
   const techStackIcons =
     project.tech_stack?.map((tech) => createIcon(tech)).filter(Boolean) || [];
+
+  // Lightbox handlers
+  const openLightbox = (index) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
+  const prevImage = () =>
+    setLightboxIndex((prev) =>
+      prev > 0 ? prev - 1 : (project.pages?.length || 1) - 1
+    );
+  const nextImage = () =>
+    setLightboxIndex((prev) =>
+      prev < (project.pages?.length || 1) - 1 ? prev + 1 : 0
+    );
 
   return (
     <motion.div
@@ -255,7 +269,135 @@ export default function ProjectDetailPage() {
             </p>
           </div>
         </motion.div>
+
+        {/* ===== Pages Gallery Section ===== */}
+        {project.pages && project.pages.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-16"
+          >
+            <h2 className="text-2xl lg:text-3xl font-bold text-black mb-2">
+              Halaman Website
+            </h2>
+            <p className="text-gray-500 mb-8">
+              Berikut beberapa tampilan halaman dari website ini
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {project.pages.map((page, index) => (
+                <motion.div
+                  key={page._id || index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 * index }}
+                  className="group cursor-pointer"
+                  onClick={() => openLightbox(index)}
+                >
+                  <div className="relative h-[220px] rounded-xl overflow-hidden shadow-lg border border-gray-200 group-hover:shadow-2xl group-hover:border-accent/50 transition-all duration-300">
+                    <Image
+                      src={page.image}
+                      alt={page.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      quality={80}
+                    />
+                    {/* Overlay on hover */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <span className="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 px-4 py-2 rounded-full">
+                        Klik untuk memperbesar
+                      </span>
+                    </div>
+                  </div>
+                  <h4 className="mt-3 text-base font-semibold text-gray-800 group-hover:text-accent transition-colors">
+                    {page.title}
+                  </h4>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
+
+      {/* ===== Lightbox Modal ===== */}
+      <AnimatePresence>
+        {lightboxIndex !== null && project.pages?.[lightboxIndex] && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            onClick={closeLightbox}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors z-10"
+            >
+              <FaTimes className="w-6 h-6" />
+            </button>
+
+            {/* Image title */}
+            <div className="absolute top-4 left-4 text-white z-10">
+              <p className="text-lg font-semibold">
+                {project.pages[lightboxIndex].title}
+              </p>
+              <p className="text-sm text-white/60">
+                {lightboxIndex + 1} / {project.pages.length}
+              </p>
+            </div>
+
+            {/* Prev button */}
+            {project.pages.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full hover:bg-white/10 transition-colors z-10"
+              >
+                <FaChevronLeft className="w-6 h-6" />
+              </button>
+            )}
+
+            {/* Image */}
+            <motion.div
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-5xl h-[80vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={project.pages[lightboxIndex].image}
+                alt={project.pages[lightboxIndex].title}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                quality={90}
+              />
+            </motion.div>
+
+            {/* Next button */}
+            {project.pages.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full hover:bg-white/10 transition-colors z-10"
+              >
+                <FaChevronRight className="w-6 h-6" />
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
+
