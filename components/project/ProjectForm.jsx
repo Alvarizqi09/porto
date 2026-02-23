@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { motion } from "framer-motion";
-import { FiUpload, FiX, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiUpload, FiX, FiPlus, FiTrash2, FiCheckCircle } from "react-icons/fi";
 
 const TECH_STACK_OPTIONS = [
   "Vite",
@@ -366,6 +366,9 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
         {errors.image && (
           <p className="text-red-500 text-sm mt-1">{errors.image}</p>
         )}
+        {formData.image && !imageFile && (
+          <p className="text-green-600 text-xs mt-1 flex items-center gap-1"><FiCheckCircle className="w-3.5 h-3.5" /> Gambar sudah diupload</p>
+        )}
       </div>
 
       {/* Demo URL */}
@@ -561,7 +564,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
                       )}
                     </div>
                     {page.image && (
-                      <p className="text-green-600 text-xs mt-1">✓ Gambar sudah diupload</p>
+                      <p className="text-green-600 text-xs mt-1 flex items-center gap-1"><FiCheckCircle className="w-3.5 h-3.5" /> Gambar sudah diupload</p>
                     )}
                   </div>
                 </div>
