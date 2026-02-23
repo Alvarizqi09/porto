@@ -49,7 +49,7 @@ export async function GET(request) {
 
     // Query dengan select() untuk hanya ambil field yang diperlukan (lebih cepat)
     const projects = await Project.find(filter)
-      .select("_id title desc image tag demo preview tech_stack featured order")
+      .select("_id title desc image tag demo preview tech_stack featured order pages")
       .sort({ order: 1, createdAt: -1 })
       .limit(50)
       .lean() // Gunakan lean untuk performa query yang lebih cepat
