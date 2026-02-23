@@ -5,7 +5,7 @@ const Stats = () => {
     <section className="flex items-center justify-center h-full">
       <div className="container mx-auto">
         <div className="max-w-[80vw] xl:max-w-none mx-auto">
-          <div className="flex items-center justify-center mt-10 xl:mt-0">
+          <div className="flex items-center justify-center mt-10 xl:mt-0 min-h-[180px]">
             <GitHubCalendar username="Alvarizqi09" />
           </div>
         </div>

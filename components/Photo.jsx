@@ -6,7 +6,7 @@ import photo from "@/public/assets/Photo.png";
 
 const Photo = () => {
   return (
-    <div className="w-full h-full relative">
+    <div className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] relative">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{
@@ -27,6 +27,8 @@ const Photo = () => {
             alt="Alvarizqi - Front-End Web Developer Portrait"
             priority
             quality={85}
+            fill
+            sizes="(max-width: 1280px) 298px, 498px"
             className="object-contain"
           />
         </motion.div>

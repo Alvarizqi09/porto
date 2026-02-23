@@ -14,6 +14,8 @@ const Header = () => {
           <Image
             src={logo}
             alt="Alvarizqi logo"
+            width={80}
+            height={80}
             className="w-20 h-20 items-center"
             priority
             quality={80}
