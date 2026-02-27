@@ -7,7 +7,7 @@ import { FiX, FiPlus, FiEdit2 } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import CVLinkModal from "./modals/CVLinkModal";
-import { Textarea } from "@/components/ui/textarea";
+import InfoItemModal from "./modals/InfoItemModal";
 
 export default function AboutTabForm({
   aboutData: initialData,
