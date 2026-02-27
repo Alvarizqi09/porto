@@ -4,8 +4,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiX, FiPlus, FiEdit2 } from "react-icons/fi";
 
-import InfoItemModal from "./modals/InfoItemModal";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import CVLinkModal from "./modals/CVLinkModal";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function AboutTabForm({
@@ -15,7 +16,17 @@ export default function AboutTabForm({
 }) {
   const [aboutData, setAboutData] = useState(initialData);
   const [showModal, setShowModal] = useState(false);
+  const [showCVModal, setShowCVModal] = useState(false);
   const [editingInfo, setEditingInfo] = useState(null);
+
+  const handleCVModalSubmit = (newLinks) => {
+    setAboutData({
+      ...aboutData,
+      cvLink: newLinks.cvLink,
+      cvLinkEnglish: newLinks.cvLinkEnglish,
+    });
+    setShowCVModal(false);
+  };
 
   const handleAddInfo = () => {
     setEditingInfo(null);
@@ -98,33 +109,21 @@ export default function AboutTabForm({
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-gray-50 border rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
-                CV Link URL (Indonesian)
-              </label>
-              <Input
-                type="text"
-                value={aboutData.cvLink || ""}
-                onChange={(e) =>
-                  setAboutData({ ...aboutData, cvLink: e.target.value })
-                }
-                placeholder="https://drive.google.com/... (Optional)"
-              />
+              <h3 className="text-lg font-semibold text-gray-800">
+                CV Download Links
+              </h3>
+              <p className="text-sm text-gray-500 mt-1">
+                Manage your Indonesian and English CV Google Drive URLs
+              </p>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
-                CV Link URL (English)
-              </label>
-              <Input
-                type="text"
-                value={aboutData.cvLinkEnglish || ""}
-                onChange={(e) =>
-                  setAboutData({ ...aboutData, cvLinkEnglish: e.target.value })
-                }
-                placeholder="https://drive.google.com/... (Optional)"
-              />
-            </div>
+            <button
+              onClick={() => setShowCVModal(true)}
+              className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:text-black transition shadow-sm font-medium flex items-center gap-2"
+            >
+              <FiEdit2 size={16} /> Edit CV Links
+            </button>
           </div>
 
           {/* Info Items List */}
@@ -251,6 +250,16 @@ export default function AboutTabForm({
         }}
         infoItem={editingInfo}
         onSubmit={handleSubmitModal}
+      />
+
+      <CVLinkModal
+        isOpen={showCVModal}
+        onClose={() => setShowCVModal(false)}
+        cvLinkData={{
+          cvLink: aboutData.cvLink,
+          cvLinkEnglish: aboutData.cvLinkEnglish,
+        }}
+        onSubmit={handleCVModalSubmit}
       />
     </>
   );
