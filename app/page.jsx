@@ -6,20 +6,40 @@ import Stats from "@/components/Stats";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { FiDownload } from "react-icons/fi";
+import { useQuery } from "@tanstack/react-query";
+import { aboutApi } from "@/lib/api/aboutApi";
 
 const Home = () => {
+  const { data } = useQuery({
+    queryKey: ["about-data"],
+    queryFn: aboutApi.fetchAboutData,
+  });
+
+  const cvLink = data?.about?.cvLink || "";
+  const cvLinkEnglish = data?.about?.cvLinkEnglish || "";
+
   const handleDownloadCV = () => {
-    window.open(
-      "https://drive.google.com/file/d/1Vk34ftfhFnI_N-sFaseJ9U1QZyc7pMkP/view?usp=drive_link",
-      "_blank"
-    );
+    if (cvLink) {
+      window.open(cvLink, "_blank");
+    } else {
+      // Fallback
+      window.open(
+        "https://drive.google.com/file/d/1Vk34ftfhFnI_N-sFaseJ9U1QZyc7pMkP/view?usp=drive_link",
+        "_blank"
+      );
+    }
   };
 
   const handleDownloadCVenglish = () => {
-    window.open(
-      "https://drive.google.com/file/d/1LmY1pBOsQm8XtSNrxFVUQfnZsV7Y0I2V/view?usp=drive_link",
-      "_blank"
-    );
+    if (cvLinkEnglish) {
+      window.open(cvLinkEnglish, "_blank");
+    } else {
+      // Fallback
+      window.open(
+        "https://drive.google.com/file/d/1LmY1pBOsQm8XtSNrxFVUQfnZsV7Y0I2V/view?usp=drive_link",
+        "_blank"
+      );
+    }
   };
   return (
     <section className="h-full mb-10">

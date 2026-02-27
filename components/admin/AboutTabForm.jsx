@@ -98,6 +98,35 @@ export default function AboutTabForm({
             />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                CV Link URL (Indonesian)
+              </label>
+              <Input
+                type="text"
+                value={aboutData.cvLink || ""}
+                onChange={(e) =>
+                  setAboutData({ ...aboutData, cvLink: e.target.value })
+                }
+                placeholder="https://drive.google.com/... (Optional)"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                CV Link URL (English)
+              </label>
+              <Input
+                type="text"
+                value={aboutData.cvLinkEnglish || ""}
+                onChange={(e) =>
+                  setAboutData({ ...aboutData, cvLinkEnglish: e.target.value })
+                }
+                placeholder="https://drive.google.com/... (Optional)"
+              />
+            </div>
+          </div>
+
           {/* Info Items List */}
           <div>
             <div className="flex justify-between items-center mb-4">
