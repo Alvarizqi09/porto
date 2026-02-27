@@ -19,27 +19,11 @@ const Home = () => {
   const cvLinkEnglish = data?.about?.cvLinkEnglish || "";
 
   const handleDownloadCV = () => {
-    if (cvLink) {
-      window.open(cvLink, "_blank");
-    } else {
-      // Fallback
-      window.open(
-        "https://drive.google.com/file/d/1Vk34ftfhFnI_N-sFaseJ9U1QZyc7pMkP/view?usp=drive_link",
-        "_blank"
-      );
-    }
+    window.open(cvLink, "_blank");
   };
 
   const handleDownloadCVenglish = () => {
-    if (cvLinkEnglish) {
-      window.open(cvLinkEnglish, "_blank");
-    } else {
-      // Fallback
-      window.open(
-        "https://drive.google.com/file/d/1LmY1pBOsQm8XtSNrxFVUQfnZsV7Y0I2V/view?usp=drive_link",
-        "_blank"
-      );
-    }
+    window.open(cvLinkEnglish, "_blank");
   };
   return (
     <section className="h-full mb-10">
