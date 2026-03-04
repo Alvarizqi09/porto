@@ -58,6 +58,26 @@ export default function AboutTabForm({
     setEditingInfo(null);
   };
 
+  const handleSave = () => {
+    // Sanitize data before sending to API to prevent validation errors with old string data
+    const sanitizedData = {
+      ...aboutData,
+      title: typeof aboutData.title === 'string' 
+        ? { en: aboutData.title, id: aboutData.title } 
+        : aboutData.title,
+      description: typeof aboutData.description === 'string' 
+        ? { en: aboutData.description, id: aboutData.description } 
+        : aboutData.description,
+      info: aboutData.info?.map((item) => ({
+        ...item,
+        fieldName: typeof item.fieldName === 'string' 
+          ? { en: item.fieldName, id: item.fieldName } 
+          : item.fieldName || { en: "", id: "" },
+      })) || []
+    };
+    onSave(sanitizedData);
+  };
+
   const handleDeleteInfo = (index) => {
     const newInfo = aboutData.info.filter((_, i) => i !== index);
     setAboutData({ ...aboutData, info: newInfo });
@@ -81,32 +101,62 @@ export default function AboutTabForm({
         className="bg-white p-8 rounded-lg shadow-lg"
       >
         <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Section Title
-            </label>
-            <Input
-              type="text"
-              value={aboutData.title}
-              onChange={(e) =>
-                setAboutData({ ...aboutData, title: e.target.value })
-              }
-              placeholder="e.g., About Me"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Title (EN)
+              </label>
+              <Input
+                type="text"
+                value={aboutData.title?.en || (typeof aboutData.title === 'string' ? aboutData.title : "")}
+                onChange={(e) =>
+                  setAboutData({ ...aboutData, title: { ...aboutData.title, en: e.target.value } })
+                }
+                placeholder="e.g., About Me"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Title (ID)
+              </label>
+              <Input
+                type="text"
+                value={aboutData.title?.id || ""}
+                onChange={(e) =>
+                  setAboutData({ ...aboutData, title: { ...aboutData.title, id: e.target.value } })
+                }
+                placeholder="e.g., Tentang Saya"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Section Description
-            </label>
-            <Textarea
-              value={aboutData.description}
-              onChange={(e) =>
-                setAboutData({ ...aboutData, description: e.target.value })
-              }
-              rows={5}
-              placeholder="Brief description about yourself..."
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (EN)
+              </label>
+              <Textarea
+                value={aboutData.description?.en || (typeof aboutData.description === 'string' ? aboutData.description : "")}
+                onChange={(e) =>
+                  setAboutData({ ...aboutData, description: { ...aboutData.description, en: e.target.value } })
+                }
+                rows={5}
+                placeholder="Brief description about yourself..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (ID)
+              </label>
+              <Textarea
+                value={aboutData.description?.id || ""}
+                onChange={(e) =>
+                  setAboutData({ ...aboutData, description: { ...aboutData.description, id: e.target.value } })
+                }
+                rows={5}
+                placeholder="Deskripsi singkat tentang diri Anda..."
+              />
+            </div>
           </div>
 
           <div className="bg-gray-50 border rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -171,7 +221,7 @@ export default function AboutTabForm({
                           Field Name
                         </span>
                         <p className="font-semibold text-gray-900">
-                          {item.fieldName || "Unnamed Field"}
+                          {item.fieldName?.id || item.fieldName?.en || (typeof item.fieldName === 'string' ? item.fieldName : "Unnamed Field")}
                         </p>
                       </div>
                       <div>
@@ -224,7 +274,7 @@ export default function AboutTabForm({
 
           <div className="pt-4 border-t">
             <button
-              onClick={() => onSave(aboutData)}
+              onClick={handleSave}
               disabled={isSubmitting}
               className="w-full py-3.5 bg-accent hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >

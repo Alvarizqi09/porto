@@ -18,28 +18,44 @@ export default function CertificateEditModal({
   onSubmit,
   isLoading,
 }) {
-  // ✅ Initialize dengan certificate langsung (lebih clean)
-  const [formData, setFormData] = useState(
-    certificate || {
-      name: "",
-      publisher: "",
-      image: "",
-      date: "",
-    }
-  );
+  const [formData, setFormData] = useState({
+    name: { en: "", id: "" },
+    publisher: "",
+    image: "",
+    date: { en: "", id: "" },
+  });
 
   // ✅ Sync formData saat certificate berubah atau modal dibuka
   useEffect(() => {
     if (certificate && isOpen) {
-      setFormData(certificate);
+      const safeObject = (val) => typeof val === 'string' ? { en: val, id: val } : (val || { en: "", id: "" });
+      setFormData({
+        ...certificate,
+        name: safeObject(certificate.name),
+        date: safeObject(certificate.date),
+      });
+    } else {
+      setFormData({
+        name: { en: "", id: "" },
+        publisher: "",
+        image: "",
+        date: { en: "", id: "" },
+      });
     }
   }, [certificate, isOpen]); // Tambah isOpen sebagai dependency
 
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const handleInputChange = (field, value, locale = null) => {
+    if (locale) {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: { ...prev[field], [locale]: value },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const handleImageChange = (url) => {
@@ -56,17 +72,17 @@ export default function CertificateEditModal({
   // ✅ Reset form saat modal ditutup
   const handleClose = () => {
     setFormData({
-      name: "",
+      name: { en: "", id: "" },
       publisher: "",
       image: "",
-      date: "",
+      date: { en: "", id: "" },
     });
     onClose();
   };
 
   return (
     <Sheet open={isOpen} onOpenChange={handleClose}>
-      <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
+      <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="text-2xl font-bold text-black">
             {certificate?._index !== undefined
@@ -83,23 +99,37 @@ export default function CertificateEditModal({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-6 space-y-4"
+          className="mt-6 space-y-6 pb-6"
         >
-          <div>
-            <label className="block text-sm font-semibold mb-2">
-              Certificate Name
-            </label>
-            <input
-              type="text"
-              placeholder="e.g., Frontend Development"
-              value={formData.name || ""}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+                Certificate Name <span className="text-gray-400 font-normal">(EN)</span>
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Frontend Development"
+                value={formData.name?.en || ""}
+                onChange={(e) => handleInputChange("name", e.target.value, "en")}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+                Certificate Name <span className="text-gray-400 font-normal">(ID)</span>
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Pengembangan Frontend"
+                value={formData.name?.id || ""}
+                onChange={(e) => handleInputChange("name", e.target.value, "id")}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+              />
+            </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2">
+            <label className="block text-sm font-semibold mb-1.5 text-gray-700">
               Publisher/Issuer
             </label>
             <input
@@ -107,47 +137,63 @@ export default function CertificateEditModal({
               placeholder="e.g., Alterra Academy"
               value={formData.publisher || ""}
               onChange={(e) => handleInputChange("publisher", e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2">
+            <label className="block text-sm font-semibold mb-1.5 text-gray-700">
               Certificate Image
             </label>
-            <CertificateImageUpload
-              currentImageUrl={formData.image}
-              onImageUrlChange={handleImageChange}
-            />
+            <div className="p-1 border border-gray-100 rounded-lg bg-gray-50/50">
+              <CertificateImageUpload
+                currentImageUrl={formData.image}
+                onImageUrlChange={handleImageChange}
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold mb-2">
-              Valid Until (Date)
-            </label>
-            <input
-              type="text"
-              placeholder="e.g., 2025-12-31"
-              value={formData.date || ""}
-              onChange={(e) => handleInputChange("date", e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+                Valid Until / Date <span className="text-gray-400 font-normal">(EN)</span>
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Dec 2025"
+                value={formData.date?.en || ""}
+                onChange={(e) => handleInputChange("date", e.target.value, "en")}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+                Valid Until / Date <span className="text-gray-400 font-normal">(ID)</span>
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Des 2025"
+                value={formData.date?.id || ""}
+                onChange={(e) => handleInputChange("date", e.target.value, "id")}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+              />
+            </div>
           </div>
 
-          <div className="flex gap-3 pt-4">
-            <button
-              onClick={handleSubmit}
-              disabled={isLoading || !formData.name || !formData.publisher}
-              className="flex-1 px-4 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed"
-            >
-              {isLoading ? "Saving..." : "Save Certificate"}
-            </button>
+          <div className="pt-6 flex justify-end gap-3 border-t border-gray-100">
             <button
               onClick={handleClose}
               disabled={isLoading}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 disabled:bg-gray-100"
+              className="px-5 py-2.5 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition disabled:opacity-50"
             >
               Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={isLoading || !formData.name?.en || !formData.publisher}
+              className="px-6 py-2.5 bg-[#d77864] text-white font-semibold rounded-lg hover:bg-[#c36551] shadow-sm hover:shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? "Saving..." : certificate?._index !== undefined ? "Update Certificate" : "Save Certificate"}
             </button>
           </div>
         </motion.div>

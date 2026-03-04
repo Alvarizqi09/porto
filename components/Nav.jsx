@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 const links = [
@@ -24,8 +24,10 @@ const links = [
 ];
 const Nav = () => {
   const pathname = usePathname();
+  const t = useTranslations("Navigation");
+
   return (
-    <nav className="flex gap-8">
+    <nav className="flex gap-8 items-center">
       {links.map((link, index) => {
         return (
           <Link
@@ -35,7 +37,7 @@ const Nav = () => {
               link.path === pathname && "text-accent border-b-2 border-accent"
             } capitalize font-medium hover:text-accent transition-all`}
           >
-            {link.name}
+            {t(link.name)}
           </Link>
         );
       })}

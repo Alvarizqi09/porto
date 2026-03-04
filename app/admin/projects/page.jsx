@@ -277,10 +277,10 @@ const AdminProjects = () => {
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h3 className="text-xl font-bold text-black">
-                            {project.title}
+                            {project.title?.id || project.title?.en || project.title || "Untitled"}
                           </h3>
                           <p className="text-gray-600 text-sm mt-1">
-                            {project.desc}
+                            {project.desc?.id || project.desc?.en || project.desc || "No description"}
                           </p>
                         </div>
                         {project.featured && (

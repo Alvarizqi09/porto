@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const info = [
   { icon: <FaPhoneAlt />, title: "Phone", desc: "(+62) 8132 7963 181" },
@@ -27,6 +28,7 @@ const Contact = () => {
   });
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
+  const t = useTranslations("Contact");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,7 +49,7 @@ const Contact = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Gagal mengirim pesan");
+        throw new Error(data.error || t("errorMessage"));
       }
 
       setStatus("success");
@@ -97,15 +99,15 @@ const Contact = () => {
               className="flex flex-col gap-6 p-10 bg-[#DFD3C3] rounded-xl"
               onSubmit={handleSubmit}
             >
-              <h3 className="text-4xl text-accent">Let's work together</h3>
+              <h3 className="text-4xl text-accent">{t("title")}</h3>
               <p className="text-black/80">
-                Come contact me if you're interested in working with me
+                {t("description")}
               </p>
 
               {/* Status Messages */}
               {status === "success" && (
                 <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                  Pesan berhasil dikirim!
+                  {t("successMessage")}
                 </div>
               )}
               {status === "error" && (
@@ -118,7 +120,7 @@ const Contact = () => {
                 <Input
                   type="text"
                   name="firstName"
-                  placeholder="First Name"
+                  placeholder={t("firstName")}
                   value={formData.firstName}
                   onChange={handleChange}
                   required
@@ -126,14 +128,14 @@ const Contact = () => {
                 <Input
                   type="text"
                   name="lastName"
-                  placeholder="Last Name"
+                  placeholder={t("lastName")}
                   value={formData.lastName}
                   onChange={handleChange}
                 />
                 <Input
                   type="email"
                   name="email"
-                  placeholder="Email Address"
+                  placeholder={t("emailAddress")}
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -141,7 +143,7 @@ const Contact = () => {
                 <Input
                   type="text"
                   name="phone"
-                  placeholder="Phone Number"
+                  placeholder={t("phoneNumber")}
                   value={formData.phone}
                   onChange={handleChange}
                 />
@@ -150,7 +152,7 @@ const Contact = () => {
               <Textarea
                 className="h-[200px]"
                 name="message"
-                placeholder="Type your message here"
+                placeholder={t("message")}
                 value={formData.message}
                 onChange={handleChange}
                 required
@@ -162,7 +164,7 @@ const Contact = () => {
                 type="submit"
                 disabled={status === "loading"}
               >
-                {status === "loading" ? "Sending..." : "Send Message"}
+                {status === "loading" ? t("submitting") : t("sendMessage")}
               </Button>
             </form>
           </div>

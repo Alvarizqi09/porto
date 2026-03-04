@@ -44,64 +44,74 @@ export default function SkillItemModal({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
+        className="bg-white rounded-lg shadow-xl max-w-lg w-full overflow-hidden"
       >
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-bold">
+        <div className="flex justify-between items-center p-6 bg-gray-50/50 border-b border-gray-100">
+          <h3 className="text-xl font-bold text-gray-800 tracking-tight">
             {skillItem?._index !== undefined ? "Edit Skill" : "Add New Skill"}
           </h3>
           <button
             onClick={handleClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition"
+            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition"
           >
             <FiX size={20} />
           </button>
         </div>
 
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Skill Name
-            </label>
-            <Input
-              type="text"
-              placeholder="e.g., React, Node.js, Figma"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
+        <div className="p-6 space-y-6 overflow-y-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+                Skill Name
+              </label>
+              <Input
+                type="text"
+                placeholder="e.g., React, Node.js, Figma"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                className="w-full bg-gray-50/50 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+                Category
+              </label>
+              <select
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData({ ...formData, category: e.target.value })
+                }
+                className="flex h-[48px] w-full rounded-md border border-gray-200 focus:border-[#d77864] bg-gray-50/50 focus:bg-white px-4 py-2 text-base outline-none transition"
+              >
+                <option value="Programming Language">Programming Language</option>
+                <option value="Frontend Framework">Frontend Framework</option>
+                <option value="Styling">Styling</option>
+                <option value="Backend">Backend</option>
+                <option value="Database">Database</option>
+                <option value="Tools & Management">Tools & Management</option>
+                <option value="Design">Design</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Category
-            </label>
-            <select
-              value={formData.category}
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
-              className="flex h-[48px] w-full rounded-md border border-white/10 focus:border-accent font-light bg-primary px-4 py-2 text-base outline-none"
+          <div className="pt-6 flex justify-end gap-4 border-t border-gray-100">
+            <button
+              onClick={handleClose}
+              className="px-5 py-2.5 font-medium text-gray-600 hover:text-gray-800 transition"
             >
-              <option value="Programming Language">Programming Language</option>
-              <option value="Frontend Framework">Frontend Framework</option>
-              <option value="Styling">Styling</option>
-              <option value="Backend">Backend</option>
-              <option value="Database">Database</option>
-              <option value="Tools & Management">Tools & Management</option>
-              <option value="Design">Design</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div className="flex items-center justify-center">
+              Cancel
+            </button>
             <button
               type="button"
               onClick={handleSubmit}
-              className="flex-1 px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition font-medium"
+              disabled={!formData.name.trim()}
+              className="px-6 py-2.5 bg-[#d77864] text-white rounded-lg hover:bg-[#c36551] transition font-semibold shadow-sm hover:shadow disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {skillItem?._index !== undefined ? "Update" : "Add"}
+              {skillItem?._index !== undefined ? "Update Skill" : "Add Skill"}
             </button>
           </div>
         </div>

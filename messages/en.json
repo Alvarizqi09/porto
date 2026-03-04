@@ -1,0 +1,52 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "role": "Front-End Web Developer",
+    "titlePrefix": "Hello i'm",
+    "description": "With expertise in React, Vue, Next.js, and Laravel, I transform ideas into seamless, visually stunning web experiences. Let's collaborate to create something truly extraordinary together!",
+    "downloadCV": "Download CV",
+    "englishVersion": "English version",
+    "quote": "\"Building the web, one pixel at a time. Let's make the digital world a more beautiful place together!\""
+  },
+  "Contact": {
+    "title": "Let's work together",
+    "description": "Come contact me if you're interested in working with me",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number",
+    "message": "Type your message here",
+    "sendMessage": "Send Message",
+    "submitting": "Sending...",
+    "successMessage": "Message sent successfully!",
+    "errorMessage": "Failed to send message",
+    "errorOccurred": "Something went wrong! Please try again later."
+  },
+  "ProjectDetail": {
+    "back": "Back",
+    "errorTitle": "Error Occurred",
+    "notFoundTitle": "Project Not Found",
+    "notFoundDesc": "The requested project could not be found.",
+    "aboutProject": "About This Project",
+    "techStack": "Tech Stack",
+    "viewProject": "View Project",
+    "liveDemo": "Live Demo",
+    "github": "View on GitHub",
+    "sourceCode": "View Source",
+    "websitePages": "Website Pages",
+    "pageCount": "{count} pages — click image to preview",
+    "zoom": "Zoom In",
+    "createdAt": "Created At",
+    "category": "Category",
+    "technologies": "Technologies",
+    "toolsCount": "{count} tools"
+  },
+  "Footer": {
+    "rights": "All Rights Reserved."
+  }
+}

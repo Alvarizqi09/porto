@@ -61,6 +61,20 @@ export default function SkillTabForm({
     setSkillData({ ...skillData, skillList: newSkills });
   };
 
+  const handleSave = () => {
+    // Sanitize data before sending to API to prevent validation errors with old string data
+    const sanitizedData = {
+      ...skillData,
+      title: typeof skillData.title === 'string' 
+        ? { en: skillData.title, id: skillData.title } 
+        : skillData.title,
+      description: typeof skillData.description === 'string' 
+        ? { en: skillData.description, id: skillData.description } 
+        : skillData.description,
+    };
+    onSave(sanitizedData);
+  };
+
   return (
     <>
       <motion.div
@@ -70,18 +84,33 @@ export default function SkillTabForm({
       >
         <div className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
-                Section Title
-              </label>
-              <Input
-                type="text"
-                value={skillData.title}
-                onChange={(e) =>
-                  setSkillData({ ...skillData, title: e.target.value })
-                }
-                placeholder="e.g., My Skills"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">
+                  Section Title (EN)
+                </label>
+                <Input
+                  type="text"
+                  value={skillData.title?.en || (typeof skillData.title === 'string' ? skillData.title : "")}
+                  onChange={(e) =>
+                    setSkillData({ ...skillData, title: { ...skillData.title, en: e.target.value } })
+                  }
+                  placeholder="e.g., My Skills"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">
+                  Section Title (ID)
+                </label>
+                <Input
+                  type="text"
+                  value={skillData.title?.id || ""}
+                  onChange={(e) =>
+                    setSkillData({ ...skillData, title: { ...skillData.title, id: e.target.value } })
+                  }
+                  placeholder="e.g., Kemampuan Saya"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium mb-2 text-gray-700">
@@ -93,18 +122,33 @@ export default function SkillTabForm({
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Section Description
-            </label>
-            <Textarea
-              value={skillData.description}
-              onChange={(e) =>
-                setSkillData({ ...skillData, description: e.target.value })
-              }
-              rows={3}
-              placeholder="Brief description about your skills..."
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (EN)
+              </label>
+              <Textarea
+                value={skillData.description?.en || (typeof skillData.description === 'string' ? skillData.description : "")}
+                onChange={(e) =>
+                  setSkillData({ ...skillData, description: { ...skillData.description, en: e.target.value } })
+                }
+                rows={3}
+                placeholder="Brief description about your skills..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (ID)
+              </label>
+              <Textarea
+                value={skillData.description?.id || ""}
+                onChange={(e) =>
+                  setSkillData({ ...skillData, description: { ...skillData.description, id: e.target.value } })
+                }
+                rows={3}
+                placeholder="Deskripsi singkat..."
+              />
+            </div>
           </div>
 
           {/* Skills List */}
@@ -201,7 +245,7 @@ export default function SkillTabForm({
 
           <div className="pt-4 border-t">
             <button
-              onClick={() => onSave(skillData)}
+              onClick={handleSave}
               disabled={isSubmitting}
               className="w-full py-3.5 bg-accent hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >

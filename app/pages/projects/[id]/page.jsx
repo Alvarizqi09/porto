@@ -21,6 +21,7 @@ import {
 } from "react-icons/fa";
 import { getIcon } from "@/utils/techIconMap";
 import { ProjectDetailSkeleton } from "@/components/ui/Skeleton";
+import { useTranslations } from "next-intl";
 
 const ICON_SIZE_CLASS = "w-8 h-8";
 const createIcon = (name) => getIcon(name, ICON_SIZE_CLASS);
@@ -46,6 +47,7 @@ export default function ProjectDetailPage() {
   const router = useRouter();
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [activePageTab, setActivePageTab] = useState(0);
+  const t = useTranslations("ProjectDetail");
 
   const {
     data: project,
@@ -109,16 +111,16 @@ export default function ProjectDetailPage() {
             <span className="text-4xl">😕</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-3">
-            {error ? "Terjadi Kesalahan" : "Project Tidak Ditemukan"}
+            {error ? t("errorTitle") : t("notFoundTitle")}
           </h1>
           <p className="text-gray-500 mb-8 leading-relaxed">
-            {error?.message || "Proyek yang dicari tidak ditemukan."}
+            {error?.message || t("notFoundDesc")}
           </p>
           <button
             onClick={() => router.back()}
             className="inline-flex items-center gap-2 px-8 py-3 bg-accent hover:bg-accent/90 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
-            <FaArrowLeft /> Kembali
+            <FaArrowLeft /> {t("back")}
           </button>
         </motion.div>
       </div>
@@ -161,7 +163,7 @@ export default function ProjectDetailPage() {
           onClick={() => router.back()}
           className="absolute top-6 left-6 lg:top-8 lg:left-10 z-10 inline-flex items-center gap-2 px-5 py-2.5 bg-white/15 backdrop-blur-md text-white rounded-full hover:bg-white/25 transition-all duration-300 text-sm font-medium border border-white/20"
         >
-          <FaArrowLeft className="w-3.5 h-3.5" /> Kembali
+          <FaArrowLeft className="w-3.5 h-3.5" /> {t("back")}
         </motion.button>
 
         {/* Hero text content */}
@@ -204,7 +206,7 @@ export default function ProjectDetailPage() {
           {[
             {
               icon: <FaCalendarAlt className="w-5 h-5 text-accent" />,
-              label: "Dibuat Pada",
+              label: t("createdAt"),
               value: project.createdAt
                 ? new Date(project.createdAt).toLocaleDateString("id-ID", {
                     year: "numeric",
@@ -215,13 +217,13 @@ export default function ProjectDetailPage() {
             },
             {
               icon: <FaLayerGroup className="w-5 h-5 text-accent" />,
-              label: "Kategori",
+              label: t("category"),
               value: project.tag?.join(", ") || "-",
             },
             {
               icon: <FaCogs className="w-5 h-5 text-accent" />,
-              label: "Teknologi",
-              value: `${project.tech_stack?.length || 0} tools`,
+              label: t("technologies"),
+              value: t("toolsCount", { count: project.tech_stack?.length || 0 }),
             },
           ].map((stat, i) => (
             <motion.div
@@ -258,7 +260,7 @@ export default function ProjectDetailPage() {
               <div className="mb-10">
                 <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                   <span className="w-1 h-7 bg-accent rounded-full" />
-                  Tentang Project Ini
+                  {t("aboutProject")}
                 </h2>
                 <p className="text-gray-600 leading-[1.85] whitespace-pre-wrap text-[15px]">
                   {project.long_desc}
@@ -275,7 +277,7 @@ export default function ProjectDetailPage() {
               >
                 <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-5 flex items-center gap-3">
                   <span className="w-1 h-7 bg-accent rounded-full" />
-                  Tech Stack
+                  {t("techStack")}
                 </h2>
                 <div className="flex flex-wrap gap-3">
                   {project.tech_stack?.map((tech, i) => {
@@ -312,7 +314,7 @@ export default function ProjectDetailPage() {
           >
             <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 space-y-4 sticky top-24">
               <h3 className="text-base font-bold text-gray-900 mb-1">
-                Lihat Project
+                {t("viewProject")}
               </h3>
 
               {/* Demo Button */}
@@ -322,7 +324,7 @@ export default function ProjectDetailPage() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-accent hover:bg-accent/90 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
               >
-                <FaExternalLinkAlt className="w-4 h-4" /> Lihat Demo
+                <FaExternalLinkAlt className="w-4 h-4" /> {t("liveDemo")}
               </Link>
 
               {/* GitHub */}
@@ -333,7 +335,7 @@ export default function ProjectDetailPage() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
                 >
-                  <FaGithub className="w-4 h-4" /> View on GitHub
+                  <FaGithub className="w-4 h-4" /> {t("github")}
                 </Link>
               )}
 
@@ -345,7 +347,7 @@ export default function ProjectDetailPage() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl transition-all duration-300 border border-gray-200"
                 >
-                  <FaExternalLinkAlt className="w-4 h-4" /> Lihat Source
+                  <FaExternalLinkAlt className="w-4 h-4" /> {t("sourceCode")}
                 </Link>
               )}
             </div>
@@ -365,10 +367,10 @@ export default function ProjectDetailPage() {
               <div>
                 <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center gap-3">
                   <span className="w-1 h-8 bg-accent rounded-full" />
-                  Halaman Website
+                  {t("websitePages")}
                 </h2>
                 <p className="text-gray-400 mt-1 ml-4 text-sm">
-                  {project.pages.length} halaman — klik gambar untuk preview
+                  {t("pageCount", { count: project.pages.length })}
                 </p>
               </div>
 
@@ -421,7 +423,7 @@ export default function ProjectDetailPage() {
                   </p>
                 </div>
                 <span className="bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-4 py-2 rounded-full border border-white/30 flex items-center gap-2">
-                  <FaSearch className="w-3 h-3" /> Perbesar
+                  <FaSearch className="w-3 h-3" /> {t("zoom")}
                 </span>
               </div>
             </motion.div>

@@ -30,9 +30,12 @@ const TAG_OPTIONS = ["All", "Web", "Design"];
 
 const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
   const [formData, setFormData] = useState({
-    title: initialData?.title || "",
-    desc: initialData?.desc || "",
-    long_desc: initialData?.long_desc || "",
+    title_en: initialData?.title?.en || initialData?.title || "",
+    title_id: initialData?.title?.id || initialData?.title || "",
+    desc_en: initialData?.desc?.en || initialData?.desc || "",
+    desc_id: initialData?.desc?.id || initialData?.desc || "",
+    long_desc_en: initialData?.long_desc?.en || initialData?.long_desc || "",
+    long_desc_id: initialData?.long_desc?.id || initialData?.long_desc || "",
     image: initialData?.image || "",
     demo: initialData?.demo || "",
     preview: initialData?.preview || "",
@@ -41,7 +44,11 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
     tech_stack: initialData?.tech_stack || [],
     featured: initialData?.featured || false,
     order: initialData?.order || 0,
-    pages: initialData?.pages || [],
+    pages: initialData?.pages?.map((p) => ({
+      ...p,
+      title_en: p.title?.en || p.title || "",
+      title_id: p.title?.id || p.title || "",
+    })) || [],
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -142,7 +149,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
   const handleAddPage = () => {
     setFormData((prev) => ({
       ...prev,
-      pages: [...prev.pages, { title: "", image: "" }],
+      pages: [...prev.pages, { title_en: "", title_id: "", image: "" }],
     }));
   };
 
@@ -164,11 +171,11 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
     });
   };
 
-  const handlePageTitleChange = (index, value) => {
+  const handlePageTitleChange = (index, field, value) => {
     setFormData((prev) => ({
       ...prev,
       pages: prev.pages.map((p, i) =>
-        i === index ? { ...p, title: value } : p
+        i === index ? { ...p, [field]: value } : p
       ),
     }));
   };
@@ -217,8 +224,8 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) newErrors.title = "Judul harus diisi";
-    if (!formData.desc.trim()) newErrors.desc = "Deskripsi harus diisi";
+    if (!formData.title_en.trim() || !formData.title_id.trim()) newErrors.title = "Judul (EN & ID) harus diisi";
+    if (!formData.desc_en.trim() || !formData.desc_id.trim()) newErrors.desc = "Deskripsi (EN & ID) harus diisi";
     if (!formData.image) newErrors.image = "Gambar harus diunggah";
     if (!formData.demo.trim()) newErrors.demo = "URL demo harus diisi";
     if (!formData.preview.trim()) newErrors.preview = "URL preview harus diisi";
@@ -236,7 +243,23 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
       return;
     }
 
-    await onSubmit(formData);
+    const pagesTransformed = formData.pages.map(p => ({
+      ...p,
+      title: { en: p.title_en, id: p.title_id }
+    }));
+
+    const finalData = {
+      ...formData,
+      title: { en: formData.title_en, id: formData.title_id },
+      desc: { en: formData.desc_en, id: formData.desc_id },
+      long_desc: { en: formData.long_desc_en, id: formData.long_desc_id },
+      pages: pagesTransformed,
+    };
+    delete finalData.title_en; delete finalData.title_id;
+    delete finalData.desc_en; delete finalData.desc_id;
+    delete finalData.long_desc_en; delete finalData.long_desc_id;
+
+    await onSubmit(finalData);
   };
 
   return (
@@ -247,60 +270,111 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
       className="space-y-6 bg-white p-8 rounded-lg shadow-lg"
     >
       {/* Title */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Judul Project
-        </label>
-        <input
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          placeholder="Nama project"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-        />
+      <div className="grid grid-cols-1 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            Judul Project <span className="text-gray-400 font-normal">(EN)</span>
+          </label>
+          <input
+            type="text"
+            name="title_en"
+            value={formData.title_en}
+            onChange={handleChange}
+            placeholder="e.g., Fantastic Web App"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            Judul Project <span className="text-gray-400 font-normal">(ID)</span>
+          </label>
+          <input
+            type="text"
+            name="title_id"
+            value={formData.title_id}
+            onChange={handleChange}
+            placeholder="e.g., Aplikasi Web Luar Biasa"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+        </div>
         {errors.title && (
           <p className="text-red-500 text-sm mt-1">{errors.title}</p>
         )}
       </div>
 
       {/* Description */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Deskripsi (Max 500 karakter)
-        </label>
-        <textarea
-          name="desc"
-          value={formData.desc}
-          onChange={handleChange}
-          placeholder="Deskripsi singkat project"
-          maxLength="500"
-          rows="4"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        <p className="text-gray-500 text-sm mt-1">{formData.desc.length}/500</p>
+      <div className="grid grid-cols-1 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            Deskripsi Singkat <span className="text-gray-400 font-normal">(EN) - Max 500</span>
+          </label>
+          <textarea
+            name="desc_en"
+            value={formData.desc_en}
+            onChange={handleChange}
+            placeholder="Short description..."
+            maxLength="500"
+            rows="3"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+          <p className="text-gray-400 text-xs mt-1 text-right">{formData.desc_en.length}/500</p>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            Deskripsi Singkat <span className="text-gray-400 font-normal">(ID) - Max 500</span>
+          </label>
+          <textarea
+            name="desc_id"
+            value={formData.desc_id}
+            onChange={handleChange}
+            placeholder="Deskripsi singkat..."
+            maxLength="500"
+            rows="3"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+          <p className="text-gray-400 text-xs mt-1 text-right">{formData.desc_id.length}/500</p>
+        </div>
         {errors.desc && (
           <p className="text-red-500 text-sm mt-1">{errors.desc}</p>
         )}
       </div>
 
       {/* Long Description */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Deskripsi Lengkap (Max 2000 karakter)
-        </label>
-        <textarea
-          name="long_desc"
-          value={formData.long_desc}
-          onChange={handleChange}
-          placeholder="Penjelasan detail tentang project, fitur-fitur, challenge yang dihadapi, dll"
-          maxLength="2000"
-          rows="6"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        <p className="text-gray-500 text-sm mt-1">
-          {formData.long_desc.length}/2000
-        </p>
+      <div className="grid grid-cols-1 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            Deskripsi Lengkap <span className="text-gray-400 font-normal">(EN) - Max 2000</span>
+          </label>
+          <textarea
+            name="long_desc_en"
+            value={formData.long_desc_en}
+            onChange={handleChange}
+            placeholder="Detailed description, features, challenges..."
+            maxLength="2000"
+            rows="5"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+          <p className="text-gray-400 text-xs mt-1 text-right">
+            {formData.long_desc_en.length}/2000
+          </p>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            Deskripsi Lengkap <span className="text-gray-400 font-normal">(ID) - Max 2000</span>
+          </label>
+          <textarea
+            name="long_desc_id"
+            value={formData.long_desc_id}
+            onChange={handleChange}
+            placeholder="Penjelasan detail tentang project, fitur-fitur..."
+            maxLength="2000"
+            rows="5"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+          <p className="text-gray-400 text-xs mt-1 text-right">
+            {formData.long_desc_id.length}/2000
+          </p>
+        </div>
       </div>
 
       {/* Image Upload */}
@@ -372,39 +446,41 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
       </div>
 
       {/* Demo URL */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          URL Demo
-        </label>
-        <input
-          type="url"
-          name="demo"
-          value={formData.demo}
-          onChange={handleChange}
-          placeholder="https://example.com"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        {errors.demo && (
-          <p className="text-red-500 text-sm mt-1">{errors.demo}</p>
-        )}
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            URL Demo
+          </label>
+          <input
+            type="url"
+            name="demo"
+            value={formData.demo}
+            onChange={handleChange}
+            placeholder="https://example.com"
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+          {errors.demo && (
+            <p className="text-red-500 text-sm mt-1">{errors.demo}</p>
+          )}
+        </div>
 
-      {/* Preview URL */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          URL Preview (Repository/Source)
-        </label>
-        <input
-          type="url"
-          name="preview"
-          value={formData.preview}
-          onChange={handleChange}
-          placeholder="https://github.com/..."
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        {errors.preview && (
-          <p className="text-red-500 text-sm mt-1">{errors.preview}</p>
-        )}
+        {/* Preview URL */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            URL Preview (Repository)
+          </label>
+          <input
+            type="url"
+            name="preview"
+            value={formData.preview}
+            onChange={handleChange}
+            placeholder="https://github.com/..."
+            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+          />
+          {errors.preview && (
+            <p className="text-red-500 text-sm mt-1">{errors.preview}</p>
+          )}
+        </div>
       </div>
 
       {/* GitHub URL */}
@@ -505,17 +581,31 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
 
                 <div className="pr-8 space-y-3">
                   {/* Page Title */}
-                  <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                      Judul Halaman {index + 1}
-                    </label>
-                    <input
-                      type="text"
-                      value={page.title}
-                      onChange={(e) => handlePageTitleChange(index, e.target.value)}
-                      placeholder="Contoh: Home Page, Dashboard, Login, dll"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                    />
+                  <div className="grid grid-cols-1 gap-2">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">
+                        Judul <span className="text-gray-400 font-normal">(EN)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={page.title_en}
+                        onChange={(e) => handlePageTitleChange(index, "title_en", e.target.value)}
+                        placeholder="e.g., Home Page"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">
+                        Judul <span className="text-gray-400 font-normal">(ID)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={page.title_id}
+                        onChange={(e) => handlePageTitleChange(index, "title_id", e.target.value)}
+                        placeholder="e.g., Halaman Utama"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+                      />
+                    </div>
                   </div>
 
                   {/* Page Image */}

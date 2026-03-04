@@ -1,3 +1,5 @@
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -29,9 +31,12 @@ export const viewport = "width=device-width, initial-scale=1.0";
 
 export const themeColor = "#ffffff";
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={JetBrainsMono.variable}>
+    <html lang={locale} className={JetBrainsMono.variable}>
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://alvarizqi.com" />
@@ -61,12 +66,14 @@ export default function RootLayout({ children }) {
       </head>
       <body className={JetBrainsMono.variable}>
         <QueryProvider>
-          <Header />
-          <StairTransition />
-          <PageTransition>{children}</PageTransition>
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
+          <NextIntlClientProvider messages={messages}>
+            <Header />
+            <StairTransition />
+            <PageTransition>{children}</PageTransition>
+            <Footer />
+            <Analytics />
+            <SpeedInsights />
+          </NextIntlClientProvider>
         </QueryProvider>
       </body>
     </html>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
+import LanguageSwitcher from "./LanguageSwitcher";
 import Image from "next/image";
 import logo from "@/public/assets/logo1.png";
 
@@ -26,9 +27,11 @@ const Header = () => {
           <Link href="/pages/contact">
             <Button className="hover:text-black/80">Hire me</Button>
           </Link>
+          <LanguageSwitcher />
         </div>
 
-        <div className="xl:hidden">
+        <div className="xl:hidden flex items-center gap-4">
+          <LanguageSwitcher />
           <MobileNav />
         </div>
       </div>

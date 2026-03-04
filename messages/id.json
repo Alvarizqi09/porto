@@ -1,0 +1,52 @@
+{
+  "Navigation": {
+    "home": "Beranda",
+    "projects": "Proyek",
+    "about": "Tentang",
+    "contact": "Kontak"
+  },
+  "Hero": {
+    "role": "Pengembang Web Front-End",
+    "titlePrefix": "Halo saya",
+    "description": "Dengan keahlian di React, Vue, Next.js, dan Laravel, saya mewujudkan ide menjadi pengalaman web yang mulus dan memukau secara visual. Mari berkolaborasi untuk menciptakan sesuatu yang luar biasa bersama-sama!",
+    "downloadCV": "Unduh CV",
+    "englishVersion": "Versi Inggris",
+    "quote": "\"Membangun web, satu piksel demi satu piksel. Mari jadikan dunia digital tempat yang lebih indah bersama!\""
+  },
+  "Contact": {
+    "title": "Mari bekerja sama",
+    "description": "Silakan hubungi saya jika Anda tertarik untuk bekerja sama",
+    "firstName": "Nama Depan",
+    "lastName": "Nama Belakang",
+    "emailAddress": "Alamat Email",
+    "phoneNumber": "Nomor Telepon",
+    "message": "Ketik pesan Anda di sini",
+    "sendMessage": "Kirim Pesan",
+    "submitting": "Mengirim...",
+    "successMessage": "Pesan berhasil dikirim!",
+    "errorMessage": "Gagal mengirim pesan",
+    "errorOccurred": "Terjadi kesalahan! Silakan coba lagi nanti."
+  },
+  "ProjectDetail": {
+    "back": "Kembali",
+    "errorTitle": "Terjadi Kesalahan",
+    "notFoundTitle": "Project Tidak Ditemukan",
+    "notFoundDesc": "Proyek yang dicari tidak ditemukan.",
+    "aboutProject": "Tentang Project Ini",
+    "techStack": "Tech Stack",
+    "viewProject": "Lihat Project",
+    "liveDemo": "Lihat Demo",
+    "github": "Lihat di GitHub",
+    "sourceCode": "Lihat Source",
+    "websitePages": "Halaman Website",
+    "pageCount": "{count} halaman — klik gambar untuk preview",
+    "zoom": "Perbesar",
+    "createdAt": "Dibuat Pada",
+    "category": "Kategori",
+    "technologies": "Teknologi",
+    "toolsCount": "{count} tools"
+  },
+  "Footer": {
+    "rights": "Hak Cipta Dilindungi."
+  }
+}

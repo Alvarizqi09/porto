@@ -43,6 +43,25 @@ export default function CertificateTabForm({
     setEditingCertificate(null);
   };
 
+  const handleSave = () => {
+    // Sanitize data before sending to API to prevent validation errors with old string data
+    const sanitizedData = {
+      ...certificateData,
+      title: typeof certificateData.title === 'string' 
+        ? { en: certificateData.title, id: certificateData.title } 
+        : certificateData.title,
+      description: typeof certificateData.description === 'string' 
+        ? { en: certificateData.description, id: certificateData.description } 
+        : certificateData.description,
+      items: certificateData.items?.map(item => ({
+        ...item,
+        name: typeof item.name === 'string' ? { en: item.name, id: item.name } : (item.name || { en: "", id: "" }),
+        date: typeof item.date === 'string' ? { en: item.date, id: item.date } : (item.date || { en: "", id: "" })
+      })) || []
+    };
+    onSave(sanitizedData);
+  };
+
   return (
     <>
       <motion.div
@@ -51,36 +70,70 @@ export default function CertificateTabForm({
         className="bg-white p-8 rounded-lg shadow-lg"
       >
         <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Title</label>
-            <input
-              type="text"
-              value={certificateData.title}
-              onChange={(e) =>
-                setCertificateData({
-                  ...certificateData,
-                  title: e.target.value,
-                })
-              }
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Title (EN)</label>
+              <input
+                type="text"
+                value={certificateData.title?.en || (typeof certificateData.title === 'string' ? certificateData.title : "")}
+                onChange={(e) =>
+                  setCertificateData({
+                    ...certificateData,
+                    title: { ...certificateData.title, en: e.target.value },
+                  })
+                }
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Title (ID)</label>
+              <input
+                type="text"
+                value={certificateData.title?.id || ""}
+                onChange={(e) =>
+                  setCertificateData({
+                    ...certificateData,
+                    title: { ...certificateData.title, id: e.target.value },
+                  })
+                }
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Description
-            </label>
-            <textarea
-              value={certificateData.description}
-              onChange={(e) =>
-                setCertificateData({
-                  ...certificateData,
-                  description: e.target.value,
-                })
-              }
-              rows="5"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Description (EN)
+              </label>
+              <textarea
+                value={certificateData.description?.en || (typeof certificateData.description === 'string' ? certificateData.description : "")}
+                onChange={(e) =>
+                  setCertificateData({
+                    ...certificateData,
+                    description: { ...certificateData.description, en: e.target.value },
+                  })
+                }
+                rows="5"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Description (ID)
+              </label>
+              <textarea
+                value={certificateData.description?.id || ""}
+                onChange={(e) =>
+                  setCertificateData({
+                    ...certificateData,
+                    description: { ...certificateData.description, id: e.target.value },
+                  })
+                }
+                rows="5"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
           </div>
 
           {/* Certificates List */}
@@ -90,10 +143,10 @@ export default function CertificateTabForm({
               <button
                 onClick={() => {
                   const newCert = {
-                    name: "",
+                    name: { en: "", id: "" },
                     publisher: "",
                     image: "",
-                    date: "",
+                    date: { en: "", id: "" },
                     order: certificateData.items.length,
                   };
                   setEditingCertificate({
@@ -116,11 +169,11 @@ export default function CertificateTabForm({
                 >
                   <div className="flex-1">
                     <div className="font-semibold text-gray-900">
-                      {cert.name || "Unnamed Certificate"}
+                      {cert.name?.id || cert.name?.en || (typeof cert.name === 'string' ? cert.name : "Unnamed Certificate")}
                     </div>
                     <div className="text-sm text-gray-600">
                       {cert.publisher || "No publisher"} •{" "}
-                      {cert.date || "No date"}
+                      {cert.date?.id || cert.date?.en || (typeof cert.date === 'string' ? cert.date : "No date")}
                     </div>
                   </div>
 
@@ -190,7 +243,7 @@ export default function CertificateTabForm({
           </div>
 
           <button
-            onClick={() => onSave(certificateData)}
+            onClick={handleSave}
             disabled={isSubmitting}
             className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white font-semibold rounded-lg"
           >

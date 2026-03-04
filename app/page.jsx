@@ -8,12 +8,15 @@ import React from "react";
 import { FiDownload } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import { aboutApi } from "@/lib/api/aboutApi";
+import { useTranslations } from "next-intl";
 
 const Home = () => {
   const { data } = useQuery({
     queryKey: ["about-data"],
     queryFn: aboutApi.fetchAboutData,
   });
+  
+  const t = useTranslations("Hero");
 
   const cvLink = data?.about?.cvLink || "";
   const cvLinkEnglish = data?.about?.cvLinkEnglish || "";
@@ -30,15 +33,13 @@ const Home = () => {
       <div className="container mx-auto ">
         <div className=" flex flex-col xl:flex-row items-center justify-between xl:pt-8 xl:pb-24">
           <div className="text-center xl:text-left order-2 xl:order-none">
-            <span className="text-xl">Front-End Web Developer</span>
+            <span className="text-xl">{t("role")}</span>
             <h1 className="h1">
-              Hello i`m <br />
+              {t("titlePrefix")} <br />
               <span className="text-accent">Alvarizqi</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-black/80">
-              With expertise in React, Vue, Next.js, and Laravel, I transform
-              ideas into seamless, visually stunning web experiences. Let's
-              collaborate to create something truly extraordinary together!
+              {t("description")}
             </p>
             <div className="flex flex-col items-center justify-center xl:justify-start gap-6 mb-8">
               <div className="flex flex-col xl:flex-row items-center gap-8">
@@ -48,7 +49,7 @@ const Home = () => {
                   className="uppercase flex items-center gap-2"
                   onClick={handleDownloadCV}
                 >
-                  <span>Download CV</span>
+                  <span>{t("downloadCV")}</span>
                   <FiDownload className="text-xl" />
                 </Button>
                 <Button
@@ -57,7 +58,7 @@ const Home = () => {
                   className="uppercase flex items-center gap-2"
                   onClick={handleDownloadCVenglish}
                 >
-                  <span>English version</span>
+                  <span>{t("englishVersion")}</span>
                   <FiDownload className="text-xl" />
                 </Button>
               </div>
@@ -77,8 +78,7 @@ const Home = () => {
       <Stats />
       <div className="text-center mt-12">
         <p className="text-lg text-black/80">
-          "Building the web, one pixel at a time. Let's make the digital world a
-          more beautiful place together!"
+          {t("quote")}
         </p>
       </div>
     </section>

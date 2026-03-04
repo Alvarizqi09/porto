@@ -61,6 +61,25 @@ export default function EducationTabForm({
     setEducationData({ ...educationData, items: newItems });
   };
 
+  const handleSave = () => {
+    // Sanitize data before sending to API to prevent validation errors with old string data
+    const sanitizedData = {
+      ...educationData,
+      title: typeof educationData.title === 'string' 
+        ? { en: educationData.title, id: educationData.title } 
+        : educationData.title,
+      description: typeof educationData.description === 'string' 
+        ? { en: educationData.description, id: educationData.description } 
+        : educationData.description,
+      items: educationData.items?.map(item => ({
+        ...item,
+        degree: typeof item.degree === 'string' ? { en: item.degree, id: item.degree } : (item.degree || { en: "", id: "" }),
+        date: typeof item.date === 'string' ? { en: item.date, id: item.date } : (item.date || { en: "", id: "" })
+      })) || []
+    };
+    onSave(sanitizedData);
+  };
+
   return (
     <>
       <motion.div
@@ -69,35 +88,68 @@ export default function EducationTabForm({
         className="bg-white p-8 rounded-lg shadow-lg"
       >
         <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Section Title
-            </label>
-            <Input
-              type="text"
-              value={educationData.title}
-              onChange={(e) =>
-                setEducationData({ ...educationData, title: e.target.value })
-              }
-              placeholder="e.g., My Education"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Title (EN)
+              </label>
+              <Input
+                type="text"
+                value={educationData.title?.en || (typeof educationData.title === 'string' ? educationData.title : "")}
+                onChange={(e) =>
+                  setEducationData({ ...educationData, title: { ...educationData.title, en: e.target.value } })
+                }
+                placeholder="e.g., My Education"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Title (ID)
+              </label>
+              <Input
+                type="text"
+                value={educationData.title?.id || ""}
+                onChange={(e) =>
+                  setEducationData({ ...educationData, title: { ...educationData.title, id: e.target.value } })
+                }
+                placeholder="e.g., Pendidikan"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Section Description
-            </label>
-            <Textarea
-              value={educationData.description}
-              onChange={(e) =>
-                setEducationData({
-                  ...educationData,
-                  description: e.target.value,
-                })
-              }
-              rows={5}
-              placeholder="Brief description about your education..."
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (EN)
+              </label>
+              <Textarea
+                value={educationData.description?.en || (typeof educationData.description === 'string' ? educationData.description : "")}
+                onChange={(e) =>
+                  setEducationData({
+                    ...educationData,
+                    description: { ...educationData.description, en: e.target.value },
+                  })
+                }
+                rows={5}
+                placeholder="Brief description about your education..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (ID)
+              </label>
+              <Textarea
+                value={educationData.description?.id || ""}
+                onChange={(e) =>
+                  setEducationData({
+                    ...educationData,
+                    description: { ...educationData.description, id: e.target.value },
+                  })
+                }
+                rows={5}
+                placeholder="Deskripsi singkat..."
+              />
+            </div>
           </div>
 
           {/* Education Items List */}
@@ -143,10 +195,10 @@ export default function EducationTabForm({
                   >
                     <div className="flex-1">
                       <div className="font-semibold text-gray-900">
-                        {item.degree || "Unnamed Degree"}
+                        {item.degree?.id || item.degree?.en || (typeof item.degree === 'string' ? item.degree : "Unnamed Degree")}
                       </div>
                       <div className="text-sm text-gray-600">
-                        {item.school || "No school"} • {item.date || "No date"}
+                        {item.school || "No school"} • {item.date?.id || item.date?.en || (typeof item.date === 'string' ? item.date : "No date")}
                       </div>
                     </div>
 
@@ -190,7 +242,7 @@ export default function EducationTabForm({
 
           <div className="pt-4 border-t">
             <button
-              onClick={() => onSave(educationData)}
+              onClick={handleSave}
               disabled={isSubmitting}
               className="w-full py-3.5 bg-accent hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >

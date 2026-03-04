@@ -96,11 +96,17 @@ export async function POST(request) {
     const body = await request.json();
 
     // Validasi data
-    if (!body.title || !body.desc || !body.image) {
+    if (
+      !body.title?.en ||
+      !body.title?.id ||
+      !body.desc?.en ||
+      !body.desc?.id ||
+      !body.image
+    ) {
       return NextResponse.json(
         {
           success: false,
-          error: "Title, description, and image are required",
+          error: "Title (EN/ID), description (EN/ID), and image are required",
         },
         { status: 400 }
       );

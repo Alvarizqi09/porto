@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { CiMenuFries } from "react-icons/ci";
@@ -28,6 +29,8 @@ const links = [
 
 const MobileNav = () => {
   const pathname = usePathname();
+  const t = useTranslations("Navigation");
+
   return (
     <Sheet>
       <SheetTrigger className="flex justify-center items-center">
@@ -50,7 +53,7 @@ const MobileNav = () => {
                   "text-accent border-b-2 border-accent"
                 } capitalize text-xl hover:text-accent transition-all`}
               >
-                {link.name}
+                {t(link.name)}
               </Link>
             );
           })}

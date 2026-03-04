@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const t = useTranslations("Footer");
   return (
     <div className="mt-0 mb-10">
       <h5 className="text-center font-normal text-black/80 md:mb-0 mt-6 xl:mt-0">
@@ -14,7 +16,7 @@ const Footer = () => {
         >
           <strong> Alvarizqi</strong>
         </a>
-        . All Rights Reserved.
+        . {t("rights")}
       </h5>
     </div>
   );

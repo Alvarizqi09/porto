@@ -61,6 +61,26 @@ export default function ResumeTabForm({
     setResumeData({ ...resumeData, items: newItems });
   };
 
+  const handleSave = () => {
+    // Sanitize data before sending to API to prevent validation errors with old string data
+    const sanitizedData = {
+      ...resumeData,
+      title: typeof resumeData.title === 'string' 
+        ? { en: resumeData.title, id: resumeData.title } 
+        : resumeData.title,
+      description: typeof resumeData.description === 'string' 
+        ? { en: resumeData.description, id: resumeData.description } 
+        : resumeData.description,
+      items: resumeData.items?.map(item => ({
+        ...item,
+        position: typeof item.position === 'string' ? { en: item.position, id: item.position } : (item.position || { en: "", id: "" }),
+        date: typeof item.date === 'string' ? { en: item.date, id: item.date } : (item.date || { en: "", id: "" }),
+        description: typeof item.description === 'string' ? { en: item.description, id: item.description } : (item.description || { en: "", id: "" })
+      })) || []
+    };
+    onSave(sanitizedData);
+  };
+
   return (
     <>
       <motion.div
@@ -69,32 +89,62 @@ export default function ResumeTabForm({
         className="bg-white p-8 rounded-lg shadow-lg"
       >
         <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Section Title
-            </label>
-            <Input
-              type="text"
-              value={resumeData.title}
-              onChange={(e) =>
-                setResumeData({ ...resumeData, title: e.target.value })
-              }
-              placeholder="e.g., My Experience"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Title (EN)
+              </label>
+              <Input
+                type="text"
+                value={resumeData.title?.en || (typeof resumeData.title === 'string' ? resumeData.title : "")}
+                onChange={(e) =>
+                  setResumeData({ ...resumeData, title: { ...resumeData.title, en: e.target.value } })
+                }
+                placeholder="e.g., My Experience"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Title (ID)
+              </label>
+              <Input
+                type="text"
+                value={resumeData.title?.id || ""}
+                onChange={(e) =>
+                  setResumeData({ ...resumeData, title: { ...resumeData.title, id: e.target.value } })
+                }
+                placeholder="e.g., Pengalaman Saya"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">
-              Section Description
-            </label>
-            <Textarea
-              value={resumeData.description}
-              onChange={(e) =>
-                setResumeData({ ...resumeData, description: e.target.value })
-              }
-              rows={5}
-              placeholder="Brief description about your experience..."
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (EN)
+              </label>
+              <Textarea
+                value={resumeData.description?.en || (typeof resumeData.description === 'string' ? resumeData.description : "")}
+                onChange={(e) =>
+                  setResumeData({ ...resumeData, description: { ...resumeData.description, en: e.target.value } })
+                }
+                rows={5}
+                placeholder="Brief description about your experience..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                Section Description (ID)
+              </label>
+              <Textarea
+                value={resumeData.description?.id || ""}
+                onChange={(e) =>
+                  setResumeData({ ...resumeData, description: { ...resumeData.description, id: e.target.value } })
+                }
+                rows={5}
+                placeholder="Deskripsi singkat..."
+              />
+            </div>
           </div>
 
           {/* Experience Items List */}
@@ -140,15 +190,15 @@ export default function ResumeTabForm({
                   >
                     <div className="flex-1">
                       <div className="font-semibold text-gray-900">
-                        {item.position || "Unnamed Position"}
+                        {item.position?.id || item.position?.en || (typeof item.position === 'string' ? item.position : "Unnamed Position")}
                       </div>
                       <div className="text-sm text-gray-600">
                         {item.company || "No company"} •{" "}
-                        {item.date || "No date"}
+                        {item.date?.id || item.date?.en || (typeof item.date === 'string' ? item.date : "No date")}
                       </div>
-                      {item.description && (
+                      {(item.description?.id || item.description?.en || (typeof item.description === 'string' ? item.description : "")) && (
                         <div className="text-xs text-gray-400 mt-1 line-clamp-1">
-                          {item.description}
+                          {item.description?.id || item.description?.en || (typeof item.description === 'string' ? item.description : "")}
                         </div>
                       )}
                     </div>
@@ -193,7 +243,7 @@ export default function ResumeTabForm({
 
           <div className="pt-4 border-t">
             <button
-              onClick={() => onSave(resumeData)}
+              onClick={handleSave}
               disabled={isSubmitting}
               className="w-full py-3.5 bg-accent hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
