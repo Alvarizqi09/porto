@@ -5,15 +5,23 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { TabsContent } from "@/components/ui/tabs";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useLocale } from "next-intl";
 
 const ITEMS_PER_PAGE = 4;
 
 export default function CertificatesTab({ certificate }) {
+  const locale = useLocale();
   const {
     title = "My Certificates",
     description = "",
     items = [],
   } = certificate || {};
+
+  const getValue = (val) => {
+    if (!val) return "";
+    if (typeof val === "string") return val;
+    return val[locale] || val.en || "";
+  };
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -45,8 +53,8 @@ export default function CertificatesTab({ certificate }) {
         className="flex flex-col gap-[30px] text-center xl:text-left"
       >
         <h3 className="text-4xl font-bold">{title}</h3>
-        <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
-          {description}
+        <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0 whitespace-pre-wrap">
+          {getValue(description)}
         </p>
         <div>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
@@ -63,7 +71,7 @@ export default function CertificatesTab({ certificate }) {
                     <div className="w-full aspect-[16/9] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative">
                       <Image
                         src={item.image}
-                        alt={`${item.name} certificate from ${item.publisher}`}
+                        alt={`${getValue(item.name)} certificate from ${getValue(item.publisher)}`}
                         fill
                         className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -74,12 +82,12 @@ export default function CertificatesTab({ certificate }) {
 
                   <div className="p-6 flex flex-col gap-3 flex-grow bg-gradient-to-b from-white to-gray-50/50">
                     <h4 className="text-lg font-bold text-black leading-tight line-clamp-2 min-h-[3.5rem] group-hover:text-accent transition-colors duration-300">
-                      {item.name}
+                      {getValue(item.name)}
                     </h4>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="w-1 h-1 rounded-full bg-accent"></div>
                       <p className="text-sm text-accent font-semibold">
-                        {item.publisher}
+                        {getValue(item.publisher)}
                       </p>
                     </div>
                     {item.date && (
@@ -102,7 +110,7 @@ export default function CertificatesTab({ certificate }) {
                           </svg>
                           Valid until:{" "}
                           <span className="font-semibold text-black/80">
-                            {item.date}
+                            {getValue(item.date)}
                           </span>
                         </p>
                       </div>

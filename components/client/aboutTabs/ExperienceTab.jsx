@@ -2,9 +2,17 @@
 
 import { motion } from "framer-motion";
 import { TabsContent } from "@/components/ui/tabs";
+import { useLocale } from "next-intl";
 
 export default function ExperienceTab({ resume }) {
+  const locale = useLocale();
   const { title = "Experience", description = "", items = [] } = resume || {};
+
+  const getValue = (val) => {
+    if (!val) return "";
+    if (typeof val === "string") return val;
+    return val[locale] || val.en || "";
+  };
 
   return (
     <TabsContent value="experience" className="w-full">
@@ -27,17 +35,17 @@ export default function ExperienceTab({ resume }) {
                 >
                   <div className="py-6 px-8 flex flex-col gap-2 items-center lg:items-start">
                     <span className="text-accent text-sm font-medium tracking-wide">
-                      {item.date}
+                      {getValue(item.date)}
                     </span>
                     <h3 className="text-lg font-semibold max-w-[300px] text-center lg:text-left leading-tight group-hover:text-accent transition-colors duration-300">
-                      {item.position}
+                      {getValue(item.position)}
                     </h3>
                     <p className="text-black/60 text-sm font-medium">
-                      {item.company}
+                      {getValue(item.company)}
                     </p>
                     {item.description && (
                       <p className="text-black/50 text-sm mt-2 leading-relaxed text-center lg:text-left">
-                        {item.description}
+                        {getValue(item.description)}
                       </p>
                     )}
                   </div>
