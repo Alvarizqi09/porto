@@ -146,6 +146,11 @@ export default function ResumeTabForm({
                         {item.company || "No company"} •{" "}
                         {item.date || "No date"}
                       </div>
+                      {item.description && (
+                        <div className="text-xs text-gray-400 mt-1 line-clamp-1">
+                          {item.description}
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-2 ml-4">

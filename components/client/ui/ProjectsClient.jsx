@@ -64,7 +64,7 @@ export default function ProjectsClient({ projects: initialProjects }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-16 mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-12 mx-auto"
         >
           {filteredProjects.length === 0 ? (
             <div className="col-span-full text-center text-gray-500 py-10">

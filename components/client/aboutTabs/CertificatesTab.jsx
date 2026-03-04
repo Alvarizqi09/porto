@@ -1,8 +1,12 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { TabsContent } from "@/components/ui/tabs";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+
+const ITEMS_PER_PAGE = 4;
 
 export default function CertificatesTab({ certificate }) {
   const {
@@ -10,6 +14,28 @@ export default function CertificatesTab({ certificate }) {
     description = "",
     items = [],
   } = certificate || {};
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const totalPages = useMemo(
+    () => Math.ceil(items.length / ITEMS_PER_PAGE),
+    [items.length]
+  );
+
+  const paginatedItems = useMemo(
+    () =>
+      items.slice(
+        currentPage * ITEMS_PER_PAGE,
+        (currentPage + 1) * ITEMS_PER_PAGE
+      ),
+    [items, currentPage]
+  );
+
+  const goToPage = (page) => {
+    if (page >= 0 && page < totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <TabsContent value="certificates" className="w-full">
@@ -24,10 +50,13 @@ export default function CertificatesTab({ certificate }) {
         </p>
         <div>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {items && items.length > 0 ? (
-              items.map((item, index) => (
-                <li
-                  key={index}
+            {paginatedItems.length > 0 ? (
+              paginatedItems.map((item, index) => (
+                <motion.li
+                  key={`${currentPage}-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                   className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col border border-gray-100 hover:border-accent/30"
                 >
                   {item.image && (
@@ -79,7 +108,7 @@ export default function CertificatesTab({ certificate }) {
                       </div>
                     )}
                   </div>
-                </li>
+                </motion.li>
               ))
             ) : (
               <li className="col-span-full text-gray-400 text-center py-12">
@@ -87,6 +116,45 @@ export default function CertificatesTab({ certificate }) {
               </li>
             )}
           </ul>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <button
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 0}
+                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-[#DFD3C3] text-black/70 hover:bg-accent hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#DFD3C3] disabled:hover:text-black/70 font-medium text-sm"
+              >
+                <FiChevronLeft className="text-lg" />
+                Previous
+              </button>
+
+              <div className="flex items-center gap-2">
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goToPage(i)}
+                    className={`w-9 h-9 rounded-full text-sm font-semibold transition-all duration-300 ${
+                      currentPage === i
+                        ? "bg-accent text-white shadow-md scale-110"
+                        : "bg-[#DFD3C3] text-black/60 hover:bg-accent/30"
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages - 1}
+                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-[#DFD3C3] text-black/70 hover:bg-accent hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#DFD3C3] disabled:hover:text-black/70 font-medium text-sm"
+              >
+                Next
+                <FiChevronRight className="text-lg" />
+              </button>
+            </div>
+          )}
         </div>
       </motion.div>
     </TabsContent>

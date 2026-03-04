@@ -23,13 +23,24 @@ export default function ExperienceTab({ resume }) {
               items.map((item, index) => (
                 <li
                   key={index}
-                  className="bg-[#DFD3C3] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
+                  className="bg-[#DFD3C3] rounded-xl overflow-hidden border-l-4 border-accent hover:shadow-lg transition-all duration-300 group"
                 >
-                  <span className="text-accent text-sm">{item.date}</span>
-                  <h3 className="text-lg font-semibold max-w-[300px] text-center lg:text-left line-clamp-3 leading-tight">
-                    {item.position}
-                  </h3>
-                  <p className="text-black/60 text-sm">{item.company}</p>
+                  <div className="py-6 px-8 flex flex-col gap-2 items-center lg:items-start">
+                    <span className="text-accent text-sm font-medium tracking-wide">
+                      {item.date}
+                    </span>
+                    <h3 className="text-lg font-semibold max-w-[300px] text-center lg:text-left leading-tight group-hover:text-accent transition-colors duration-300">
+                      {item.position}
+                    </h3>
+                    <p className="text-black/60 text-sm font-medium">
+                      {item.company}
+                    </p>
+                    {item.description && (
+                      <p className="text-black/50 text-sm mt-2 leading-relaxed text-center lg:text-left">
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
                 </li>
               ))
             ) : (

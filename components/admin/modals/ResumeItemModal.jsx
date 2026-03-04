@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiX } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ResumeItemModal({
   isOpen,
@@ -15,13 +16,17 @@ export default function ResumeItemModal({
     company: "",
     date: "",
     position: "",
+    description: "",
   });
 
   useEffect(() => {
     if (resumeItem) {
-      setFormData(resumeItem);
+      setFormData({
+        ...resumeItem,
+        description: resumeItem.description || "",
+      });
     } else {
-      setFormData({ company: "", date: "", position: "" });
+      setFormData({ company: "", date: "", position: "", description: "" });
     }
   }, [resumeItem]);
 
@@ -30,12 +35,12 @@ export default function ResumeItemModal({
   const handleSubmit = () => {
     if (formData.company.trim() && formData.position.trim()) {
       onSubmit(formData);
-      setFormData({ company: "", date: "", position: "" });
+      setFormData({ company: "", date: "", position: "", description: "" });
     }
   };
 
   const handleClose = () => {
-    setFormData({ company: "", date: "", position: "" });
+    setFormData({ company: "", date: "", position: "", description: "" });
     onClose();
   };
 
@@ -102,6 +107,23 @@ export default function ResumeItemModal({
                 setFormData({ ...formData, position: e.target.value })
               }
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2 text-gray-700">
+              Description
+            </label>
+            <Textarea
+              placeholder="Brief description about your role and responsibilities..."
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              rows={4}
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              {formData.description.length}/1000 characters
+            </p>
           </div>
 
           <div className="flex items-center justify-center">

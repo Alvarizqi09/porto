@@ -84,8 +84,12 @@ export default function SkillItemModal({
               }
               className="flex h-[48px] w-full rounded-md border border-white/10 focus:border-accent font-light bg-primary px-4 py-2 text-base outline-none"
             >
-              <option value="Frontend">Frontend</option>
+              <option value="Programming Language">Programming Language</option>
+              <option value="Frontend Framework">Frontend Framework</option>
+              <option value="Styling">Styling</option>
               <option value="Backend">Backend</option>
+              <option value="Database">Database</option>
+              <option value="Tools & Management">Tools & Management</option>
               <option value="Design">Design</option>
               <option value="Other">Other</option>
             </select>
