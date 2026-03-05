@@ -21,7 +21,7 @@ export default function ResumeTab({ about }) {
         animate={{ opacity: 1 }}
         className="flex flex-col gap-[30px]"
       >
-        <h3 className="text-4xl font-bold">{title}</h3>
+        <h3 className="text-4xl font-bold">{getValue(title)}</h3>
         <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0 whitespace-pre-wrap">
           {getValue(description)}
         </p>

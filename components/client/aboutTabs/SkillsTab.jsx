@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import techIconMap from "../../../utils/techIconMap";
+import { useLocale } from "next-intl";
 
 // Display order for categories — groups appear in this sequence
 const CATEGORY_ORDER = [
@@ -38,7 +39,14 @@ const CATEGORY_LABELS = {
 };
 
 export default function SkillsTab({ skill }) {
+  const locale = useLocale();
   const { title = "My Skills", description = "", skillList = [] } = skill || {};
+
+  const getValue = (val) => {
+    if (!val) return "";
+    if (typeof val === "string") return val;
+    return val[locale] || val.en || "";
+  };
 
   // Group skills by category
   const groupedSkills = useMemo(() => {
@@ -72,9 +80,9 @@ export default function SkillsTab({ skill }) {
         className="flex flex-col gap-[30px]"
       >
         <div className="flex flex-col gap-[30px] text-center xl:text-left">
-          <h3 className="text-4xl font-bold">{title}</h3>
+          <h3 className="text-4xl font-bold">{getValue(title)}</h3>
           <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
-            {description}
+            {getValue(description)}
           </p>
         </div>
 
