@@ -1,14 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Tab content components (extracted for readability)
 import ResumeTab from "../aboutTabs/ResumeTab";
 import ExperienceTab from "../aboutTabs/ExperienceTab";
 import EducationTab from "../aboutTabs/EducationTab";
-import CertificatesTab from "../aboutTabs/CertificatesTab";
-import SkillsTab from "../aboutTabs/SkillsTab";
+
+// Lazy load heavier tabs
+const CertificatesTab = dynamic(() => import("../aboutTabs/CertificatesTab"), {
+  ssr: false,
+});
+const SkillsTab = dynamic(() => import("../aboutTabs/SkillsTab"), {
+  ssr: false,
+});
 
 export default function AboutClient({ aboutData }) {
   const {

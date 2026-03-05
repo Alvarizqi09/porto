@@ -1,11 +1,13 @@
 import React from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Button } from "./ui/button";
 import Nav from "./Nav";
-import MobileNav from "./MobileNav";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Image from "next/image";
 import logo from "@/public/assets/logo1.png";
+
+const MobileNav = dynamic(() => import("./MobileNav"), { ssr: false });
 
 const Header = () => {
   return (

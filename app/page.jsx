@@ -1,14 +1,16 @@
 "use client";
 
-import Photo from "@/components/Photo";
+import dynamic from "next/dynamic";
 import Socials from "@/components/Socials";
-import Stats from "@/components/Stats";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { FiDownload } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import { aboutApi } from "@/lib/api/aboutApi";
 import { useTranslations } from "next-intl";
+
+const Photo = dynamic(() => import("@/components/Photo"), { ssr: false });
+const Stats = dynamic(() => import("@/components/Stats"), { ssr: false });
 
 const Home = () => {
   const { data } = useQuery({

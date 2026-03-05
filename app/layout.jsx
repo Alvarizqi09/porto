@@ -2,13 +2,21 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
-import PageTransition from "@/components/transition/PageTransition";
-import StairTransition from "@/components/transition/StairTransition";
-import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { QueryProvider } from "./providers";
+
+const PageTransition = dynamic(
+  () => import("@/components/transition/PageTransition"),
+  { ssr: false }
+);
+const StairTransition = dynamic(
+  () => import("@/components/transition/StairTransition"),
+  { ssr: false }
+);
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
 const JetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
