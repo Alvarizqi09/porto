@@ -21,7 +21,9 @@ import {
 } from "react-icons/fa";
 import { getIcon } from "@/utils/techIconMap";
 import { ProjectDetailSkeleton } from "@/components/ui/Skeleton";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { getLocalizedText } from "@/utils/localization";
+import { DEFAULT_PROJECT_IMAGE } from "@/utils/imageFallback";
 
 const ICON_SIZE_CLASS = "w-8 h-8";
 const createIcon = (name) => getIcon(name, ICON_SIZE_CLASS);
@@ -48,6 +50,7 @@ export default function ProjectDetailPage() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [activePageTab, setActivePageTab] = useState(0);
   const t = useTranslations("ProjectDetail");
+  const locale = useLocale();
 
   const {
     data: project,
@@ -130,6 +133,10 @@ export default function ProjectDetailPage() {
   const techStackIcons =
     project.tech_stack?.map((tech) => createIcon(tech)).filter(Boolean) || [];
 
+  const localizedTitle = getLocalizedText(project.title, locale);
+  const localizedDesc = getLocalizedText(project.desc, locale);
+  const localizedLongDesc = getLocalizedText(project.long_desc, locale);
+
   const openLightbox = (index) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
 
@@ -143,8 +150,8 @@ export default function ProjectDetailPage() {
       {/* ===== HERO SECTION — Full-width banner with overlay ===== */}
       <div className="relative w-full h-[50vh] lg:h-[60vh] overflow-hidden">
         <Image
-          src={project.image}
-          alt={`${project.title} - Project showcase`}
+          src={project.image || DEFAULT_PROJECT_IMAGE}
+          alt={`${localizedTitle} - Project showcase`}
           fill
           className="object-cover"
           priority
@@ -186,10 +193,10 @@ export default function ProjectDetailPage() {
               ))}
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-3 drop-shadow-lg">
-              {project.title}
+              {localizedTitle}
             </h1>
             <p className="text-white/80 text-base lg:text-lg max-w-2xl leading-relaxed">
-              {project.desc}
+              {localizedDesc}
             </p>
           </div>
         </motion.div>
@@ -256,14 +263,14 @@ export default function ProjectDetailPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="lg:col-span-2"
           >
-            {project.long_desc && (
+            {localizedLongDesc && (
               <div className="mb-10">
                 <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                   <span className="w-1 h-7 bg-accent rounded-full" />
                   {t("aboutProject")}
                 </h2>
                 <p className="text-gray-600 leading-[1.85] whitespace-pre-wrap text-[15px]">
-                  {project.long_desc}
+                  {localizedLongDesc}
                 </p>
               </div>
             )}
@@ -387,7 +394,7 @@ export default function ProjectDetailPage() {
                           : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                       }`}
                     >
-                      {page.title}
+                      {getLocalizedText(page.title, locale)}
                     </button>
                   ))}
                 </div>
@@ -404,8 +411,8 @@ export default function ProjectDetailPage() {
               onClick={() => openLightbox(activePageTab)}
             >
               <Image
-                src={project.pages[activePageTab].image}
-                alt={project.pages[activePageTab].title}
+                src={project.pages[activePageTab].image || DEFAULT_PROJECT_IMAGE}
+                alt={getLocalizedText(project.pages[activePageTab].title, locale)}
                 fill
                 className="object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                 sizes="100vw"
@@ -416,7 +423,7 @@ export default function ProjectDetailPage() {
               <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div>
                   <h3 className="text-white text-lg font-bold drop-shadow-lg">
-                    {project.pages[activePageTab].title}
+                    {getLocalizedText(project.pages[activePageTab].title, locale)}
                   </h3>
                   <p className="text-white/70 text-sm">
                     {activePageTab + 1} / {project.pages.length}
@@ -446,8 +453,8 @@ export default function ProjectDetailPage() {
                   >
                     <div className="relative h-[100px] sm:h-[110px]">
                       <Image
-                        src={page.image}
-                        alt={page.title}
+                        src={page.image || DEFAULT_PROJECT_IMAGE}
+                        alt={getLocalizedText(page.title, locale)}
                         fill
                         className="object-cover"
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
@@ -465,7 +472,7 @@ export default function ProjectDetailPage() {
                             : "text-gray-600"
                         }`}
                       >
-                        {page.title}
+                        {getLocalizedText(page.title, locale)}
                       </p>
                     </div>
                   </motion.div>
@@ -497,7 +504,7 @@ export default function ProjectDetailPage() {
             {/* Title + counter */}
             <div className="absolute top-5 left-5 z-20">
               <p className="text-white font-semibold text-lg">
-                {project.pages[lightboxIndex].title}
+                {getLocalizedText(project.pages[lightboxIndex].title, locale)}
               </p>
               <p className="text-white/50 text-sm">
                 {lightboxIndex + 1} / {project.pages.length}
@@ -530,8 +537,8 @@ export default function ProjectDetailPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src={project.pages[lightboxIndex].image}
-                alt={project.pages[lightboxIndex].title}
+                src={project.pages[lightboxIndex].image || DEFAULT_PROJECT_IMAGE}
+                alt={getLocalizedText(project.pages[lightboxIndex].title, locale)}
                 fill
                 className="object-contain"
                 sizes="90vw"
@@ -571,8 +578,8 @@ export default function ProjectDetailPage() {
                     }`}
                   >
                     <Image
-                      src={page.image}
-                      alt={page.title}
+                      src={page.image || DEFAULT_PROJECT_IMAGE}
+                      alt={getLocalizedText(page.title, locale)}
                       fill
                       className="object-cover"
                       sizes="64px"

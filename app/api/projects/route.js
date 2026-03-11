@@ -100,13 +100,12 @@ export async function POST(request) {
       !body.title?.en ||
       !body.title?.id ||
       !body.desc?.en ||
-      !body.desc?.id ||
-      !body.image
+      !body.desc?.id
     ) {
       return NextResponse.json(
         {
           success: false,
-          error: "Title (EN/ID), description (EN/ID), and image are required",
+          error: "Title (EN/ID) and description (EN/ID) are required",
         },
         { status: 400 }
       );

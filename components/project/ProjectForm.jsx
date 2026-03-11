@@ -226,7 +226,6 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
 
     if (!formData.title_en.trim() || !formData.title_id.trim()) newErrors.title = "Judul (EN & ID) harus diisi";
     if (!formData.desc_en.trim() || !formData.desc_id.trim()) newErrors.desc = "Deskripsi (EN & ID) harus diisi";
-    if (!formData.image) newErrors.image = "Gambar harus diunggah";
     if (!formData.demo.trim()) newErrors.demo = "URL demo harus diisi";
     if (!formData.preview.trim()) newErrors.preview = "URL preview harus diisi";
     if (formData.tag.length === 0)
