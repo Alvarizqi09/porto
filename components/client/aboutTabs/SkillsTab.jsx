@@ -14,9 +14,12 @@ import { useLocale } from "next-intl";
 
 // Display order for categories — groups appear in this sequence
 const CATEGORY_ORDER = [
-  "Frontend Framework",
+  "Programming Language",
+  "Framework",
   "Styling",
   "Backend",
+  "Version Control",
+  "Libraries",
   "Tools & Management",
   "Design",
   "Other",
@@ -24,11 +27,15 @@ const CATEGORY_ORDER = [
 
 // Maps legacy categories to display names
 const CATEGORY_LABELS = {
-  "Frontend Framework": "Frontend Framework",
+  "Programming Language": "Programming Language",
+  Framework: "Framework",
+  "Frontend Framework": "Framework", // Legacy
   Frontend: "Frontend", // Legacy
   Styling: "Styling",
   Backend: "Backend",
-  Database: "Database",
+  Database: "Backend", // Merge Database to Backend
+  "Version Control": "Version Control",
+  Libraries: "Libraries",
   "Tools & Management": "Tools & Management",
   Design: "Design",
   Other: "Other",

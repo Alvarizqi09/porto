@@ -16,7 +16,14 @@ const PageTransition = ({ children }) => {
       gsap.fromTo(
         contentRef.current,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: 0.2 }
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          delay: 0.2,
+          clearProps: "transform",
+        }
       );
       return;
     }
@@ -37,7 +44,13 @@ const PageTransition = ({ children }) => {
     tl.fromTo(
       contentRef.current,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "transform",
+      },
       "-=0.3"
     );
   }, [pathname]);

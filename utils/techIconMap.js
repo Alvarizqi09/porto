@@ -5,6 +5,7 @@ import {
   FaFigma,
   FaReact,
   FaLaravel,
+  FaVuejs,
 } from "react-icons/fa";
 import {
   SiTailwindcss,
@@ -31,24 +32,28 @@ import {
   SiVite,
   SiPhp,
   SiCodeigniter,
+  SiJest,
+  SiCanva,
+  SiVercel,
+  SiNetlify,
+  SiFramer,
+  SiGreensock,
+  SiAxios,
+  SiReactquery,
+  SiShadcnui,
 } from "react-icons/si";
+import { TbMessageQuestion } from "react-icons/tb";
 
 const techIconMap = {
   HTML: <FaHtml5 title="HTML" aria-label="HTML" role="img" />,
   CSS: <FaCss3 title="CSS" aria-label="CSS" role="img" />,
   JavaScript: <FaJs title="JavaScript" aria-label="JavaScript" role="img" />,
-  TypeScript: (
-    <SiTypescript title="TypeScript" aria-label="TypeScript" role="img" />
-  ),
+  TypeScript: <SiTypescript title="TypeScript" aria-label="TypeScript" role="img" />,
   React: <FaReact title="React" aria-label="React" role="img" />,
   "Vue.js": <SiVuedotjs title="Vue.js" aria-label="Vue.js" role="img" />,
   "Next.js": <SiNextdotjs title="Next.js" aria-label="Next.js" role="img" />,
-  "Tailwind CSS": (
-    <SiTailwindcss title="Tailwind CSS" aria-label="Tailwind CSS" role="img" />
-  ),
-  Bootstrap: (
-    <SiBootstrap title="Bootstrap" aria-label="Bootstrap" role="img" />
-  ),
+  "Tailwind CSS": <SiTailwindcss title="Tailwind CSS" aria-label="Tailwind CSS" role="img" />,
+  Bootstrap: <SiBootstrap title="Bootstrap" aria-label="Bootstrap" role="img" />,
   Quasar: <SiQuasar title="Quasar" aria-label="Quasar" role="img" />,
   Laravel: <FaLaravel title="Laravel" aria-label="Laravel" role="img" />,
   Figma: <FaFigma title="Figma" aria-label="Figma" role="img" />,
@@ -57,25 +62,31 @@ const techIconMap = {
   Mongodb: <SiMongodb title="MongoDB" aria-label="MongoDB" role="img" />,
   Github: <SiGithub title="GitHub" aria-label="GitHub" role="img" />,
   Gitlab: <SiGitlab title="GitLab" aria-label="GitLab" role="img" />,
-  Bitbucket: (
-    <SiBitbucket title="Bitbucket" aria-label="Bitbucket" role="img" />
-  ),
+  Bitbucket: <SiBitbucket title="Bitbucket" aria-label="Bitbucket" role="img" />,
   Jira: <SiJira title="Jira" aria-label="Jira" role="img" />,
   Trello: <SiTrello title="Trello" aria-label="Trello" role="img" />,
   "Node.js": <SiNodedotjs title="Node.js" aria-label="Node.js" role="img" />,
   Express: <SiExpress title="Express" aria-label="Express" role="img" />,
   Docker: <SiDocker title="Docker" aria-label="Docker" role="img" />,
-  PostgreSQL: (
-    <SiPostgresql title="PostgreSQL" aria-label="PostgreSQL" role="img" />
-  ),
+  PostgreSQL: <SiPostgresql title="PostgreSQL" aria-label="PostgreSQL" role="img" />,
   MySQL: <SiMysql title="MySQL" aria-label="MySQL" role="img" />,
   GraphQL: <SiGraphql title="GraphQL" aria-label="GraphQL" role="img" />,
   Redux: <SiRedux title="Redux" aria-label="Redux" role="img" />,
   Vite: <SiVite title="Vite" aria-label="Vite" role="img" />,
   PHP: <SiPhp title="PHP" aria-label="PHP" role="img" />,
-  CodeIgniter: (
-    <SiCodeigniter title="CodeIgniter" aria-label="CodeIgniter" role="img" />
-  ),
+  CodeIgniter: <SiCodeigniter title="CodeIgniter" aria-label="CodeIgniter" role="img" />,
+  // New Skills
+  Jest: <SiJest title="Jest" aria-label="Jest" role="img" />,
+  Canva: <SiCanva title="Canva" aria-label="Canva" role="img" />,
+  Vercel: <SiVercel title="Vercel" aria-label="Vercel" role="img" />,
+  Netlify: <SiNetlify title="Netlify" aria-label="Netlify" role="img" />,
+  "Framer Motion": <SiFramer title="Framer Motion" aria-label="Framer Motion" role="img" />,
+  GSAP: <SiGreensock title="GSAP" aria-label="GSAP" role="img" />,
+  Vuex: <FaVuejs title="Vuex" aria-label="Vuex" role="img" />, // Using FaVuejs for Vuex as specific icon might not exist in commonly used subset
+  Axios: <SiAxios title="Axios" aria-label="Axios" role="img" />,
+  gRPC: <TbMessageQuestion title="gRPC" aria-label="gRPC" role="img" />, // TbMessageQuestion or text fallback for gRPC if no specific icon
+  "React Query": <SiReactquery title="React Query" aria-label="React Query" role="img" />,
+  "shadcn/ui": <SiShadcnui title="shadcn/ui" aria-label="shadcn/ui" role="img" />,
 };
 
 // Helper: normalize common aliases and return a cloned element with optional size class
@@ -110,6 +121,21 @@ const aliasMap = {
   codeigniter: "CodeIgniter",
   ci4: "CodeIgniter",
   next: "Next.js",
+  // New Skill Aliases
+  jest: "Jest",
+  canva: "Canva",
+  vercel: "Vercel",
+  netlify: "Netlify",
+  framermotion: "Framer Motion",
+  framer: "Framer Motion",
+  gsap: "GSAP",
+  vuex: "Vuex",
+  axios: "Axios",
+  grpc: "gRPC",
+  reactquery: "React Query",
+  tanstackquery: "React Query",
+  shadcnui: "shadcn/ui",
+  shadcn: "shadcn/ui",
 };
 
 export function getIcon(name, sizeClass) {
