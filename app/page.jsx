@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 
 const Photo = dynamic(() => import("@/components/Photo"), { ssr: false });
 const Stats = dynamic(() => import("@/components/Stats"), { ssr: false });
+const RecommendationsCarousel = dynamic(() => import("@/components/client/ui/RecommendationsCarousel"), { ssr: false });
 
 const Home = () => {
   const { data } = useQuery({
@@ -78,11 +79,13 @@ const Home = () => {
         </div>
       </div>
       <Stats />
-      <div className="text-center mt-12">
+      <div className="text-center mt-12 mb-20">
         <p className="text-lg text-black/80">
           {t("quote")}
         </p>
       </div>
+
+      <RecommendationsCarousel />
     </section>
   );
 };
