@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { QueryProvider } from "./providers";
+import BackgroundBlobs from "@/components/BackgroundBlobs";
 
 const PageTransition = dynamic(
   () => import("@/components/transition/PageTransition"),
@@ -72,9 +73,10 @@ export default async function RootLayout({ children }) {
         <link rel="icon" href="/icon.ico?v=2" />
         <title>{metadata.title}</title>
       </head>
-      <body className={JetBrainsMono.variable}>
+      <body className={`${JetBrainsMono.variable} relative`}>
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>
+            <BackgroundBlobs />
             <Header />
             <StairTransition />
             <PageTransition>{children}</PageTransition>

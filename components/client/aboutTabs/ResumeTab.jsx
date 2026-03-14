@@ -22,10 +22,10 @@ export default function ResumeTab({ about }) {
         className="flex flex-col gap-[30px]"
       >
         <h3 className="text-4xl font-bold">{getValue(title)}</h3>
-        <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0 whitespace-pre-wrap">
+        <p className="text-black/80 mx-auto xl:mx-0 whitespace-pre-wrap">
           {getValue(description)}
         </p>
-        <ul className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
+        <ul className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6 mx-auto xl:mx-0">
           {info && info.length > 0 ? (
             info.map((item, index) => (
               <li
