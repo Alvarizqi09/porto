@@ -22,7 +22,14 @@ export default function ProjectsClient({ projects: initialProjects }) {
     id: project._id,
     icon:
       project.tech_stack
-        ?.map((tech) => getIcon(tech, ICON_SIZE_CLASS))
+        ?.map((tech, index) => {
+          const iconEl = getIcon(tech, ICON_SIZE_CLASS);
+          return iconEl ? (
+            <span key={`${project._id}-tech-${index}`}>
+              {iconEl}
+            </span>
+          ) : null;
+        })
         .filter(Boolean) || [],
   }));
 
