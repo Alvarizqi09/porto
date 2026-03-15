@@ -14,7 +14,7 @@ const Stats = dynamic(() => import("@/components/Stats"), { ssr: false });
 const RecommendationsCarousel = dynamic(() => import("@/components/client/ui/RecommendationsCarousel"), { ssr: false });
 
 const Home = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["about-data"],
     queryFn: aboutApi.fetchAboutData,
   });
@@ -25,11 +25,15 @@ const Home = () => {
   const cvLinkEnglish = data?.about?.cvLinkEnglish || "";
 
   const handleDownloadCV = () => {
-    window.open(cvLink, "_blank");
+    if (cvLink) {
+      window.open(cvLink, "_blank");
+    }
   };
 
   const handleDownloadCVenglish = () => {
-    window.open(cvLinkEnglish, "_blank");
+    if (cvLinkEnglish) {
+      window.open(cvLinkEnglish, "_blank");
+    }
   };
   return (
     <section className="h-full mb-10">
@@ -51,6 +55,7 @@ const Home = () => {
                   size="lg"
                   className="uppercase flex items-center gap-2"
                   onClick={handleDownloadCV}
+                  disabled={isLoading}
                 >
                   <span>{t("downloadCV")}</span>
                   <FiDownload className="text-xl" />
@@ -60,6 +65,7 @@ const Home = () => {
                   size="lg"
                   className="uppercase flex items-center gap-2"
                   onClick={handleDownloadCVenglish}
+                  disabled={isLoading}
                 >
                   <span>{t("englishVersion")}</span>
                   <FiDownload className="text-xl" />
