@@ -9,7 +9,8 @@ import { useQuery } from "@tanstack/react-query";
 import { aboutApi } from "@/lib/api/aboutApi";
 import { useTranslations } from "next-intl";
 
-const Photo = dynamic(() => import("@/components/Photo"), { ssr: false });
+import Photo from "@/components/Photo";
+
 const Stats = dynamic(() => import("@/components/Stats"), { ssr: false });
 const RecommendationsCarousel = dynamic(() => import("@/components/client/ui/RecommendationsCarousel"), { ssr: false });
 
