@@ -120,12 +120,12 @@ export default function RecommendationsCarousel() {
                     />
                   </div>
                   
-                  <p className="text-[11px] md:text-sm text-foreground/80 font-medium italic mb-4 w-full max-w-2xl leading-relaxed z-10 flex-grow">
+                  <p className="text-[12px] md:text-sm text-foreground/90 font-medium italic mb-4 w-full max-w-2xl leading-relaxed z-10 flex-grow">
                     "{getValue(card.data.text)}"
                   </p>
                   
                   <div className="flex flex-col items-center z-10 mt-auto">
-                    <h4 className="text-base md:text-lg font-bold text-foreground">{card.data.name}</h4>
+                    <h3 className="text-base md:text-lg font-bold text-foreground">{card.data.name}</h3>
                     <p className="text-[10px] md:text-xs text-accent font-semibold mt-1 uppercase tracking-wider line-clamp-1">{getValue(card.data.role)}</p>
                     <p className="text-[10px] text-foreground/50 mt-1">{getValue(card.data.date)}</p>
                   </div>

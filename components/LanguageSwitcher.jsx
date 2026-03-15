@@ -29,7 +29,7 @@ export default function LanguageSwitcher() {
 
   return (
     <Select value={locale} onValueChange={onLocaleChange}>
-      <SelectTrigger className="w-[70px] h-[36px] bg-transparent border border-accent text-accent hover:bg-accent hover:text-primary transition-all">
+      <SelectTrigger className="w-[70px] h-[36px] bg-transparent border border-accent text-accent hover:bg-accent hover:text-primary transition-all" aria-label="Select Language">
         <SelectValue placeholder={locale ? locale.toUpperCase() : "Lang"} />
       </SelectTrigger>
       <SelectContent>
