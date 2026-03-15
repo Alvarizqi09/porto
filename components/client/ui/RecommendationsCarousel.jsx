@@ -126,7 +126,7 @@ export default function RecommendationsCarousel() {
                   
                   <div className="flex flex-col items-center z-10 mt-auto">
                     <h3 className="text-base md:text-lg font-bold text-foreground">{card.data.name}</h3>
-                    <p className="text-[10px] md:text-xs text-accent font-semibold mt-1 uppercase tracking-wider line-clamp-1">{getValue(card.data.role)}</p>
+                    <p className="text-[10px] md:text-xs text-foreground/80 font-bold mt-1 uppercase tracking-wider line-clamp-1">{getValue(card.data.role)}</p>
                     <p className="text-[10px] text-foreground/50 mt-1">{getValue(card.data.date)}</p>
                   </div>
                 </motion.div>
@@ -135,17 +135,20 @@ export default function RecommendationsCarousel() {
           </AnimatePresence>
         </div>
 
-        {/* Manual Navigation Controls */}
-        <div className="flex justify-center gap-3 mt-8">
+        <div className="flex justify-center gap-1 mt-8">
           {recommendations.map((_, i) => (
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                activeIndex === i ? "w-8 bg-accent" : "w-2 bg-accent/30 hover:bg-accent/50"
-              }`}
+              className="p-2 cursor-pointer flex items-center justify-center"
               aria-label={`Go to recommendation ${i + 1}`}
-            />
+            >
+              <div 
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === i ? "w-8 bg-accent" : "w-2 bg-accent/30 hover:bg-accent/50"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>

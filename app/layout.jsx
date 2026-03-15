@@ -81,7 +81,9 @@ export default async function RootLayout({ children }) {
               <BackgroundBlobs />
               <Header />
               <StairTransition />
-              <PageTransition>{children}</PageTransition>
+              <main>
+                <PageTransition>{children}</PageTransition>
+              </main>
               <Footer />
               <Analytics />
               <SpeedInsights />
