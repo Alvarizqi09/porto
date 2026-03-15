@@ -11,7 +11,7 @@ const Photo = () => {
         initial={{ opacity: 0 }}
         animate={{
           opacity: 1,
-          transition: { delay: 1, duration: 0.5, ease: "easeInOut" },
+          transition: { delay: 0.1, duration: 0.5, ease: "easeInOut" },
         }}
         className="w-full h-full grid place-items-center"
       >
@@ -19,7 +19,7 @@ const Photo = () => {
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
-            transition: { delay: 1.5, duration: 0.5, ease: "easeOut" },
+            transition: { delay: 0.2, duration: 0.5, ease: "easeOut" },
           }}
           className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-darken dark:mix-blend-normal col-start-1 row-start-1 relative"
         >

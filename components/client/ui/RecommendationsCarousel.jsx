@@ -7,7 +7,6 @@ import { RiDoubleQuotesL } from "react-icons/ri";
 import { FaLinkedin } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import gsap from "gsap";
 
 export default function RecommendationsCarousel() {
   const locale = useLocale();
@@ -140,7 +139,7 @@ export default function RecommendationsCarousel() {
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
-              className="p-2 cursor-pointer flex items-center justify-center"
+              className="w-12 h-12 cursor-pointer flex items-center justify-center"
               aria-label={`Go to recommendation ${i + 1}`}
             >
               <div 
