@@ -41,14 +41,14 @@ export default function ProjectsClient({ projects: initialProjects }) {
     <div className="mb-10">
       <div className="container">
         <motion.h2
-          className="text-center text-4xl font-bold text-black my-8"
+          className="text-center text-4xl font-bold text-foreground my-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           My Project
         </motion.h2>
-        <div className="text-black flex flex-row justify-center items-center gap-2 py-6">
+        <div className="text-foreground flex flex-row justify-center items-center gap-2 py-6">
           {["All", "Web", "Design"].map((tagName, index) => (
             <motion.div
               key={tagName}

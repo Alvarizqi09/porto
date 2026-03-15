@@ -38,7 +38,7 @@ export default function ExperienceTab({ resume }) {
         className="flex flex-col gap-[30px] text-center xl:text-left"
       >
         <h3 className="text-4xl font-bold">{getValue(title)}</h3>
-        <p className="text-black/80 mx-auto xl:mx-0">
+        <p className="text-foreground/80 mx-auto xl:mx-0">
           {getValue(description)}
         </p>
         <div>
@@ -53,7 +53,7 @@ export default function ExperienceTab({ resume }) {
                 return (
                   <li
                     key={index}
-                    className="bg-[#DFD3C3] rounded-xl overflow-hidden border-l-4 border-accent hover:shadow-lg transition-all duration-300 group"
+                    className="bg-card rounded-xl overflow-hidden border-l-4 border-accent hover:shadow-lg transition-all duration-300 group"
                   >
                     <div
                       className={`py-6 px-8 flex flex-col gap-2 items-center lg:items-start ${
@@ -75,10 +75,10 @@ export default function ExperienceTab({ resume }) {
                           </motion.div>
                         )}
                       </div>
-                      <h3 className="text-lg font-semibold text-center lg:text-left leading-tight group-hover:text-accent transition-colors duration-300">
+                      <h3 className="text-lg font-semibold text-center lg:text-left leading-tight group-hover:text-accent transition-colors duration-300 text-foreground">
                         {getValue(item.position)}
                       </h3>
-                      <p className="text-black/60 text-sm font-medium">
+                      <p className="text-foreground/60 text-sm font-medium">
                         {getValue(item.company)}
                       </p>
                     </div>
@@ -93,12 +93,12 @@ export default function ExperienceTab({ resume }) {
                           transition={{ duration: 0.3, ease: "easeInOut" }}
                           className="overflow-hidden"
                         >
-                          <div className="px-8 pb-6 pt-2 border-t border-black/10">
+                          <div className="px-8 pb-6 pt-2 border-t border-foreground/10">
                             <ul className="space-y-2">
                               {bullets.map((bullet, bIdx) => (
                                 <li
                                   key={bIdx}
-                                  className="flex items-start gap-3 text-sm text-black/65 leading-relaxed text-left"
+                                  className="flex items-start gap-3 text-sm text-foreground/70 leading-relaxed text-left"
                                 >
                                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                                   <span>{bullet}</span>

@@ -84,7 +84,7 @@ export default function SkillsTab({ skill }) {
       >
         <div className="flex flex-col gap-[30px] text-center xl:text-left">
           <h3 className="text-4xl font-bold">{getValue(title)}</h3>
-          <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0">
+          <p className="max-w-[600px] text-foreground/80 mx-auto xl:mx-0">
             {getValue(description)}
           </p>
         </div>
@@ -97,26 +97,26 @@ export default function SkillsTab({ skill }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: groupIndex * 0.1 }}
-                className="bg-[#DFD3C3] rounded-xl overflow-hidden border-l-4 border-accent hover:shadow-lg transition-all duration-300"
+                className="bg-card rounded-xl overflow-hidden border-l-4 border-accent hover:shadow-lg transition-all duration-300"
               >
                 {/* Category Header */}
                 <div className="flex items-center gap-3 px-8 pt-5 pb-3">
-                  <h4 className="text-base font-bold text-black/80">
+                  <h4 className="text-base font-bold text-foreground/80">
                     {group.label}
                   </h4>
-                  <div className="flex-1 h-px bg-black/15"></div>
-                  <span className="text-xs text-black/40 font-medium">
+                  <div className="flex-1 h-px bg-foreground/15"></div>
+                  <span className="text-xs text-foreground/40 font-medium">
                     {group.skills.length}
                   </span>
                 </div>
 
                 {/* Skills Grid */}
-                <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 px-8 pb-6 text-black">
+                <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 px-8 pb-6 text-foreground">
                   {group.skills.map((skillName, index) => (
                     <li key={index}>
                       <TooltipProvider delayDuration={100}>
                         <Tooltip>
-                          <TooltipTrigger className="w-full h-[100px] bg-[#FFF4E6] rounded-xl flex justify-center items-center group cursor-pointer hover:text-accent hover:bg-accent/10 transition-all duration-300 border border-transparent hover:border-accent/20">
+                          <TooltipTrigger className="w-full h-[100px] bg-background rounded-xl flex justify-center items-center group cursor-pointer hover:text-accent hover:bg-accent/10 transition-all duration-300 border border-transparent hover:border-accent/20">
                             <div className="text-5xl group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
                               {techIconMap[skillName] ? (
                                 techIconMap[skillName]

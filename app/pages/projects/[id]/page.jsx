@@ -108,15 +108,15 @@ export default function ProjectDetailPage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center bg-white p-12 rounded-2xl shadow-xl max-w-md w-full"
+          className="text-center bg-card p-12 rounded-2xl shadow-xl max-w-md w-full"
         >
-          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-20 h-20 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-4xl">😕</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">
+          <h1 className="text-2xl font-bold text-foreground mb-3">
             {error ? t("errorTitle") : t("notFoundTitle")}
           </h1>
-          <p className="text-gray-500 mb-8 leading-relaxed">
+          <p className="text-muted-foreground mb-8 leading-relaxed">
             {error?.message || t("notFoundDesc")}
           </p>
           <button
@@ -237,16 +237,16 @@ export default function ProjectDetailPage() {
               key={i}
               variants={stagger.child}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="bg-white rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center gap-4 border border-gray-100"
+              className="bg-card rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center gap-4 border border-border"
             >
               <div className="w-11 h-11 bg-accent/10 rounded-lg flex items-center justify-center shrink-0">
                 {stat.icon}
               </div>
               <div className="min-w-0">
-                <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
                   {stat.label}
                 </p>
-                <p className="text-sm font-bold text-gray-900 truncate">
+                <p className="text-sm font-bold text-foreground truncate">
                   {stat.value}
                 </p>
               </div>
@@ -265,11 +265,11 @@ export default function ProjectDetailPage() {
           >
             {localizedLongDesc && (
               <div className="mb-10">
-                <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <h2 className="text-xl lg:text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
                   <span className="w-1 h-7 bg-accent rounded-full" />
                   {t("aboutProject")}
                 </h2>
-                <p className="text-gray-600 leading-[1.85] whitespace-pre-wrap text-[15px]">
+                <p className="text-muted-foreground leading-[1.85] whitespace-pre-wrap text-[15px]">
                   {localizedLongDesc}
                 </p>
               </div>
@@ -296,12 +296,12 @@ export default function ProjectDetailPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.05 * i }}
                         whileHover={{ y: -3, transition: { duration: 0.15 } }}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-accent/40 transition-all duration-200"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-card border border-border rounded-xl shadow-sm hover:shadow-md hover:border-accent/40 transition-all duration-200"
                       >
                         {icon && (
                           <span className="[&>svg]:w-5 [&>svg]:h-5">{icon}</span>
                         )}
-                        <span className="text-sm font-medium text-gray-700">
+                        <span className="text-sm font-medium text-foreground">
                           {tech}
                         </span>
                       </motion.div>
@@ -319,8 +319,8 @@ export default function ProjectDetailPage() {
             transition={{ duration: 0.5, delay: 0.35 }}
             className="space-y-4"
           >
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 space-y-4 sticky top-24">
-              <h3 className="text-base font-bold text-gray-900 mb-1">
+            <div className="bg-card rounded-2xl p-6 shadow-lg border border-border space-y-4 sticky top-24">
+              <h3 className="text-base font-bold text-foreground mb-1">
                 {t("viewProject")}
               </h3>
 
@@ -340,7 +340,7 @@ export default function ProjectDetailPage() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-foreground hover:bg-foreground/90 text-background font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
                 >
                   <FaGithub className="w-4 h-4" /> {t("github")}
                 </Link>
@@ -352,7 +352,7 @@ export default function ProjectDetailPage() {
                   href={project.preview}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl transition-all duration-300 border border-gray-200"
+                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-muted hover:bg-muted/80 text-foreground font-semibold rounded-xl transition-all duration-300 border border-border"
                 >
                   <FaExternalLinkAlt className="w-4 h-4" /> {t("sourceCode")}
                 </Link>
@@ -372,11 +372,11 @@ export default function ProjectDetailPage() {
             {/* Section header */}
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
               <div>
-                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <h2 className="text-2xl lg:text-3xl font-bold text-foreground flex items-center gap-3">
                   <span className="w-1 h-8 bg-accent rounded-full" />
                   {t("websitePages")}
                 </h2>
-                <p className="text-gray-400 mt-1 ml-4 text-sm">
+                <p className="text-muted-foreground mt-1 ml-4 text-sm">
                   {t("pageCount", { count: project.pages.length })}
                 </p>
               </div>
@@ -388,10 +388,10 @@ export default function ProjectDetailPage() {
                     <button
                       key={i}
                       onClick={() => setActivePageTab(i)}
-                      className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+                      className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 border border-border ${
                         activePageTab === i
-                          ? "bg-accent text-white shadow-sm"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                          ? "bg-accent text-white shadow-sm border-accent"
+                          : "bg-muted text-muted-foreground hover:bg-muted/80"
                       }`}
                     >
                       {getLocalizedText(page.title, locale)}
@@ -407,7 +407,7 @@ export default function ProjectDetailPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
-              className="relative group cursor-pointer rounded-2xl overflow-hidden shadow-xl border border-gray-200 mb-6 h-[300px] sm:h-[400px] lg:h-[500px]"
+              className="relative group cursor-pointer rounded-2xl overflow-hidden shadow-xl border border-border mb-6 h-[300px] sm:h-[400px] lg:h-[500px]"
               onClick={() => openLightbox(activePageTab)}
             >
               <Image
@@ -429,7 +429,7 @@ export default function ProjectDetailPage() {
                     {activePageTab + 1} / {project.pages.length}
                   </p>
                 </div>
-                <span className="bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-4 py-2 rounded-full border border-white/30 flex items-center gap-2">
+                <span className="bg-foreground/20 backdrop-blur-sm text-foreground text-xs font-semibold px-4 py-2 rounded-full border border-foreground/30 flex items-center gap-2">
                   <FaSearch className="w-3 h-3" /> {t("zoom")}
                 </span>
               </div>
@@ -447,7 +447,7 @@ export default function ProjectDetailPage() {
                     className={`relative cursor-pointer rounded-xl overflow-hidden border-2 transition-all duration-200 ${
                       activePageTab === index
                         ? "border-accent shadow-lg ring-2 ring-accent/20"
-                        : "border-gray-200 hover:border-accent/40 hover:shadow-md"
+                        : "border-border hover:border-accent/40 hover:shadow-md"
                     }`}
                     onClick={() => setActivePageTab(index)}
                   >
@@ -464,12 +464,12 @@ export default function ProjectDetailPage() {
                         <div className="absolute inset-0 bg-accent/10" />
                       )}
                     </div>
-                    <div className="p-2 bg-white">
+                    <div className="p-2 bg-card border-t border-border">
                       <p
                         className={`text-xs font-semibold truncate ${
                           activePageTab === index
                             ? "text-accent"
-                            : "text-gray-600"
+                            : "text-muted-foreground"
                         }`}
                       >
                         {getLocalizedText(page.title, locale)}

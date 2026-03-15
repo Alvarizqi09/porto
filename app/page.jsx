@@ -45,7 +45,7 @@ const Home = () => {
               {t("titlePrefix")} <br />
               <span className="text-accent">Alvarizqi</span>
             </h1>
-            <p className="max-w-[500px] mb-9 text-black/80">
+            <p className="max-w-[500px] mb-9 text-foreground/80">
               {t("description")}
             </p>
             <div className="flex flex-col items-center justify-center xl:justify-start gap-6 mb-8">
@@ -86,7 +86,7 @@ const Home = () => {
       </div>
       <Stats />
       <div className="text-center mt-12 mb-20">
-        <p className="text-lg text-black/80">
+        <p className="text-lg text-foreground/80">
           {t("quote")}
         </p>
       </div>

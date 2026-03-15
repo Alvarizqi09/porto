@@ -3,17 +3,52 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: #F8EDE3; /* Warm Cream */
+    --foreground: #1A1A1A; /* Dark Text */
+    --primary: #F8EDE3;
+    --primary-foreground: #1A1A1A;
+    --accent: #C5705D; /* Warm Terracotta */
+    --accent-hover: #D0B8A8;
+    --card: #DFD3C3; /* Slightly darker cream for cards */
+    --card-foreground: #1A1A1A;
+    --muted: #E5DACE;
+    --muted-foreground: rgba(0, 0, 0, 0.5);
+    --border: rgba(197, 112, 93, 0.2); /* Accent with low opacity */
+  }
+
+  .dark {
+    --background: #0B192C; /* Deep Navy Blue */
+    --foreground: #F8EDE3; /* Off-white text */
+    --primary: #0B192C;
+    --primary-foreground: #F8EDE3;
+    --accent: #3A86FF; /* Electric/Vibrant Blue */
+    --accent-hover: #8338ec; /* Subtle violet hover */
+    --card: #1E3E62; /* Slightly lighter navy for cards */
+    --card-foreground: #F8EDE3;
+    --muted: #112A46;
+    --muted-foreground: rgba(248, 237, 227, 0.5);
+    --border: rgba(58, 134, 255, 0.2); /* Accent blue tight border */
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
   body {
-    @apply font-primary bg-primary text-black leading-loose;
+    background-color: var(--background);
+    color: var(--foreground);
+    @apply font-primary leading-loose transition-colors duration-300;
   }
   .h1 {
-    @apply text-[48px] xl:text-[80px] leading-[1.1] font-semibold;
+    @apply text-[48px] xl:text-[80px] leading-[1.1] font-semibold text-foreground;
   }
   .h2 {
-    @apply text-[36px] xl:text-[48px] leading-[1.1] font-semibold;
+    @apply text-[36px] xl:text-[48px] leading-[1.1] font-semibold text-foreground;
   }
   .h3 {
-    @apply text-[24px] xl:text-[24px] leading-[1.1] font-semibold;
+    @apply text-[24px] xl:text-[24px] leading-[1.1] font-semibold text-foreground;
   }
 }
 

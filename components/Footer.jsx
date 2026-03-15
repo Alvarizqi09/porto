@@ -6,7 +6,7 @@ const Footer = () => {
   const t = useTranslations("Footer");
   return (
     <div className="mt-0 mb-10">
-      <h5 className="text-center font-normal text-black/80 md:mb-0 mt-6 xl:mt-0">
+      <h5 className="text-center font-normal text-foreground/80 md:mb-0 mt-6 xl:mt-0">
         &copy; {currentYear}
         <a
           href="https://github.com/Alvarizqi09"

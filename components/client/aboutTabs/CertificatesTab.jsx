@@ -53,7 +53,7 @@ export default function CertificatesTab({ certificate }) {
         className="flex flex-col gap-[30px] text-center xl:text-left"
       >
         <h3 className="text-4xl font-bold">{getValue(title)}</h3>
-        <p className="max-w-[600px] text-black/80 mx-auto xl:mx-0 whitespace-pre-wrap">
+        <p className="max-w-[600px] text-foreground/80 mx-auto xl:mx-0 whitespace-pre-wrap">
           {getValue(description)}
         </p>
         <div>
@@ -65,10 +65,10 @@ export default function CertificatesTab({ certificate }) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col border border-gray-100 hover:border-accent/30"
+                  className="group bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col border border-border hover:border-accent/30"
                 >
                   {item.image && (
-                    <div className="w-full aspect-[16/9] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative">
+                    <div className="w-full aspect-[16/9] bg-muted overflow-hidden relative">
                       <Image
                         src={item.image}
                         alt={`${getValue(item.name)} certificate from ${getValue(item.publisher)}`}
@@ -80,8 +80,8 @@ export default function CertificatesTab({ certificate }) {
                     </div>
                   )}
 
-                  <div className="p-6 flex flex-col gap-3 flex-grow bg-gradient-to-b from-white to-gray-50/50">
-                    <h4 className="text-lg font-bold text-black leading-tight line-clamp-2 min-h-[3.5rem] group-hover:text-accent transition-colors duration-300">
+                  <div className="p-6 flex flex-col gap-3 flex-grow bg-card">
+                    <h4 className="text-lg font-bold text-foreground leading-tight line-clamp-2 min-h-[3.5rem] group-hover:text-accent transition-colors duration-300">
                       {getValue(item.name)}
                     </h4>
                     <div className="flex items-center gap-2 mt-1">
@@ -91,8 +91,8 @@ export default function CertificatesTab({ certificate }) {
                       </p>
                     </div>
                     {item.date && (
-                      <div className="mt-auto pt-4 border-t border-gray-100">
-                        <p className="text-xs text-black/60 font-medium flex items-center gap-2">
+                      <div className="mt-auto pt-4 border-t border-border">
+                        <p className="text-xs text-foreground/60 font-medium flex items-center gap-2">
                           <svg
                             className="w-4 h-4 text-accent"
                             fill="none"
@@ -109,7 +109,7 @@ export default function CertificatesTab({ certificate }) {
                             />
                           </svg>
                           Valid until:{" "}
-                          <span className="font-semibold text-black/80">
+                          <span className="font-semibold text-foreground/80">
                             {getValue(item.date)}
                           </span>
                         </p>
@@ -131,7 +131,7 @@ export default function CertificatesTab({ certificate }) {
               <button
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 0}
-                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-[#DFD3C3] text-black/70 hover:bg-accent hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#DFD3C3] disabled:hover:text-black/70 font-medium text-sm"
+                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-card text-foreground/70 hover:bg-accent hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-card disabled:hover:text-foreground/70 font-medium text-sm border border-border"
               >
                 <FiChevronLeft className="text-lg" />
                 Previous
@@ -142,10 +142,10 @@ export default function CertificatesTab({ certificate }) {
                   <button
                     key={i}
                     onClick={() => goToPage(i)}
-                    className={`w-9 h-9 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    className={`w-9 h-9 rounded-full text-sm font-semibold transition-all duration-300 border border-border ${
                       currentPage === i
-                        ? "bg-accent text-white shadow-md scale-110"
-                        : "bg-[#DFD3C3] text-black/60 hover:bg-accent/30"
+                        ? "bg-accent text-white shadow-md scale-110 border-accent"
+                        : "bg-card text-foreground/60 hover:bg-accent/30"
                     }`}
                   >
                     {i + 1}
@@ -156,7 +156,7 @@ export default function CertificatesTab({ certificate }) {
               <button
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages - 1}
-                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-[#DFD3C3] text-black/70 hover:bg-accent hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#DFD3C3] disabled:hover:text-black/70 font-medium text-sm"
+                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-card text-foreground/70 hover:bg-accent hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-card disabled:hover:text-foreground/70 font-medium text-sm border border-border"
               >
                 Next
                 <FiChevronRight className="text-lg" />

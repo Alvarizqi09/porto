@@ -18,14 +18,9 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
 
   return (
     <div className="shadow-xl border-accent border-4 rounded-2xl w-full flex flex-col mx-auto relative overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-      <div
-        className="w-full min-h-[250px] flex-grow relative group overflow-hidden flex items-center justify-center"
-        style={{
-          backgroundImage: `${waveBg}, linear-gradient(135deg, #D0B8A8 0%, #DFD3C3 40%, #C5705D20 70%, #DFD3C3 100%)`,
-        }}
-      >
+      <div className="w-full min-h-[250px] flex-grow relative group overflow-hidden flex items-center justify-center bg-muted/30">
         {/* Circular logo container */}
-        <div className="relative w-[65%] aspect-square rounded-full overflow-hidden z-[1] shadow-xl border-4 border-white/60 group-hover:scale-105 transition-transform duration-500 bg-white">
+        <div className="relative w-[65%] aspect-square rounded-full overflow-hidden z-[1] shadow-xl border-4 border-white/60 dark:border-white/20 group-hover:scale-105 transition-transform duration-500 bg-white dark:bg-card">
           <Image
             src={image || DEFAULT_PROJECT_IMAGE}
             alt={`${localizedTitle} - Project logo`}
@@ -38,44 +33,34 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
         </div>
 
         {/* Hover overlay */}
-        <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-8 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500 z-10">
+        <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-6 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500 z-10">
           <Link
             href={id ? `/pages/projects/${id}` : "#"}
-            className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link flex items-center justify-center transition-all"
+            className="h-14 w-14 border-2 relative rounded-full border-border hover:border-foreground group/link flex items-center justify-center transition-all"
             title="Lihat Detail"
             aria-label={`View details for ${localizedTitle} project`}
           >
-            <BsInfoCircleFill className="text-3xl text-black/80 group-hover/link:text-white transition-colors" />
+            <BsInfoCircleFill className="text-3xl text-foreground/80 group-hover/link:text-white transition-colors" />
           </Link>
           <Link
             href={demo}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link flex items-center justify-center transition-all"
+            className="h-14 w-14 border-2 relative rounded-full border-border hover:border-foreground group/link flex items-center justify-center transition-all"
             title="Buka Demo"
             aria-label={`Open demo for ${localizedTitle}`}
           >
-            <FiExternalLink className="text-3xl text-black/80 group-hover/link:text-white transition-colors" />
-          </Link>
-          <Link
-            href={preview}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="h-14 w-14 border-2 relative rounded-full border-[#DFD3C3] hover:border-black group/link flex items-center justify-center transition-all"
-            title="Lihat Preview"
-            aria-label={`View preview for ${localizedTitle}`}
-          >
-            <MdPreview className="text-3xl text-black/80 group-hover/link:text-white transition-colors" />
+            <FiExternalLink className="text-3xl text-foreground/80 group-hover/link:text-white transition-colors" />
           </Link>
         </div>
       </div>
 
-      <div className="rounded-b-xl bg-[#DFD3C3] py-4 px-6 flex flex-col justify-between">
+      <div className="rounded-b-xl bg-card py-4 px-6 flex flex-col justify-between">
         <div>
-          <h5 className="text-xl text-center font-semibold text-black mb-1">
+          <h5 className="text-xl text-center font-semibold text-foreground mb-1">
             {localizedTitle}
           </h5>
-          <p className="text-sm text-black/60 text-center line-clamp-2">
+          <p className="text-sm text-foreground/60 text-center line-clamp-2">
             {localizedDesc}
           </p>
         </div>

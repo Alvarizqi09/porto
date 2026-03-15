@@ -26,11 +26,25 @@ module.exports = {
     fontFamily: { primary: "var(--font-jetbrainsMono)" },
     extend: {
       colors: {
-        primary: "#F8EDE3",
-        accent: {
-          DEFAULT: "#C5705D",
-          hover: "#D0B8A8",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: {
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
         },
+        accent: {
+          DEFAULT: "var(--accent)",
+          hover: "var(--accent-hover)",
+        },
+        card: {
+          DEFAULT: "var(--card)",
+          foreground: "var(--card-foreground)",
+        },
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--muted-foreground)",
+        },
+        border: "var(--border)",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

@@ -105,13 +105,13 @@ export default function RecommendationsCarousel() {
                     duration: 0.8, 
                     ease: "backOut" // Custom bouncy ease supported by Framer
                   }}
-                  className={`absolute top-0 w-full h-full p-6 md:p-8 rounded-3xl border border-[#C5705D]/20 shadow-2xl flex flex-col items-center text-center overflow-hidden
-                    ${isFront ? 'bg-[#DFD3C3] backdrop-blur-md' : 'bg-[#E5DACE] shadow-none pointer-events-none'}`}
+                  className={`absolute top-0 w-full h-full p-6 md:p-8 rounded-3xl border border-border shadow-2xl flex flex-col items-center text-center overflow-hidden
+                    ${isFront ? 'bg-card backdrop-blur-md' : 'bg-muted shadow-none pointer-events-none'}`}
                   style={{ transformOrigin: "top center" }}
                 >
-                  <RiDoubleQuotesL className="absolute top-4 left-6 text-[#C5705D] opacity-10 text-6xl md:text-8xl -rotate-12" />
+                  <RiDoubleQuotesL className="absolute top-4 left-6 text-accent opacity-10 text-6xl md:text-8xl -rotate-12" />
                   
-                  <div className="w-16 h-16 md:w-20 md:h-20 mb-4 rounded-full border-4 border-white shadow-md relative overflow-hidden flex-shrink-0 z-10">
+                  <div className="w-16 h-16 md:w-20 md:h-20 mb-4 rounded-full border-4 border-background shadow-md relative overflow-hidden flex-shrink-0 z-10">
                     <Image
                       src={card.data.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(card.data.name) + "&background=random"}
                       alt={card.data.name}
@@ -120,14 +120,14 @@ export default function RecommendationsCarousel() {
                     />
                   </div>
                   
-                  <p className="text-[11px] md:text-sm text-black/80 font-medium italic mb-4 w-full max-w-2xl leading-relaxed z-10 flex-grow">
+                  <p className="text-[11px] md:text-sm text-foreground/80 font-medium italic mb-4 w-full max-w-2xl leading-relaxed z-10 flex-grow">
                     "{getValue(card.data.text)}"
                   </p>
                   
                   <div className="flex flex-col items-center z-10 mt-auto">
-                    <h4 className="text-base md:text-lg font-bold text-black">{card.data.name}</h4>
+                    <h4 className="text-base md:text-lg font-bold text-foreground">{card.data.name}</h4>
                     <p className="text-[10px] md:text-xs text-accent font-semibold mt-1 uppercase tracking-wider line-clamp-1">{getValue(card.data.role)}</p>
-                    <p className="text-[10px] text-black/50 mt-1">{getValue(card.data.date)}</p>
+                    <p className="text-[10px] text-foreground/50 mt-1">{getValue(card.data.date)}</p>
                   </div>
                 </motion.div>
               );

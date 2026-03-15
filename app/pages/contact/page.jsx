@@ -82,12 +82,12 @@ const Contact = () => {
             <ul className="flex flex-col gap-10">
               {info.map((item, index) => (
                 <li key={index} className="flex items-center gap-6">
-                  <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-[#DFD3C3] text-accent rounded-md flex items-center justify-center">
+                  <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-card border border-border text-accent rounded-md flex items-center justify-center">
                     <div className="text-[28px]">{item.icon}</div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-black/80">{item.title}</h3>
-                    <p className="text-xl">{item.desc}</p>
+                    <h3 className="text-foreground/80">{item.title}</h3>
+                    <p className="text-xl text-foreground">{item.desc}</p>
                   </div>
                 </li>
               ))}
@@ -96,11 +96,11 @@ const Contact = () => {
 
           <div className="xl:w-[54%] order-1 xl:order-none">
             <form
-              className="flex flex-col gap-6 p-10 bg-[#DFD3C3] rounded-xl"
+              className="flex flex-col gap-6 p-10 bg-card border border-border rounded-xl"
               onSubmit={handleSubmit}
             >
               <h3 className="text-4xl text-accent">{t("title")}</h3>
-              <p className="text-black/80">
+              <p className="text-foreground/80">
                 {t("description")}
               </p>
 
