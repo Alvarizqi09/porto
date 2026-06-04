@@ -139,19 +139,22 @@ export default function AdminAbout() {
   } = data || {};
 
   return (
-    <div className="min-h-screen py-10">
+    <div className="min-h-screen bg-background text-foreground py-10">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-8">Edit About Section</h1>
+        <div className="flex flex-col items-center xl:items-start justify-center mb-8">
+          <h1 className="text-4xl font-extrabold text-foreground">Edit About Section</h1>
+          <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-3" />
+        </div>
 
         {/* Message Alert */}
         {message && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`mb-6 p-4 rounded-lg ${
+            className={`mb-6 p-4 rounded-md border-3 border-foreground font-bold shadow-[2.5px_2.5px_0px_0px_var(--border)] ${
               message.type === "success"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
             }`}
           >
             {message.text}
@@ -159,16 +162,16 @@ export default function AdminAbout() {
         )}
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b">
+        <div className="flex gap-4 flex-wrap mb-8 border-b-4 border-foreground pb-4 text-left">
           {["about", "resume", "education", "skill", "certificate"].map(
             (tab) => (
               <button
                 key={tab}
                 onClick={() => setCurrentTab(tab)}
-                className={`px-6 py-3 font-semibold transition-colors capitalize ${
+                className={`px-6 py-2.5 font-bold rounded-md border-3 border-foreground transition-all duration-150 capitalize shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[3.5px_3.5px_0px_0px_var(--border)] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none ${
                   currentTab === tab
-                    ? "text-accent border-b-2 border-accent"
-                    : "text-gray-600 hover:text-black"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card text-foreground/80 hover:bg-muted"
                 }`}
               >
                 {tab}

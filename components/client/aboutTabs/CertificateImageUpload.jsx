@@ -60,10 +60,10 @@ export function CertificateImageUpload({ onImageUrlChange, currentImageUrl }) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 text-left">
       {/* Image Preview */}
       {imagePreview && (
-        <div className="relative w-full h-[120px] bg-gray-100 rounded-lg overflow-hidden">
+        <div className="relative w-full h-[120px] bg-muted/10 border-3 border-foreground rounded-md overflow-hidden">
           <Image
             src={imagePreview}
             alt="Certificate preview"
@@ -74,7 +74,7 @@ export function CertificateImageUpload({ onImageUrlChange, currentImageUrl }) {
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
               <button
                 onClick={handleRemoveImage}
-                className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+                className="p-2 border-2 border-foreground bg-red-500 hover:bg-red-600 text-white rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
               >
                 <FiX size={20} />
               </button>
@@ -85,7 +85,7 @@ export function CertificateImageUpload({ onImageUrlChange, currentImageUrl }) {
 
       {/* Upload Section */}
       <div className="flex gap-2 items-center">
-        <label className="flex-1 flex items-center justify-center px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-accent hover:bg-accent/5 transition">
+        <label className="flex-1 flex items-center justify-center px-4 py-2 border-3 border-dashed border-foreground rounded-md cursor-pointer bg-background hover:bg-muted/30 text-foreground transition font-bold shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none">
           <div className="flex items-center gap-2 text-sm">
             <FiUpload size={18} />
             <span>Upload Certificate Image</span>
@@ -103,7 +103,7 @@ export function CertificateImageUpload({ onImageUrlChange, currentImageUrl }) {
           <button
             onClick={handleUploadImage}
             disabled={uploadingImage}
-            className="px-4 py-2 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white rounded-lg font-medium transition"
+            className="px-4 py-2 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
           >
             {uploadingImage ? "Uploading..." : "Upload"}
           </button>
@@ -111,11 +111,11 @@ export function CertificateImageUpload({ onImageUrlChange, currentImageUrl }) {
       </div>
 
       {/* Error Message */}
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && <p className="text-sm text-red-500 font-semibold">{error}</p>}
 
       {/* Current URL Display */}
       {currentImageUrl && !imageFile && (
-        <p className="text-xs text-gray-500 break-all">
+        <p className="text-xs text-foreground/50 break-all font-mono">
           Current: {currentImageUrl.slice(0, 50)}...
         </p>
       )}

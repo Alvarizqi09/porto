@@ -86,12 +86,12 @@ export default function ResumeTabForm({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-white p-8 rounded-lg shadow-lg"
+        className="bg-card p-8 rounded-md border-4 border-foreground shadow-neobrutal text-left"
       >
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Title (EN)
               </label>
               <Input
@@ -104,7 +104,7 @@ export default function ResumeTabForm({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Title (ID)
               </label>
               <Input
@@ -120,7 +120,7 @@ export default function ResumeTabForm({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Description (EN)
               </label>
               <Textarea
@@ -133,7 +133,7 @@ export default function ResumeTabForm({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Description (ID)
               </label>
               <Textarea
@@ -151,53 +151,53 @@ export default function ResumeTabForm({
           <div>
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-bold text-foreground">
                   Experience Items
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-foreground/75 mt-0.5">
                   {resumeData.items?.length || 0} items
                 </p>
               </div>
               <button
                 onClick={handleAddResume}
-                className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition shadow-md hover:shadow-lg font-medium"
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-bold border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
               >
                 <FiPlus /> Add Experience
               </button>
             </div>
 
             {resumeData.items?.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
-                <div className="text-gray-400 mb-2">
+              <div className="text-center py-12 border-3 border-dashed border-foreground rounded-md bg-muted/10">
+                <div className="text-foreground/50 mb-2">
                   <FiPlus className="inline text-4xl" />
                 </div>
-                <p className="text-gray-600 font-medium">
+                <p className="text-foreground font-bold">
                   No experience items yet
                 </p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-foreground/75 mt-1">
                   Click "Add Experience" to get started
                 </p>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {resumeData.items?.map((item, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="flex items-center justify-between p-4 border rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+                    className="flex items-center justify-between p-4 border-3 border-foreground rounded-md bg-muted/10 shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2.5px_2.5px_0px_0px_var(--border)] transition-all"
                   >
                     <div className="flex-1">
-                      <div className="font-semibold text-gray-900">
+                      <div className="font-bold text-foreground">
                         {item.position?.id || item.position?.en || (typeof item.position === 'string' ? item.position : "Unnamed Position")}
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-foreground/80 mt-0.5">
                         {item.company || "No company"} •{" "}
                         {item.date?.id || item.date?.en || (typeof item.date === 'string' ? item.date : "No date")}
                       </div>
                       {(item.description?.id || item.description?.en || (typeof item.description === 'string' ? item.description : "")) && (
-                        <div className="text-xs text-gray-400 mt-1 line-clamp-1">
+                        <div className="text-xs text-foreground/60 mt-1 line-clamp-1">
                           {item.description?.id || item.description?.en || (typeof item.description === 'string' ? item.description : "")}
                         </div>
                       )}
@@ -207,7 +207,7 @@ export default function ResumeTabForm({
                       {index > 0 && (
                         <button
                           onClick={() => handleMoveResume(index, "up")}
-                          className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition"
+                          className="px-2 py-1 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1px_1px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                           title="Move Up"
                         >
                           ↑
@@ -216,7 +216,7 @@ export default function ResumeTabForm({
                       {index < resumeData.items.length - 1 && (
                         <button
                           onClick={() => handleMoveResume(index, "down")}
-                          className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition"
+                          className="px-2 py-1 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1px_1px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                           title="Move Down"
                         >
                           ↓
@@ -224,15 +224,15 @@ export default function ResumeTabForm({
                       )}
                       <button
                         onClick={() => handleEditResume(index)}
-                        className="px-3 py-2 text-sm bg-accent text-white rounded hover:bg-accent/90 transition flex items-center gap-1"
+                        className="px-3 py-1.5 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all flex items-center gap-1"
                       >
-                        <FiEdit2 size={16} /> Edit
+                        <FiEdit2 size={12} /> Edit
                       </button>
                       <button
                         onClick={() => handleDeleteResume(index)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition"
+                        className="p-1.5 border-2 border-foreground bg-red-500 hover:bg-red-600 text-white rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                       >
-                        <FiX size={18} />
+                        <FiX size={14} />
                       </button>
                     </div>
                   </motion.div>
@@ -241,15 +241,15 @@ export default function ResumeTabForm({
             )}
           </div>
 
-          <div className="pt-4 border-t">
+          <div className="pt-4 border-t-3 border-foreground">
             <button
               onClick={handleSave}
               disabled={isSubmitting}
-              className="w-full py-3.5 bg-accent hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              className="w-full py-3 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold rounded-md border-3 border-foreground shadow-neobrutal hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-neobrutal-hover active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 disabled:bg-muted disabled:text-foreground/45 disabled:pointer-events-none"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
                   Saving...
                 </span>
               ) : (

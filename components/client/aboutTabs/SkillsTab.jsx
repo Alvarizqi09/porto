@@ -83,7 +83,10 @@ export default function SkillsTab({ skill }) {
         className="flex flex-col gap-[30px]"
       >
         <div className="flex flex-col gap-[30px] text-center xl:text-left">
-          <h3 className="text-4xl font-bold">{getValue(title)}</h3>
+          <div className="flex flex-col items-center xl:items-start justify-center">
+            <h3 className="text-4xl font-bold">{getValue(title)}</h3>
+            <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-3" />
+          </div>
           <p className="max-w-[600px] text-foreground/80 mx-auto xl:mx-0">
             {getValue(description)}
           </p>
@@ -97,15 +100,15 @@ export default function SkillsTab({ skill }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: groupIndex * 0.1 }}
-                className="bg-card rounded-xl overflow-hidden border-l-4 border-accent hover:shadow-lg transition-all duration-300"
+                className="bg-card rounded-md border-3 border-foreground shadow-[3.5px_3.5px_0px_0px_var(--border)] transition-all duration-150 group overflow-hidden"
               >
                 {/* Category Header */}
                 <div className="flex items-center gap-3 px-8 pt-5 pb-3">
                   <h4 className="text-base font-bold text-foreground/80">
                     {group.label}
                   </h4>
-                  <div className="flex-1 h-px bg-foreground/15"></div>
-                  <span className="text-xs text-foreground/40 font-medium">
+                  <div className="flex-1 h-0.5 bg-foreground/15"></div>
+                  <span className="text-xs text-foreground/50 font-bold bg-muted border border-foreground px-2.5 py-0.5 rounded-md">
                     {group.skills.length}
                   </span>
                 </div>
@@ -116,7 +119,7 @@ export default function SkillsTab({ skill }) {
                     <li key={index}>
                       <TooltipProvider delayDuration={100}>
                         <Tooltip>
-                          <TooltipTrigger className="w-full h-[100px] bg-background rounded-xl flex justify-center items-center group cursor-pointer hover:text-accent hover:bg-accent/10 transition-all duration-300 border border-transparent hover:border-accent/20">
+                          <TooltipTrigger className="w-full h-[100px] bg-background rounded-md flex justify-center items-center group cursor-pointer border-3 border-foreground shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[3.5px_3.5px_0px_0px_var(--border)] hover:bg-primary active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 text-foreground">
                             <div className="text-5xl group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
                               {techIconMap[skillName] ? (
                                 techIconMap[skillName]

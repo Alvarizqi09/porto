@@ -63,7 +63,7 @@ export default function RecommendationsCarousel() {
           <h2 className="text-3xl md:text-4xl font-bold text-center flex items-center gap-3">
             <FaLinkedin className="text-[#0A66C2]" /> recommendations
           </h2>
-          <div className="w-20 h-1 bg-accent mt-4 rounded-full" />
+          <div className="w-20 h-2.5 bg-primary border-2 border-foreground mt-4" />
         </motion.div>
 
         {/* Stacked Cards Container */}
@@ -104,13 +104,13 @@ export default function RecommendationsCarousel() {
                     duration: 0.8, 
                     ease: "backOut" // Custom bouncy ease supported by Framer
                   }}
-                  className={`absolute top-0 w-full h-full p-6 md:p-8 rounded-3xl border border-border shadow-2xl flex flex-col items-center text-center overflow-hidden
-                    ${isFront ? 'bg-card backdrop-blur-md' : 'bg-muted shadow-none pointer-events-none'}`}
+                  className={`absolute top-0 w-full h-full p-6 md:p-8 rounded-md border-4 border-foreground shadow-neobrutal-card flex flex-col items-center text-center overflow-hidden
+                    ${isFront ? 'bg-card' : 'bg-muted shadow-none pointer-events-none'}`}
                   style={{ transformOrigin: "top center" }}
                 >
-                  <RiDoubleQuotesL className="absolute top-4 left-6 text-accent opacity-10 text-6xl md:text-8xl -rotate-12" />
+                  <RiDoubleQuotesL className="absolute top-4 left-6 text-primary opacity-20 text-6xl md:text-8xl -rotate-12" />
                   
-                  <div className="w-16 h-16 md:w-20 md:h-20 mb-4 rounded-full border-4 border-background shadow-md relative overflow-hidden flex-shrink-0 z-10">
+                  <div className="w-16 h-16 md:w-20 md:h-20 mb-4 rounded-md border-3 border-foreground shadow-[2.5px_2.5px_0px_0px_var(--border)] relative overflow-hidden flex-shrink-0 z-10 bg-background">
                     <Image
                       src={card.data.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(card.data.name) + "&background=random"}
                       alt={card.data.name}
@@ -139,12 +139,12 @@ export default function RecommendationsCarousel() {
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
-              className="w-12 h-12 cursor-pointer flex items-center justify-center"
+              className="w-8 h-8 cursor-pointer flex items-center justify-center"
               aria-label={`Go to recommendation ${i + 1}`}
             >
               <div 
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  activeIndex === i ? "w-8 bg-accent" : "w-2 bg-accent/30 hover:bg-accent/50"
+                className={`h-4 w-4 border-2 border-foreground transition-all duration-150 shadow-[1px_1px_0px_0px_var(--border)] ${
+                  activeIndex === i ? "bg-primary scale-110" : "bg-card hover:bg-primary/20"
                 }`}
               />
             </button>

@@ -28,7 +28,7 @@ const Stats = () => {
   return (
     <section className="flex items-center justify-center h-full">
       <div className="container mx-auto">
-        <div className="max-w-[80vw] xl:max-w-none mx-auto bg-card border border-border p-8 rounded-2xl shadow-lg mt-10 xl:mt-0 min-h-[180px] flex items-center justify-center">
+        <div className="max-w-[80vw] xl:max-w-none mx-auto bg-card border-4 border-foreground p-8 rounded-md shadow-neobrutal-card mt-10 xl:mt-0 min-h-[180px] flex items-center justify-center transition-all duration-150">
           <GitHubCalendar 
             username="Alvarizqi09" 
             colorScheme={resolvedTheme === "dark" ? "dark" : "light"}

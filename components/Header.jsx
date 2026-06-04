@@ -8,7 +8,6 @@ import Image from "next/image";
 import logo from "@/public/assets/logo1.png";
 
 const MobileNav = dynamic(() => import("./MobileNav"), { ssr: false });
-const ThemeToggle = dynamic(() => import("./ThemeToggle"), { ssr: false });
 
 const Header = () => {
   return (
@@ -19,15 +18,7 @@ const Header = () => {
             src={logo}
             alt="Alvarizqi logo"
             fill
-            className="object-contain dark:hidden"
-            priority
-            quality={80}
-          />
-          <Image
-            src="/assets/Logo.png"
-            alt="Alvarizqi logo dark"
-            fill
-            className="object-contain hidden dark:block"
+            className="object-contain"
             priority
             quality={80}
           />
@@ -38,13 +29,11 @@ const Header = () => {
             <Button className="hover:text-foreground">Hire me</Button>
           </Link>
           <div className="flex items-center gap-4">
-            <ThemeToggle />
             <LanguageSwitcher />
           </div>
         </div>
 
         <div className="xl:hidden flex items-center gap-4">
-          <ThemeToggle />
           <LanguageSwitcher />
           <MobileNav />
         </div>

@@ -266,7 +266,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
       onSubmit={handleSubmit}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-6 bg-white p-8 rounded-lg shadow-lg"
+      className="space-y-6 bg-card p-8 rounded-md border-4 border-foreground shadow-neobrutal text-left"
     >
       {/* Title */}
       <div className="grid grid-cols-1 gap-4">
@@ -280,7 +280,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             value={formData.title_en}
             onChange={handleChange}
             placeholder="e.g., Fantastic Web App"
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
         </div>
         <div>
@@ -293,7 +293,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             value={formData.title_id}
             onChange={handleChange}
             placeholder="e.g., Aplikasi Web Luar Biasa"
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
         </div>
         {errors.title && (
@@ -314,7 +314,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             placeholder="Short description..."
             maxLength="500"
             rows="3"
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
           <p className="text-gray-400 text-xs mt-1 text-right">{formData.desc_en.length}/500</p>
         </div>
@@ -329,7 +329,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             placeholder="Deskripsi singkat..."
             maxLength="500"
             rows="3"
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
           <p className="text-gray-400 text-xs mt-1 text-right">{formData.desc_id.length}/500</p>
         </div>
@@ -351,7 +351,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             placeholder="Detailed description, features, challenges..."
             maxLength="2000"
             rows="5"
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
           <p className="text-gray-400 text-xs mt-1 text-right">
             {formData.long_desc_en.length}/2000
@@ -368,7 +368,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             placeholder="Penjelasan detail tentang project, fitur-fitur..."
             maxLength="2000"
             rows="5"
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
           <p className="text-gray-400 text-xs mt-1 text-right">
             {formData.long_desc_id.length}/2000
@@ -420,7 +420,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
           />
           <label
             htmlFor="image-input"
-            className="flex-1 px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-accent transition-colors text-center"
+            className="flex-1 px-4 py-2 border-3 border-dashed border-foreground rounded-md cursor-pointer bg-background hover:bg-muted text-foreground transition-all text-center font-bold shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             <FiUpload className="w-5 h-5 inline mr-2" />
             Pilih gambar
@@ -430,7 +430,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
               type="button"
               onClick={handleUploadImage}
               disabled={uploadingImage}
-              className="px-6 py-2 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white rounded-lg"
+              className="px-6 py-2 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
             >
               {uploadingImage ? "Uploading..." : "Upload"}
             </button>
@@ -456,7 +456,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             value={formData.demo}
             onChange={handleChange}
             placeholder="https://example.com"
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
           {errors.demo && (
             <p className="text-red-500 text-sm mt-1">{errors.demo}</p>
@@ -474,7 +474,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             value={formData.preview}
             onChange={handleChange}
             placeholder="https://github.com/..."
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
           {errors.preview && (
             <p className="text-red-500 text-sm mt-1">{errors.preview}</p>
@@ -493,7 +493,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
           value={formData.github}
           onChange={handleChange}
           placeholder="https://github.com/..."
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+          className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
         />
       </div>
 
@@ -552,7 +552,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
           <button
             type="button"
             onClick={handleAddPage}
-            className="flex items-center gap-1 px-3 py-1 bg-accent hover:bg-accent/90 text-white text-sm rounded-lg transition-colors"
+            className="flex items-center gap-1 px-3 py-1.5 bg-primary text-primary-foreground border-2 border-foreground text-sm font-bold rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
           >
             <FiPlus className="w-4 h-4" /> Tambah Halaman
           </button>
@@ -590,7 +590,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
                         value={page.title_en}
                         onChange={(e) => handlePageTitleChange(index, "title_en", e.target.value)}
                         placeholder="e.g., Home Page"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+                        className="w-full px-3 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md text-sm focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
                       />
                     </div>
                     <div>
@@ -602,7 +602,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
                         value={page.title_id}
                         onChange={(e) => handlePageTitleChange(index, "title_id", e.target.value)}
                         placeholder="e.g., Halaman Utama"
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d77864] transition"
+                        className="w-full px-3 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md text-sm focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
                       />
                     </div>
                   </div>
@@ -636,7 +636,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
                       />
                       <label
                         htmlFor={`page-image-${index}`}
-                        className="flex-1 px-3 py-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-accent transition-colors text-center text-sm"
+                        className="flex-1 px-3 py-2 border-3 border-dashed border-foreground rounded-md cursor-pointer bg-background hover:bg-muted text-foreground transition-all text-center text-sm font-bold shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                       >
                         <FiUpload className="w-4 h-4 inline mr-1" />
                         Pilih gambar
@@ -646,7 +646,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
                           type="button"
                           onClick={() => handleUploadPageImage(index)}
                           disabled={uploadingPageImage[index]}
-                          className="px-4 py-2 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white text-sm rounded-lg"
+                          className="px-4 py-2 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150 text-sm"
                         >
                           {uploadingPageImage[index] ? "Uploading..." : "Upload"}
                         </button>
@@ -674,7 +674,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             name="order"
             value={formData.order}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
         </div>
         <div className="flex items-end">
@@ -695,7 +695,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-all duration-300"
+        className="w-full py-3 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold rounded-md border-3 border-foreground shadow-neobrutal hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-neobrutal-hover active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 disabled:bg-muted disabled:text-foreground/45 disabled:pointer-events-none"
       >
         {isLoading
           ? "Menyimpan..."

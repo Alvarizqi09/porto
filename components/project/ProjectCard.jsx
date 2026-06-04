@@ -17,10 +17,10 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
   const localizedDesc = getLocalizedText(desc, locale);
 
   return (
-    <div className="shadow-xl border-accent border-4 rounded-2xl w-full flex flex-col mx-auto relative overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+    <div className="border-4 border-foreground bg-card rounded-md w-full flex flex-col mx-auto relative overflow-hidden shadow-neobrutal-card hover:translate-x-[-3px] hover:translate-y-[-3px] hover:shadow-neobrutal-card-hover transition-all duration-200 group">
       <div className="w-full min-h-[250px] flex-grow relative group overflow-hidden flex items-center justify-center bg-muted/30">
-        {/* Circular logo container */}
-        <div className="relative w-[65%] aspect-square rounded-full overflow-hidden z-[1] shadow-xl border-4 border-white/60 dark:border-white/20 group-hover:scale-105 transition-transform duration-500 bg-white dark:bg-card">
+        {/* Decorative Square logo container */}
+        <div className="relative w-[60%] aspect-square rounded-md overflow-hidden z-[1] border-3 border-foreground shadow-[3px_3px_0px_0px_var(--border)] group-hover:scale-105 transition-transform duration-500 bg-white">
           <Image
             src={image || DEFAULT_PROJECT_IMAGE}
             alt={`${localizedTitle} - Project logo`}
@@ -33,38 +33,38 @@ const ProjectCard = ({ id, image, title, desc, preview, icon, demo }) => {
         </div>
 
         {/* Hover overlay */}
-        <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent gap-6 bg-opacity-0 rounded-t-xl hidden group-hover:flex group-hover:bg-opacity-80 transition-all duration-500 z-10">
+        <div className="overlay items-center justify-center absolute top-0 left-0 w-full h-full bg-accent/90 gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex hidden group-hover:flex">
           <Link
             href={id ? `/pages/projects/${id}` : "#"}
-            className="h-14 w-14 border-2 relative rounded-full border-border hover:border-foreground group/link flex items-center justify-center transition-all"
+            className="h-12 w-12 border-3 bg-card text-foreground border-foreground relative rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none flex items-center justify-center transition-all"
             title="Lihat Detail"
             aria-label={`View details for ${localizedTitle} project`}
           >
-            <BsInfoCircleFill className="text-3xl text-foreground/80 group-hover/link:text-white transition-colors" />
+            <BsInfoCircleFill className="text-xl text-foreground" />
           </Link>
           <Link
             href={demo}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-14 w-14 border-2 relative rounded-full border-border hover:border-foreground group/link flex items-center justify-center transition-all"
+            className="h-12 w-12 border-3 bg-card text-foreground border-foreground relative rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none flex items-center justify-center transition-all"
             title="Buka Demo"
             aria-label={`Open demo for ${localizedTitle}`}
           >
-            <FiExternalLink className="text-3xl text-foreground/80 group-hover/link:text-white transition-colors" />
+            <FiExternalLink className="text-xl text-foreground" />
           </Link>
         </div>
       </div>
 
-      <div className="rounded-b-xl bg-card py-4 px-6 flex flex-col justify-between">
+      <div className="bg-card py-5 px-6 flex flex-col justify-between border-t-4 border-foreground">
         <div>
-          <h5 className="text-xl text-center font-semibold text-foreground mb-1">
+          <h5 className="text-xl text-center font-bold text-foreground mb-1">
             {localizedTitle}
           </h5>
-          <p className="text-sm text-foreground/60 text-center line-clamp-2">
+          <p className="text-sm text-foreground/75 text-center line-clamp-2">
             {localizedDesc}
           </p>
         </div>
-        <div className="flex flex-row flex-wrap gap-3 mt-4 justify-center">{icon}</div>
+        <div className="flex flex-row flex-wrap gap-2.5 mt-4 justify-center">{icon}</div>
       </div>
     </div>
   );

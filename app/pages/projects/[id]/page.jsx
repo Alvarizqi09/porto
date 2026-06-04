@@ -168,7 +168,7 @@ export default function ProjectDetailPage() {
           transition={{ delay: 0.2 }}
           whileHover={{ x: -4 }}
           onClick={() => router.back()}
-          className="absolute top-6 left-6 lg:top-8 lg:left-10 z-10 inline-flex items-center gap-2 px-5 py-2.5 bg-white/15 backdrop-blur-md text-white rounded-full hover:bg-white/25 transition-all duration-300 text-sm font-medium border border-white/20"
+          className="absolute top-6 left-6 lg:top-8 lg:left-10 z-10 inline-flex items-center gap-2 px-5 py-2.5 bg-card border-3 border-foreground text-foreground rounded-md shadow-[2.5px_2.5px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3.5px_3.5px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150 text-sm font-bold"
         >
           <FaArrowLeft className="w-3.5 h-3.5" /> {t("back")}
         </motion.button>
@@ -237,16 +237,16 @@ export default function ProjectDetailPage() {
               key={i}
               variants={stagger.child}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="bg-card rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center gap-4 border border-border"
+              className="bg-card rounded-md p-5 border-3 border-foreground shadow-[3px_3px_0px_0px_var(--border)] transition-all duration-150 flex items-center gap-4"
             >
-              <div className="w-11 h-11 bg-accent/10 rounded-lg flex items-center justify-center shrink-0">
+              <div className="w-11 h-11 bg-primary border-2 border-foreground rounded-md flex items-center justify-center shrink-0 text-foreground">
                 {stat.icon}
               </div>
               <div className="min-w-0">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                <p className="text-xs text-foreground/50 uppercase tracking-wider font-bold">
                   {stat.label}
                 </p>
-                <p className="text-sm font-bold text-foreground truncate">
+                <p className="text-sm font-extrabold text-foreground truncate">
                   {stat.value}
                 </p>
               </div>
@@ -266,7 +266,7 @@ export default function ProjectDetailPage() {
             {localizedLongDesc && (
               <div className="mb-10">
                 <h2 className="text-xl lg:text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
-                  <span className="w-1 h-7 bg-accent rounded-full" />
+                  <span className="w-2.5 h-7 bg-primary border-2 border-foreground" />
                   {t("aboutProject")}
                 </h2>
                 <p className="text-muted-foreground leading-[1.85] whitespace-pre-wrap text-[15px]">
@@ -282,8 +282,8 @@ export default function ProjectDetailPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-5 flex items-center gap-3">
-                  <span className="w-1 h-7 bg-accent rounded-full" />
+                <h2 className="text-xl lg:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
+                  <span className="w-2.5 h-7 bg-primary border-2 border-foreground" />
                   {t("techStack")}
                 </h2>
                 <div className="flex flex-wrap gap-3">
@@ -296,7 +296,7 @@ export default function ProjectDetailPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.05 * i }}
                         whileHover={{ y: -3, transition: { duration: 0.15 } }}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-card border border-border rounded-xl shadow-sm hover:shadow-md hover:border-accent/40 transition-all duration-200"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-card border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
                       >
                         {icon && (
                           <span className="[&>svg]:w-5 [&>svg]:h-5">{icon}</span>
@@ -319,7 +319,7 @@ export default function ProjectDetailPage() {
             transition={{ duration: 0.5, delay: 0.35 }}
             className="space-y-4"
           >
-            <div className="bg-card rounded-2xl p-6 shadow-lg border border-border space-y-4 sticky top-24">
+            <div className="bg-card rounded-md p-6 border-4 border-foreground shadow-neobrutal-card space-y-4 sticky top-24">
               <h3 className="text-base font-bold text-foreground mb-1">
                 {t("viewProject")}
               </h3>
@@ -329,7 +329,7 @@ export default function ProjectDetailPage() {
                 href={project.demo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-accent hover:bg-accent/90 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold rounded-md border-3 border-foreground shadow-[3px_3px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[4.5px_4.5px_0px_0px_var(--border)] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150"
               >
                 <FaExternalLinkAlt className="w-4 h-4" /> {t("liveDemo")}
               </Link>
@@ -340,7 +340,7 @@ export default function ProjectDetailPage() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-foreground hover:bg-foreground/90 text-background font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-accent text-white hover:bg-primary hover:text-primary-foreground font-bold rounded-md border-3 border-foreground shadow-[3px_3px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[4.5px_4.5px_0px_0px_var(--border)] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150"
                 >
                   <FaGithub className="w-4 h-4" /> {t("github")}
                 </Link>
@@ -352,7 +352,7 @@ export default function ProjectDetailPage() {
                   href={project.preview}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-muted hover:bg-muted/80 text-foreground font-semibold rounded-xl transition-all duration-300 border border-border"
+                  className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-card text-foreground hover:bg-muted font-bold rounded-md border-3 border-foreground shadow-[3px_3px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[4.5px_4.5px_0px_0px_var(--border)] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150"
                 >
                   <FaExternalLinkAlt className="w-4 h-4" /> {t("sourceCode")}
                 </Link>
@@ -373,7 +373,7 @@ export default function ProjectDetailPage() {
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
               <div>
                 <h2 className="text-2xl lg:text-3xl font-bold text-foreground flex items-center gap-3">
-                  <span className="w-1 h-8 bg-accent rounded-full" />
+                  <span className="w-2.5 h-8 bg-primary border-2 border-foreground" />
                   {t("websitePages")}
                 </h2>
                 <p className="text-muted-foreground mt-1 ml-4 text-sm">
@@ -388,10 +388,10 @@ export default function ProjectDetailPage() {
                     <button
                       key={i}
                       onClick={() => setActivePageTab(i)}
-                      className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 border border-border ${
+                      className={`px-4 py-1.5 rounded-md text-xs font-bold whitespace-nowrap transition-all duration-150 border-3 border-foreground shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[2.5px_2.5px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none ${
                         activePageTab === i
-                          ? "bg-accent text-white shadow-sm border-accent"
-                          : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-card text-foreground hover:bg-muted"
                       }`}
                     >
                       {getLocalizedText(page.title, locale)}
@@ -407,7 +407,7 @@ export default function ProjectDetailPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
-              className="relative group cursor-pointer rounded-2xl overflow-hidden shadow-xl border border-border mb-6 h-[300px] sm:h-[400px] lg:h-[500px]"
+              className="relative group cursor-pointer rounded-md overflow-hidden border-4 border-foreground mb-6 h-[300px] sm:h-[400px] lg:h-[500px] shadow-neobrutal-card hover:translate-x-[-3px] hover:translate-y-[-3px] hover:shadow-neobrutal-card-hover transition-all duration-200"
               onClick={() => openLightbox(activePageTab)}
             >
               <Image
@@ -429,7 +429,7 @@ export default function ProjectDetailPage() {
                     {activePageTab + 1} / {project.pages.length}
                   </p>
                 </div>
-                <span className="bg-foreground/20 backdrop-blur-sm text-foreground text-xs font-semibold px-4 py-2 rounded-full border border-foreground/30 flex items-center gap-2">
+                <span className="bg-card text-foreground text-xs font-bold px-4 py-2 rounded-md border-3 border-foreground flex items-center gap-2 shadow-[2px_2px_0px_0px_var(--border)]">
                   <FaSearch className="w-3 h-3" /> {t("zoom")}
                 </span>
               </div>
@@ -444,10 +444,10 @@ export default function ProjectDetailPage() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.05 * index }}
-                    className={`relative cursor-pointer rounded-xl overflow-hidden border-2 transition-all duration-200 ${
+                    className={`relative cursor-pointer rounded-md overflow-hidden border-3 transition-all duration-150 ${
                       activePageTab === index
-                        ? "border-accent shadow-lg ring-2 ring-accent/20"
-                        : "border-border hover:border-accent/40 hover:shadow-md"
+                        ? "border-foreground bg-primary shadow-[2px_2px_0px_0px_var(--border)]"
+                        : "border-foreground bg-card hover:bg-muted"
                     }`}
                     onClick={() => setActivePageTab(index)}
                   >

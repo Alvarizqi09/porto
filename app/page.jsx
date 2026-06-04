@@ -75,7 +75,7 @@ const Home = () => {
               <div className="mb-8 xl:mb-0">
                 <Socials
                   containerStyles="flex gap-6"
-                  iconStyles="w-9 h-9 border border-accent rounded-full flex justify-center items-center text-accent text-base hover:bg-accent hover:text-primary hover:transition-all duration-500"
+                  iconStyles="w-10 h-10 border-3 border-foreground rounded-md flex justify-center items-center text-foreground text-base bg-card hover:bg-primary shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[3.5px_3.5px_0px_0px_var(--border)] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150"
                 />
               </div>
             </div>

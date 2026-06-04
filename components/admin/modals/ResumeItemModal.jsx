@@ -63,22 +63,22 @@ export default function ResumeItemModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-lg shadow-xl max-w-2xl w-full flex flex-col max-h-[90vh] overflow-hidden"
+        className="bg-card rounded-md border-4 border-foreground shadow-neobrutal max-w-2xl w-full flex flex-col max-h-[90vh] overflow-hidden text-left"
       >
-        <div className="flex justify-between items-center p-6 bg-gray-50/50 border-b border-gray-100">
-          <h3 className="text-xl font-bold text-gray-800 tracking-tight">
+        <div className="flex justify-between items-center p-6 bg-muted/20 border-b-3 border-foreground">
+          <h3 className="text-xl font-bold text-foreground tracking-tight">
             {resumeItem?._index !== undefined
               ? "Edit Experience"
               : "Add New Experience"}
           </h3>
           <button
             onClick={handleClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition"
+            className="p-1.5 border-2 border-foreground bg-primary hover:bg-accent hover:text-white text-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all flex items-center justify-center"
           >
             <FiX size={20} />
           </button>
@@ -87,7 +87,7 @@ export default function ResumeItemModal({
         <div className="p-6 space-y-6 overflow-y-auto">
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Company
               </label>
               <Input
@@ -97,14 +97,13 @@ export default function ResumeItemModal({
                 onChange={(e) =>
                   setFormData({ ...formData, company: e.target.value })
                 }
-                className="w-full bg-gray-50/50 focus:bg-white"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                  Date <span className="text-gray-400 font-normal">(EN)</span>
+                <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                  Date <span className="text-foreground/50 font-normal">(EN)</span>
                 </label>
                 <Input
                   type="text"
@@ -113,12 +112,11 @@ export default function ResumeItemModal({
                   onChange={(e) =>
                     setFormData({ ...formData, date: { ...formData.date, en: e.target.value } })
                   }
-                  className="w-full bg-gray-50/50 focus:bg-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                  Date <span className="text-gray-400 font-normal">(ID)</span>
+                <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                  Date <span className="text-foreground/50 font-normal">(ID)</span>
                 </label>
                 <Input
                   type="text"
@@ -127,15 +125,14 @@ export default function ResumeItemModal({
                   onChange={(e) =>
                     setFormData({ ...formData, date: { ...formData.date, id: e.target.value } })
                   }
-                  className="w-full bg-gray-50/50 focus:bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                  Position <span className="text-gray-400 font-normal">(EN)</span>
+                <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                  Position <span className="text-foreground/50 font-normal">(EN)</span>
                 </label>
                 <Input
                   type="text"
@@ -144,12 +141,11 @@ export default function ResumeItemModal({
                   onChange={(e) =>
                     setFormData({ ...formData, position: { ...formData.position, en: e.target.value } })
                   }
-                  className="w-full bg-gray-50/50 focus:bg-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                  Position <span className="text-gray-400 font-normal">(ID)</span>
+                <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                  Position <span className="text-foreground/50 font-normal">(ID)</span>
                 </label>
                 <Input
                   type="text"
@@ -158,15 +154,14 @@ export default function ResumeItemModal({
                   onChange={(e) =>
                     setFormData({ ...formData, position: { ...formData.position, id: e.target.value } })
                   }
-                  className="w-full bg-gray-50/50 focus:bg-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                  Description <span className="text-gray-400 font-normal">(EN)</span>
+                <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                  Description <span className="text-foreground/50 font-normal">(EN)</span>
                 </label>
                 <Textarea
                   placeholder="Brief description about your role..."
@@ -175,12 +170,11 @@ export default function ResumeItemModal({
                     setFormData({ ...formData, description: { ...formData.description, en: e.target.value } })
                   }
                   rows={4}
-                  className="w-full bg-gray-50/50 focus:bg-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                  Description <span className="text-gray-400 font-normal">(ID)</span>
+                <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                  Description <span className="text-foreground/50 font-normal">(ID)</span>
                 </label>
                 <Textarea
                   placeholder="Deskripsi singkat tentang peran Anda..."
@@ -189,16 +183,15 @@ export default function ResumeItemModal({
                     setFormData({ ...formData, description: { ...formData.description, id: e.target.value } })
                   }
                   rows={4}
-                  className="w-full bg-gray-50/50 focus:bg-white"
                 />
               </div>
             </div>
           </div>
 
-          <div className="pt-6 flex justify-end gap-4 border-t border-gray-100">
+          <div className="pt-6 flex justify-end gap-4 border-t-3 border-foreground">
             <button
               onClick={handleClose}
-              className="px-5 py-2.5 font-medium text-gray-600 hover:text-gray-800 transition"
+              className="px-5 py-2.5 font-bold text-foreground hover:bg-muted/30 rounded border-2 border-foreground transition shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none"
             >
               Cancel
             </button>
@@ -206,7 +199,7 @@ export default function ResumeItemModal({
               type="button"
               onClick={handleSubmit}
               disabled={!formData.company.trim() || !formData.position?.en?.trim()}
-              className="px-6 py-2.5 bg-[#d77864] text-white rounded-lg hover:bg-[#c36551] transition font-semibold shadow-sm hover:shadow disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {resumeItem?._index !== undefined ? "Update Experience" : "Add Experience"}
             </button>

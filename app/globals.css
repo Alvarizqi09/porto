@@ -4,31 +4,17 @@
 
 @layer base {
   :root {
-    --background: #F8EDE3; /* Warm Cream */
-    --foreground: #1A1A1A; /* Dark Text */
-    --primary: #F8EDE3;
-    --primary-foreground: #1A1A1A;
-    --accent: #A04735; /* Darker Warm Terracotta for 4.5+ contrast */
-    --accent-hover: #D0B8A8;
-    --card: #DFD3C3; /* Slightly darker cream for cards */
-    --card-foreground: #1A1A1A;
-    --muted: #E5DACE;
-    --muted-foreground: rgba(0, 0, 0, 0.5);
-    --border: rgba(197, 112, 93, 0.2); /* Accent with low opacity */
-  }
-
-  .dark {
-    --background: #0B192C; /* Deep Navy Blue */
-    --foreground: #F8EDE3; /* Off-white text */
-    --primary: #0B192C;
-    --primary-foreground: #F8EDE3;
-    --accent: #5A9CFF; /* Lighter Vibrant Blue for 4.5+ contrast */
-    --accent-hover: #8338ec; /* Subtle violet hover */
-    --card: #1E3E62; /* Slightly lighter navy for cards */
-    --card-foreground: #F8EDE3;
-    --muted: #112A46;
-    --muted-foreground: rgba(248, 237, 227, 0.5);
-    --border: rgba(58, 134, 255, 0.2); /* Accent blue tight border */
+    --background: #FBFBF9; /* Warm Surface */
+    --foreground: #1C293C; /* Dark Slate Text */
+    --primary: #FDC800; /* Vivid Yellow */
+    --primary-foreground: #1C293C;
+    --accent: #432DD7; /* Vivid Blue-Violet */
+    --accent-hover: #FDC800;
+    --card: #FBFBF9;
+    --card-foreground: #1C293C;
+    --muted: #F3F3EF;
+    --muted-foreground: rgba(28, 41, 60, 0.6);
+    --border: #1C293C; /* Solid Dark border */
   }
 }
 
@@ -51,4 +37,3 @@
     @apply text-[24px] xl:text-[24px] leading-[1.1] font-semibold text-foreground;
   }
 }
-

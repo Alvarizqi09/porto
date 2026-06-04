@@ -29,13 +29,16 @@ const Nav = () => {
   return (
     <nav className="flex gap-8 items-center">
       {links.map((link, index) => {
+        const isActive = link.path === pathname;
         return (
           <Link
             key={index}
             href={link.path}
             className={`${
-              link.path === pathname && "text-accent border-b-2 border-accent"
-            } capitalize font-medium hover:text-accent transition-all`}
+              isActive
+                ? "bg-primary text-primary-foreground border-3 border-foreground shadow-[2px_2px_0px_0px_var(--border)]"
+                : "border-3 border-transparent hover:border-foreground hover:bg-muted text-foreground/80 hover:text-foreground"
+            } capitalize font-bold px-3 py-1.5 rounded-md transition-all duration-150`}
           >
             {t(link.name)}
           </Link>

@@ -46,10 +46,10 @@ const Photo = () => {
             cy="253"
             r="250"
             stroke="currentColor"
-            className="text-accent"
+            className="text-foreground"
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth="4"
+            strokeWidth="6"
             initial={{ strokeDasharray: "24 10 0 0" }}
             animate={{
               strokeDasharray: ["15 120 25 2", "16 25 92 72", "4 250 22 22"],

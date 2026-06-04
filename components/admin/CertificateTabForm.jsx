@@ -67,12 +67,12 @@ export default function CertificateTabForm({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-white p-8 rounded-lg shadow-lg"
+        className="bg-card p-8 rounded-md border-4 border-foreground shadow-neobrutal text-left"
       >
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Title (EN)</label>
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">Title (EN)</label>
               <input
                 type="text"
                 value={certificateData.title?.en || (typeof certificateData.title === 'string' ? certificateData.title : "")}
@@ -82,11 +82,11 @@ export default function CertificateTabForm({
                     title: { ...certificateData.title, en: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Title (ID)</label>
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">Title (ID)</label>
               <input
                 type="text"
                 value={certificateData.title?.id || ""}
@@ -96,14 +96,14 @@ export default function CertificateTabForm({
                     title: { ...certificateData.title, id: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Description (EN)
               </label>
               <textarea
@@ -115,11 +115,11 @@ export default function CertificateTabForm({
                   })
                 }
                 rows="5"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Description (ID)
               </label>
               <textarea
@@ -131,7 +131,7 @@ export default function CertificateTabForm({
                   })
                 }
                 rows="5"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
               />
             </div>
           </div>
@@ -139,7 +139,7 @@ export default function CertificateTabForm({
           {/* Certificates List */}
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Certificates</h3>
+              <h3 className="text-lg font-bold text-foreground">Certificates</h3>
               <button
                 onClick={() => {
                   const newCert = {
@@ -155,23 +155,23 @@ export default function CertificateTabForm({
                   });
                   setShowCertificateModal(true);
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90"
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-bold border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
               >
                 <FiPlus /> Add Certificate
               </button>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               {certificateData.items?.map((cert, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+                  className="flex items-center justify-between p-4 border-3 border-foreground rounded-md bg-muted/10 shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2.5px_2.5px_0px_0px_var(--border)] transition-all"
                 >
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-900">
+                    <div className="font-bold text-foreground">
                       {cert.name?.id || cert.name?.en || (typeof cert.name === 'string' ? cert.name : "Unnamed Certificate")}
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-foreground/80 mt-0.5">
                       {cert.publisher || "No publisher"} •{" "}
                       {cert.date?.id || cert.date?.en || (typeof cert.date === 'string' ? cert.date : "No date")}
                     </div>
@@ -191,7 +191,7 @@ export default function CertificateTabForm({
                             items: newCerts,
                           });
                         }}
-                        className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                        className="px-2 py-1 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1px_1px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                         title="Move Up"
                       >
                         ↑
@@ -210,7 +210,7 @@ export default function CertificateTabForm({
                             items: newCerts,
                           });
                         }}
-                        className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                        className="px-2 py-1 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1px_1px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                         title="Move Down"
                       >
                         ↓
@@ -218,9 +218,9 @@ export default function CertificateTabForm({
                     )}
                     <button
                       onClick={() => handleEditCertificate(index)}
-                      className="px-3 py-2 text-sm bg-accent text-white rounded hover:bg-accent/90 flex items-center gap-1"
+                      className="px-3 py-1.5 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all flex items-center gap-1"
                     >
-                      <FiEdit2 size={16} /> Edit
+                      <FiEdit2 size={12} /> Edit
                     </button>
                     <button
                       onClick={() => {
@@ -232,9 +232,9 @@ export default function CertificateTabForm({
                           items: newCerts,
                         });
                       }}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                      className="p-1.5 border-2 border-foreground bg-red-500 hover:bg-red-600 text-white rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                     >
-                      <FiX />
+                      <FiX size={14} />
                     </button>
                   </div>
                 </div>
@@ -242,13 +242,22 @@ export default function CertificateTabForm({
             </div>
           </div>
 
-          <button
-            onClick={handleSave}
-            disabled={isSubmitting}
-            className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-gray-400 text-white font-semibold rounded-lg"
-          >
-            {isSubmitting ? "Saving..." : "Save Certificates"}
-          </button>
+          <div className="pt-4 border-t-3 border-foreground">
+            <button
+              onClick={handleSave}
+              disabled={isSubmitting}
+              className="w-full py-3 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold rounded-md border-3 border-foreground shadow-neobrutal hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-neobrutal-hover active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 disabled:bg-muted disabled:text-foreground/45 disabled:pointer-events-none"
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </span>
+              ) : (
+                "Save Certificates"
+              )}
+            </button>
+          </div>
         </div>
       </motion.div>
 

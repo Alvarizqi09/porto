@@ -1,6 +1,6 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
@@ -27,6 +27,13 @@ const JetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 export const metadata = {
   title: "Alvarizqi | Front-End Web Developer",
   description:
@@ -46,7 +53,7 @@ export default async function RootLayout({ children }) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={JetBrainsMono.variable}>
+    <html lang={locale} className={`${JetBrainsMono.variable} ${inter.variable}`}>
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://alvarizqi.com" />
@@ -74,8 +81,8 @@ export default async function RootLayout({ children }) {
         <link rel="icon" href="/icon.ico?v=2" />
         <title>{metadata.title}</title>
       </head>
-      <body className={`${JetBrainsMono.variable} relative`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+      <body className={`${inter.variable} ${JetBrainsMono.variable} font-primary relative`}>
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
           <QueryProvider>
             <NextIntlClientProvider messages={messages}>
               <BackgroundBlobs />

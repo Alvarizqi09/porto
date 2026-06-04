@@ -32,18 +32,18 @@ export default function CVLinkModal({ isOpen, onClose, cvLinkData, onSubmit }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
+          className="bg-card rounded-md border-4 border-foreground shadow-neobrutal max-w-md w-full p-6 text-left"
         >
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-bold">Edit CV Links</h3>
+            <h3 className="text-xl font-bold text-foreground">Edit CV Links</h3>
             <button
               onClick={handleClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition text-gray-500 hover:text-gray-800"
+              className="p-1.5 border-2 border-foreground bg-primary hover:bg-accent hover:text-white text-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all flex items-center justify-center"
             >
               <FiX size={20} />
             </button>
@@ -51,7 +51,7 @@ export default function CVLinkModal({ isOpen, onClose, cvLinkData, onSubmit }) {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 CV Link URL (Indonesian)
               </label>
               <Input
@@ -65,7 +65,7 @@ export default function CVLinkModal({ isOpen, onClose, cvLinkData, onSubmit }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 CV Link URL (English)
               </label>
               <Input
@@ -82,7 +82,7 @@ export default function CVLinkModal({ isOpen, onClose, cvLinkData, onSubmit }) {
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="flex-1 px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition font-medium"
+                className="flex-1 px-4 py-2.5 bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all duration-150 text-center"
               >
                 Save Links
               </button>

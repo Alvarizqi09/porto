@@ -82,14 +82,14 @@ export default function CertificateEditModal({
 
   return (
     <Sheet open={isOpen} onOpenChange={handleClose}>
-      <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+      <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto bg-card border-l-4 border-foreground text-left">
         <SheetHeader>
-          <SheetTitle className="text-2xl font-bold text-black">
+          <SheetTitle className="text-2xl font-bold text-foreground">
             {certificate?._index !== undefined
               ? "Edit Certificate"
               : "Add Certificate"}
           </SheetTitle>
-          <SheetDescription className="text-gray-600">
+          <SheetDescription className="text-foreground/75">
             {certificate?._index !== undefined
               ? "Update certificate details and save changes"
               : "Add new certificate to your portfolio"}
@@ -103,33 +103,33 @@ export default function CertificateEditModal({
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                Certificate Name <span className="text-gray-400 font-normal">(EN)</span>
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                Certificate Name <span className="text-foreground/50 font-normal">(EN)</span>
               </label>
               <input
                 type="text"
                 placeholder="e.g., Frontend Development"
                 value={formData.name?.en || ""}
                 onChange={(e) => handleInputChange("name", e.target.value, "en")}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+                className="w-full px-4 py-2.5 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                Certificate Name <span className="text-gray-400 font-normal">(ID)</span>
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                Certificate Name <span className="text-foreground/50 font-normal">(ID)</span>
               </label>
               <input
                 type="text"
                 placeholder="e.g., Pengembangan Frontend"
                 value={formData.name?.id || ""}
                 onChange={(e) => handleInputChange("name", e.target.value, "id")}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+                className="w-full px-4 py-2.5 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+            <label className="block text-sm font-semibold mb-1.5 text-foreground">
               Publisher/Issuer
             </label>
             <input
@@ -137,15 +137,15 @@ export default function CertificateEditModal({
               placeholder="e.g., Alterra Academy"
               value={formData.publisher || ""}
               onChange={(e) => handleInputChange("publisher", e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+              className="w-full px-4 py-2.5 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-1.5 text-gray-700">
+            <label className="block text-sm font-semibold mb-1.5 text-foreground">
               Certificate Image
             </label>
-            <div className="p-1 border border-gray-100 rounded-lg bg-gray-50/50">
+            <div className="p-1.5 border-3 border-foreground rounded-md bg-muted/20">
               <CertificateImageUpload
                 currentImageUrl={formData.image}
                 onImageUrlChange={handleImageChange}
@@ -155,43 +155,43 @@ export default function CertificateEditModal({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                Valid Until / Date <span className="text-gray-400 font-normal">(EN)</span>
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                Valid Until / Date <span className="text-foreground/50 font-normal">(EN)</span>
               </label>
               <input
                 type="text"
                 placeholder="e.g., Dec 2025"
                 value={formData.date?.en || ""}
                 onChange={(e) => handleInputChange("date", e.target.value, "en")}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+                className="w-full px-4 py-2.5 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-1.5 text-gray-700">
-                Valid Until / Date <span className="text-gray-400 font-normal">(ID)</span>
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
+                Valid Until / Date <span className="text-foreground/50 font-normal">(ID)</span>
               </label>
               <input
                 type="text"
                 placeholder="e.g., Des 2025"
                 value={formData.date?.id || ""}
                 onChange={(e) => handleInputChange("date", e.target.value, "id")}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent transition"
+                className="w-full px-4 py-2.5 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition"
               />
             </div>
           </div>
 
-          <div className="pt-6 flex justify-end gap-3 border-t border-gray-100">
+          <div className="pt-6 flex justify-end gap-3 border-t-3 border-foreground">
             <button
               onClick={handleClose}
               disabled={isLoading}
-              className="px-5 py-2.5 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition disabled:opacity-50"
+              className="px-5 py-2.5 font-bold text-foreground hover:bg-muted/30 rounded border-2 border-foreground transition shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none"
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={isLoading || !formData.name?.en || !formData.publisher}
-              className="px-6 py-2.5 bg-[#d77864] text-white font-semibold rounded-lg hover:bg-[#c36551] shadow-sm hover:shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? "Saving..." : certificate?._index !== undefined ? "Update Certificate" : "Save Certificate"}
             </button>

@@ -98,12 +98,12 @@ export default function AboutTabForm({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-white p-8 rounded-lg shadow-lg"
+        className="bg-card p-8 rounded-md border-4 border-foreground shadow-neobrutal text-left"
       >
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Title (EN)
               </label>
               <Input
@@ -116,7 +116,7 @@ export default function AboutTabForm({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Title (ID)
               </label>
               <Input
@@ -132,7 +132,7 @@ export default function AboutTabForm({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Description (EN)
               </label>
               <Textarea
@@ -145,7 +145,7 @@ export default function AboutTabForm({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-semibold mb-1.5 text-foreground">
                 Section Description (ID)
               </label>
               <Textarea
@@ -159,18 +159,18 @@ export default function AboutTabForm({
             </div>
           </div>
 
-          <div className="bg-gray-50 border rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="bg-muted/20 border-3 border-foreground rounded-md p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h3 className="text-lg font-bold text-foreground">
                 CV Download Links
               </h3>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-foreground/75 mt-1">
                 Manage your Indonesian and English CV Google Drive URLs
               </p>
             </div>
             <button
               onClick={() => setShowCVModal(true)}
-              className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:text-black transition shadow-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-primary text-primary-foreground font-bold border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150 flex items-center gap-2"
             >
               <FiEdit2 size={16} /> Edit CV Links
             </button>
@@ -180,55 +180,55 @@ export default function AboutTabForm({
           <div>
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-bold text-foreground">
                   Personal Info
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-foreground/75 mt-0.5">
                   {aboutData.info?.length || 0} items
                 </p>
               </div>
               <button
                 onClick={handleAddInfo}
-                className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition shadow-md hover:shadow-lg font-medium"
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-bold border-3 border-foreground rounded-md shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
               >
                 <FiPlus /> Add Info
               </button>
             </div>
 
             {aboutData.info?.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
-                <div className="text-gray-400 mb-2">
+              <div className="text-center py-12 border-3 border-dashed border-foreground rounded-md bg-muted/10">
+                <div className="text-foreground/50 mb-2">
                   <FiPlus className="inline text-4xl" />
                 </div>
-                <p className="text-gray-600 font-medium">No info items yet</p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-foreground font-bold">No info items yet</p>
+                <p className="text-sm text-foreground/75 mt-1">
                   Click "Add Info" to get started
                 </p>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {aboutData.info?.map((item, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="flex items-center justify-between p-4 border rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+                    className="flex items-center justify-between p-4 border-3 border-foreground rounded-md bg-muted/10 shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2.5px_2.5px_0px_0px_var(--border)] transition-all"
                   >
                     <div className="flex-1 grid grid-cols-2 gap-4">
                       <div>
-                        <span className="text-xs text-gray-500 font-medium">
+                        <span className="text-xs text-foreground/70 font-bold uppercase tracking-wider">
                           Field Name
                         </span>
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-bold text-foreground">
                           {item.fieldName?.id || item.fieldName?.en || (typeof item.fieldName === 'string' ? item.fieldName : "Unnamed Field")}
                         </p>
                       </div>
                       <div>
-                        <span className="text-xs text-gray-500 font-medium">
+                        <span className="text-xs text-foreground/70 font-bold uppercase tracking-wider">
                           Field Value
                         </span>
-                        <p className="text-gray-700">
+                        <p className="text-foreground font-medium">
                           {item.fieldValue || "No value"}
                         </p>
                       </div>
@@ -238,7 +238,7 @@ export default function AboutTabForm({
                       {index > 0 && (
                         <button
                           onClick={() => handleMoveInfo(index, "up")}
-                          className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition"
+                          className="px-2 py-1 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1px_1px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                           title="Move Up"
                         >
                           ↑
@@ -247,7 +247,7 @@ export default function AboutTabForm({
                       {index < aboutData.info.length - 1 && (
                         <button
                           onClick={() => handleMoveInfo(index, "down")}
-                          className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition"
+                          className="px-2 py-1 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1px_1px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                           title="Move Down"
                         >
                           ↓
@@ -255,15 +255,15 @@ export default function AboutTabForm({
                       )}
                       <button
                         onClick={() => handleEditInfo(index)}
-                        className="px-3 py-2 text-sm bg-accent text-white rounded hover:bg-accent/90 transition flex items-center gap-1"
+                        className="px-3 py-1.5 text-xs bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all flex items-center gap-1"
                       >
-                        <FiEdit2 size={16} /> Edit
+                        <FiEdit2 size={12} /> Edit
                       </button>
                       <button
                         onClick={() => handleDeleteInfo(index)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition"
+                        className="p-1.5 border-2 border-foreground bg-red-500 hover:bg-red-600 text-white rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                       >
-                        <FiX size={18} />
+                        <FiX size={14} />
                       </button>
                     </div>
                   </motion.div>
@@ -272,15 +272,15 @@ export default function AboutTabForm({
             )}
           </div>
 
-          <div className="pt-4 border-t">
+          <div className="pt-4 border-t-3 border-foreground">
             <button
               onClick={handleSave}
               disabled={isSubmitting}
-              className="w-full py-3.5 bg-accent hover:bg-accent/90 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              className="w-full py-3 bg-primary text-primary-foreground hover:bg-accent hover:text-white font-bold rounded-md border-3 border-foreground shadow-neobrutal hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-neobrutal-hover active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 disabled:bg-muted disabled:text-foreground/45 disabled:pointer-events-none"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
                   Saving...
                 </span>
               ) : (

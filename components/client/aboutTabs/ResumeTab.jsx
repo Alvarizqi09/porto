@@ -21,19 +21,22 @@ export default function ResumeTab({ about }) {
         animate={{ opacity: 1 }}
         className="flex flex-col gap-[30px]"
       >
-        <h3 className="text-4xl font-bold">{getValue(title)}</h3>
-        <p className="text-foreground/80 mx-auto xl:mx-0 whitespace-pre-wrap">
+        <div className="flex flex-col items-center xl:items-start justify-center">
+          <h3 className="text-4xl font-bold">{getValue(title)}</h3>
+          <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-3" />
+        </div>
+        <p className="text-foreground/80 mx-auto xl:mx-0 whitespace-pre-wrap max-w-[600px]">
           {getValue(description)}
         </p>
-        <ul className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6 mx-auto xl:mx-0">
+        <ul className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6 mx-auto xl:mx-0 w-full">
           {info && info.length > 0 ? (
             info.map((item, index) => (
               <li
                 key={index}
-                className="flex items-center justify-center xl:justify-start gap-4"
+                className="flex flex-col md:flex-row md:items-center justify-start gap-2 md:gap-4 p-4 bg-card border-3 border-foreground rounded-md shadow-[3.5px_3.5px_0px_0px_var(--border)] text-left"
               >
-                <span className="text-foreground/80">{getValue(item.fieldName)}</span>
-                <span className="text-lg text-foreground">{getValue(item.fieldValue)}</span>
+                <span className="text-foreground/50 font-bold uppercase tracking-wider text-xs shrink-0">{getValue(item.fieldName)}:</span>
+                <span className="text-base text-foreground font-extrabold">{getValue(item.fieldValue)}</span>
               </li>
             ))
           ) : (

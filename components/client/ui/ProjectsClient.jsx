@@ -40,14 +40,17 @@ export default function ProjectsClient({ projects: initialProjects }) {
   return (
     <div className="mb-10">
       <div className="container">
-        <motion.h2
-          className="text-center text-4xl font-bold text-foreground my-8"
+        <motion.div
+          className="flex flex-col items-center justify-center my-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          My Project
-        </motion.h2>
+          <h2 className="text-4xl font-bold text-foreground">
+            My Projects
+          </h2>
+          <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-3" />
+        </motion.div>
         <div className="text-foreground flex flex-row justify-center items-center gap-2 py-6">
           {["All", "Web", "Design"].map((tagName, index) => (
             <motion.div

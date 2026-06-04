@@ -79,15 +79,15 @@ const Contact = () => {
       <div className="container mx-auto mb-10">
         <div className="flex flex-col xl:flex-row gap-[30px]">
           <div className="flex-1 flex items-center xl:justify-end order-2 xl:order-none mb-8 xl:mb-0">
-            <ul className="flex flex-col gap-10">
+            <ul className="flex flex-col gap-6 w-full max-w-md">
               {info.map((item, index) => (
-                <li key={index} className="flex items-center gap-6">
-                  <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-card border border-border text-accent rounded-md flex items-center justify-center">
+                <li key={index} className="flex items-center gap-6 p-4 bg-card border-3 border-foreground rounded-md shadow-[3.5px_3.5px_0px_0px_var(--border)] text-left">
+                  <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-primary border-3 border-foreground text-foreground rounded-md flex items-center justify-center shadow-[2px_2px_0px_0px_var(--border)] shrink-0">
                     <div className="text-[28px]">{item.icon}</div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-foreground/80">{item.title}</h3>
-                    <p className="text-xl text-foreground">{item.desc}</p>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-foreground/50 font-bold uppercase tracking-wider text-xs">{item.title}</h3>
+                    <p className="text-lg xl:text-xl font-extrabold text-foreground truncate">{item.desc}</p>
                   </div>
                 </li>
               ))}
@@ -96,22 +96,25 @@ const Contact = () => {
 
           <div className="xl:w-[54%] order-1 xl:order-none">
             <form
-              className="flex flex-col gap-6 p-10 bg-card border border-border rounded-xl"
+              className="flex flex-col gap-6 p-10 bg-card border-4 border-foreground rounded-md shadow-neobrutal-card text-left"
               onSubmit={handleSubmit}
             >
-              <h3 className="text-4xl text-accent">{t("title")}</h3>
+              <div className="flex flex-col">
+                <h3 className="text-4xl font-extrabold text-foreground">{t("title")}</h3>
+                <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-2" />
+              </div>
               <p className="text-foreground/80">
                 {t("description")}
               </p>
 
               {/* Status Messages */}
               {status === "success" && (
-                <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                <div className="p-4 bg-green-100 border-3 border-foreground text-green-800 rounded-md font-bold shadow-[2px_2px_0px_0px_var(--border)]">
                   {t("successMessage")}
                 </div>
               )}
               {status === "error" && (
-                <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                <div className="p-4 bg-red-100 border-3 border-foreground text-red-800 rounded-md font-bold shadow-[2px_2px_0px_0px_var(--border)]">
                   {errorMsg}
                 </div>
               )}
@@ -159,7 +162,7 @@ const Contact = () => {
               />
 
               <Button
-                size="md"
+                size="default"
                 className="max-w-40"
                 type="submit"
                 disabled={status === "loading"}

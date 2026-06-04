@@ -103,18 +103,17 @@ export default function AboutClient({ aboutData }) {
                       setActiveTab(item.value);
                       setIsOpen(false);
                     }}
-                    className={`group relative w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${
+                    className={`group relative w-12 h-12 rounded-md flex items-center justify-center border-3 border-foreground shadow-[2.5px_2.5px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3.5px_3.5px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150 ${
                       isActive
-                        ? "bg-accent text-white shadow-accent/30"
-                        : "bg-white text-gray-600 hover:bg-accent hover:text-white hover:shadow-accent/20"
+                        ? "bg-accent text-white"
+                        : "bg-card text-foreground hover:bg-primary"
                     }`}
                     title={item.label}
                   >
                     <Icon className="w-5 h-5" />
                     {/* Tooltip — appears to the left */}
-                    <span className="absolute right-full mr-3 px-3 py-1.5 bg-gray-900 text-white text-xs font-medium rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <span className="absolute right-full mr-4 px-3 py-1.5 bg-primary text-primary-foreground text-xs font-bold border-2 border-foreground shadow-[2.3px_2.3px_0px_0px_var(--border)] rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
                       {item.label}
-                      <span className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 w-2 h-2 bg-gray-900 rotate-45" />
                     </span>
                   </motion.button>
                 );
@@ -125,10 +124,10 @@ export default function AboutClient({ aboutData }) {
 
         {/* Main FAB Toggle */}
         <motion.button
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(!isOpen)}
-          className="w-14 h-14 bg-accent text-white rounded-full flex items-center justify-center shadow-xl shadow-accent/30 hover:shadow-accent/50 transition-shadow duration-300"
+          className="w-14 h-14 bg-primary text-primary-foreground rounded-md flex items-center justify-center border-3 border-foreground shadow-[4px_4px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
         >
           <motion.div
             animate={{ rotate: isOpen ? 90 : 0 }}

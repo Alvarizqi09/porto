@@ -21,7 +21,7 @@ export default function LanguageSwitcher() {
 
   if (!mounted) {
     return (
-      <div className="w-[70px] h-[36px] items-center justify-center rounded-md border border-accent bg-transparent px-3 py-1 text-sm shadow-sm flex opacity-50">
+      <div className="w-[75px] h-[38px] items-center justify-center rounded-md border-3 border-foreground bg-card px-3 py-1 text-sm shadow-[2px_2px_0px_0px_var(--border)] flex opacity-50">
         ...
       </div>
     );
@@ -29,7 +29,7 @@ export default function LanguageSwitcher() {
 
   return (
     <Select value={locale} onValueChange={onLocaleChange}>
-      <SelectTrigger className="w-[70px] h-[36px] bg-transparent border border-accent text-accent hover:bg-accent hover:text-primary transition-all" aria-label="Select Language">
+      <SelectTrigger className="w-[75px] h-[38px] bg-card border-3 border-foreground text-foreground hover:bg-primary transition-all shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[3.5px_3.5px_0px_0px_var(--border)] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none" aria-label="Select Language">
         <SelectValue placeholder={locale ? locale.toUpperCase() : "Lang"} />
       </SelectTrigger>
       <SelectContent>

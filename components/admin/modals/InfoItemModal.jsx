@@ -44,16 +44,16 @@ export default function InfoItemModal({ isOpen, onClose, infoItem, onSubmit }) {
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        className="bg-white rounded-2xl shadow-2xl max-w-xl w-full mx-auto overflow-hidden"
+        className="bg-card rounded-md border-4 border-foreground shadow-neobrutal max-w-xl w-full mx-auto overflow-hidden text-left"
       >
         {/* Header */}
-        <div className="bg-gray-50 border-b px-6 py-4 flex justify-between items-center">
-          <h3 className="text-xl font-extrabold text-gray-800">
+        <div className="bg-muted/20 border-b-3 border-foreground px-6 py-4 flex justify-between items-center">
+          <h3 className="text-xl font-bold text-foreground">
             {infoItem?._index !== undefined ? "Edit Info" : "Add New Info"}
           </h3>
           <button
             onClick={handleClose}
-            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+            className="p-1.5 border-2 border-foreground bg-primary hover:bg-accent hover:text-white text-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all flex items-center justify-center"
           >
             <FiX size={20} />
           </button>
@@ -62,8 +62,8 @@ export default function InfoItemModal({ isOpen, onClose, infoItem, onSubmit }) {
         <div className="p-6 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="block text-sm font-semibold text-gray-700">
-                Field Name <span className="text-gray-400 font-normal">(EN)</span>
+              <label className="block text-sm font-semibold text-foreground">
+                Field Name <span className="text-foreground/50 font-normal">(EN)</span>
               </label>
               <Input
                 type="text"
@@ -72,12 +72,11 @@ export default function InfoItemModal({ isOpen, onClose, infoItem, onSubmit }) {
                 onChange={(e) =>
                   setFormData({ ...formData, fieldName: { ...formData.fieldName, en: e.target.value } })
                 }
-                className="w-full bg-gray-50/50 focus:bg-white"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="block text-sm font-semibold text-gray-700">
-                Field Name <span className="text-gray-400 font-normal">(ID)</span>
+              <label className="block text-sm font-semibold text-foreground">
+                Field Name <span className="text-foreground/50 font-normal">(ID)</span>
               </label>
               <Input
                 type="text"
@@ -86,13 +85,12 @@ export default function InfoItemModal({ isOpen, onClose, infoItem, onSubmit }) {
                 onChange={(e) =>
                   setFormData({ ...formData, fieldName: { ...formData.fieldName, id: e.target.value } })
                 }
-                className="w-full bg-gray-50/50 focus:bg-white"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-semibold text-gray-700">
+            <label className="block text-sm font-semibold text-foreground">
               Field Value
             </label>
             <Input
@@ -102,17 +100,16 @@ export default function InfoItemModal({ isOpen, onClose, infoItem, onSubmit }) {
               onChange={(e) =>
                 setFormData({ ...formData, fieldValue: e.target.value })
               }
-              className="bg-gray-50/50 focus:bg-white"
             />
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-gray-50/80 border-t flex justify-end gap-3">
+        <div className="px-6 py-4 bg-muted/20 border-t-3 border-foreground flex justify-end gap-3">
           <button
             type="button"
             onClick={handleClose}
-            className="px-5 py-2.5 text-gray-600 font-medium hover:bg-gray-200 rounded-xl transition"
+            className="px-5 py-2.5 font-bold text-foreground hover:bg-muted/30 rounded border-2 border-foreground transition shadow-[1.5px_1.5px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none"
           >
             Cancel
           </button>
@@ -120,7 +117,7 @@ export default function InfoItemModal({ isOpen, onClose, infoItem, onSubmit }) {
             type="button"
             onClick={handleSubmit}
             disabled={!formData.fieldName?.en?.trim() || !formData.fieldName?.id?.trim() || !formData.fieldValue.trim()}
-            className="px-6 py-2.5 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 disabled:bg-gray-300 disabled:cursor-not-allowed transition shadow-sm"
+            className="px-6 py-2.5 bg-primary text-primary-foreground font-bold border-2 border-foreground rounded shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {infoItem?._index !== undefined ? "Update Info" : "Add Info"}
           </button>

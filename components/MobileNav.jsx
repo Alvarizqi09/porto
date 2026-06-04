@@ -42,16 +42,18 @@ const MobileNav = () => {
             <Image src={logo} alt="logo" className="w-32 h-32 " />
           </Link>
         </div>
-        <nav className="flex flex-col justify-center items-center gap-8">
+        <nav className="flex flex-col justify-center items-center gap-6 w-full px-4">
           {links.map((link, index) => {
+            const isActive = link.path === pathname;
             return (
               <Link
                 key={index}
                 href={link.path}
                 className={`${
-                  link.path === pathname &&
-                  "text-accent border-b-2 border-accent"
-                } capitalize text-xl hover:text-accent transition-all`}
+                  isActive
+                    ? "bg-primary text-primary-foreground border-3 border-foreground shadow-[3px_3px_0px_0px_var(--border)]"
+                    : "border-3 border-transparent hover:border-foreground hover:bg-muted text-foreground/80"
+                } capitalize text-xl font-bold px-5 py-2.5 rounded-md transition-all duration-150 w-full text-center`}
               >
                 {t(link.name)}
               </Link>
