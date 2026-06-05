@@ -47,10 +47,9 @@ const Photo = () => {
             backgroundImage: "radial-gradient(#1c293c 1.5px, transparent 1.5px)",
             backgroundSize: "16px 16px"
           }}
-        />
-        
+        />        
         {/* Image wrapper */}
-        <div className="relative w-[92%] h-[92%] overflow-hidden rounded-md group-hover:scale-[1.02] transition-transform duration-500">
+        <div className="relative w-[92%] h-[92%] overflow-hidden rounded-md group-hover:scale-[1.02] transition-transform duration-500 z-10">
           <Image
             src={photo}
             alt="Alvarizqi - Front-End Web Developer Portrait"

@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 export default function RecommendationsCarousel() {
   const locale = useLocale();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [imageErrors, setImageErrors] = useState({});
 
   const { data: recommendations, isLoading } = useQuery({
     queryKey: ["recommendations"],
@@ -112,10 +113,26 @@ export default function RecommendationsCarousel() {
                   
                   <div className="w-16 h-16 md:w-20 md:h-20 mb-4 rounded-md border-3 border-foreground shadow-[2.5px_2.5px_0px_0px_var(--border)] relative overflow-hidden flex-shrink-0 z-10 bg-background">
                     <Image
-                      src={card.data.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(card.data.name) + "&background=random"}
+                      src={
+                        card.data.image &&
+                        card.data.image.trim() !== "" &&
+                        card.data.image !== "null" &&
+                        card.data.image !== "undefined" &&
+                        !imageErrors[card.data._id]
+                          ? card.data.image
+                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                              card.data.name
+                            )}&background=random`
+                      }
                       alt={card.data.name}
                       fill
                       className="object-cover"
+                      onError={() => {
+                        setImageErrors((prev) => ({
+                          ...prev,
+                          [card.data._id]: true,
+                        }));
+                      }}
                     />
                   </div>
                   

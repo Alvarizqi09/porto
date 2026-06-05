@@ -18,6 +18,7 @@ import {
   FaLayerGroup,
   FaCogs,
   FaSearch,
+  FaLock,
 } from "react-icons/fa";
 import { getIcon } from "@/utils/techIconMap";
 import { ProjectDetailSkeleton } from "@/components/ui/Skeleton";
@@ -453,7 +454,7 @@ export default function ProjectDetailPage() {
 
                 {/* Mock Search/URL bar */}
                 <div className="bg-white border-2 border-foreground rounded px-3 py-1 text-xs font-bold text-foreground/60 w-full sm:flex-1 text-left truncate flex items-center gap-2">
-                  <span className="text-[#40C057]">🔒</span>
+                  <FaLock className="text-[#40C057] w-3 h-3 shrink-0" />
                   <span>{mockUrl}</span>
                 </div>
               </div>
