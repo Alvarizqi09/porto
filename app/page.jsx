@@ -9,10 +9,14 @@ import { useQuery } from "@tanstack/react-query";
 import { aboutApi } from "@/lib/api/aboutApi";
 import { useTranslations } from "next-intl";
 
-import Photo from "@/components/Photo";
-
 const Stats = dynamic(() => import("@/components/Stats"), { ssr: false });
 const RecommendationsCarousel = dynamic(() => import("@/components/client/ui/RecommendationsCarousel"), { ssr: false });
+const Photo = dynamic(() => import("@/components/Photo"), {
+  ssr: true,
+  loading: () => (
+    <div className="w-[300px] h-[300px] xl:w-[440px] xl:h-[440px] bg-[#FAF8F0] border-4 border-foreground rounded-lg shadow-[6px_6px_0px_0px_#1C293C] animate-pulse" />
+  ),
+});
 
 const Home = () => {
   const { data, isLoading } = useQuery({

@@ -1,10 +1,8 @@
 "use client";
 import GitHubCalendar from "react-github-calendar";
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 const Stats = () => {
-  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -31,7 +29,7 @@ const Stats = () => {
         <div className="max-w-[80vw] xl:max-w-none mx-auto bg-card border-4 border-foreground p-8 rounded-md shadow-neobrutal-card mt-10 xl:mt-0 min-h-[180px] flex items-center justify-center transition-all duration-150">
           <GitHubCalendar 
             username="Alvarizqi09" 
-            colorScheme={resolvedTheme === "dark" ? "dark" : "light"}
+            colorScheme="light"
           />
         </div>
       </div>
