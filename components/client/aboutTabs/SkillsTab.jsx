@@ -87,7 +87,7 @@ export default function SkillsTab({ skill }) {
             <h3 className="text-4xl font-bold">{getValue(title)}</h3>
             <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-3" />
           </div>
-          <p className="max-w-[600px] text-foreground/80 mx-auto xl:mx-0">
+          <p className="w-full text-foreground/80 mx-auto xl:mx-0">
             {getValue(description)}
           </p>
         </div>

@@ -25,7 +25,7 @@ export default function ResumeTab({ about }) {
           <h3 className="text-4xl font-bold">{getValue(title)}</h3>
           <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-3" />
         </div>
-        <p className="text-foreground/80 mx-auto xl:mx-0 whitespace-pre-wrap max-w-[600px]">
+        <p className="text-foreground/80 mx-auto xl:mx-0 whitespace-pre-wrap w-full">
           {getValue(description)}
         </p>
         <ul className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6 mx-auto xl:mx-0 w-full">

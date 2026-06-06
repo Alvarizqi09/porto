@@ -6,10 +6,10 @@ export default function AboutLoading() {
       <div className="container mx-auto">
         <div className="flex flex-col gap-[30px] w-full">
           {/* Title */}
-          <div className="flex flex-col items-center xl:items-start gap-4">
+          <div className="flex flex-col items-center xl:items-start gap-4 w-full">
             <SkeletonPulse className="w-48 h-10" />
-            <SkeletonPulse className="w-full max-w-[600px] h-5" />
-            <SkeletonPulse className="w-full max-w-[500px] h-5" />
+            <SkeletonPulse className="w-full h-5" />
+            <SkeletonPulse className="w-full h-5" />
           </div>
           {/* Info grid */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
