@@ -26,12 +26,19 @@ export async function POST(request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    const options = {
+      folder: "porto_projects",
+      resource_type: "auto",
+    };
+
+    if (file.name && file.name.toLowerCase().endsWith(".svg")) {
+      options.format = "svg";
+      options.resource_type = "image";
+    }
+
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        {
-          folder: "porto_projects",
-          resource_type: "auto",
-        },
+        options,
         (error, result) => {
           if (error) reject(error);
           else resolve(result);
