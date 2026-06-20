@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { uploadToCloudinary } from "@/lib/cloudinary";
-import { motion } from "framer-motion";
-import { FiUpload, FiX, FiPlus, FiTrash2, FiCheckCircle } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiUpload, FiX, FiPlus, FiTrash2, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 
 const TECH_STACK_OPTIONS = [
   "Vite",
@@ -24,6 +24,30 @@ const TECH_STACK_OPTIONS = [
   "Node.js",
   "MongoDB",
   "Express",
+  "Redux",
+  "Material UI",
+  "TanStack Query",
+  "Prisma",
+  "Zustand",
+  "Sass",
+  "shadcn/ui",
+  "Framer Motion",
+  "GSAP",
+  "Axios",
+  "Socket.io",
+  "GraphQL",
+  "Docker",
+  "PostgreSQL",
+  "MySQL",
+  "Vercel",
+  "Radix UI",
+  "React Router",
+  "Styled Components",
+  "Ant Design",
+  "Chakra UI",
+  "Webpack",
+  "Jest",
+  "Canva",
 ];
 
 const TAG_OPTIONS = ["All", "Web", "Design"];
@@ -55,6 +79,8 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
   const [imagePreview, setImagePreview] = useState(initialData?.image || "");
   const [uploadingImage, setUploadingImage] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showFormAlert, setShowFormAlert] = useState(false);
+  const formRef = useRef(null);
 
   // Pages state
   const [pageImageFiles, setPageImageFiles] = useState({});
@@ -224,15 +250,22 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title_en.trim() || !formData.title_id.trim()) newErrors.title = "Judul (EN & ID) harus diisi";
-    if (!formData.desc_en.trim() || !formData.desc_id.trim()) newErrors.desc = "Deskripsi (EN & ID) harus diisi";
+    if (!formData.title_en.trim()) newErrors.title_en = "Judul (EN) harus diisi";
+    if (!formData.title_id.trim()) newErrors.title_id = "Judul (ID) harus diisi";
+    if (!formData.desc_en.trim()) newErrors.desc_en = "Deskripsi singkat (EN) harus diisi";
+    if (!formData.desc_id.trim()) newErrors.desc_id = "Deskripsi singkat (ID) harus diisi";
+    if (!formData.image.trim()) newErrors.image = "Gambar project harus diupload";
     if (!formData.demo.trim()) newErrors.demo = "URL demo harus diisi";
     if (!formData.preview.trim()) newErrors.preview = "URL preview harus diisi";
-    if (formData.tag.length === 0)
-      newErrors.tag = "Minimal satu tag harus dipilih";
+    if (formData.tag.length === 0) newErrors.tag = "Minimal satu tag harus dipilih";
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const hasErrors = Object.keys(newErrors).length > 0;
+    setShowFormAlert(hasErrors);
+    if (hasErrors && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    return !hasErrors;
   };
 
   const handleSubmit = async (e) => {
@@ -241,6 +274,7 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
     if (!validateForm()) {
       return;
     }
+    setShowFormAlert(false);
 
     const pagesTransformed = formData.pages.map(({ title_en, title_id, ...rest }) => ({
       ...rest,
@@ -261,13 +295,47 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
     await onSubmit(finalData);
   };
 
+  // Collect all error messages for the alert banner
+  const errorMessages = Object.values(errors).filter(Boolean);
+
   return (
     <motion.form
+      ref={formRef}
       onSubmit={handleSubmit}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="space-y-6 bg-card p-8 rounded-md border-4 border-foreground shadow-neobrutal text-left"
     >
+      {/* Global Error Alert */}
+      <AnimatePresence>
+        {showFormAlert && errorMessages.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: -10, height: 0 }}
+            className="bg-red-50 border-3 border-red-400 rounded-md p-4 shadow-[2px_2px_0px_0px_rgba(220,38,38,0.4)]"
+          >
+            <div className="flex items-start gap-3">
+              <FiAlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="font-bold text-red-700 text-sm mb-1">Formulir belum lengkap!</h4>
+                <ul className="list-disc list-inside text-red-600 text-sm space-y-0.5">
+                  {errorMessages.map((msg, i) => (
+                    <li key={i}>{msg}</li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowFormAlert(false)}
+                className="ml-auto text-red-400 hover:text-red-600 transition-colors"
+              >
+                <FiX className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Title */}
       <div className="grid grid-cols-1 gap-4">
         <div>
@@ -296,8 +364,11 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
             className="w-full px-4 py-2 border-3 border-foreground bg-background text-foreground placeholder:text-foreground/50 rounded-md focus:bg-background focus:outline-none focus:shadow-neobrutal transition-all duration-150"
           />
         </div>
-        {errors.title && (
-          <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+        {errors.title_en && (
+          <p className="text-red-500 text-sm mt-1">{errors.title_en}</p>
+        )}
+        {errors.title_id && (
+          <p className="text-red-500 text-sm mt-1">{errors.title_id}</p>
         )}
       </div>
 
@@ -333,8 +404,11 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
           />
           <p className="text-gray-400 text-xs mt-1 text-right">{formData.desc_id.length}/500</p>
         </div>
-        {errors.desc && (
-          <p className="text-red-500 text-sm mt-1">{errors.desc}</p>
+        {errors.desc_en && (
+          <p className="text-red-500 text-sm mt-1">{errors.desc_en}</p>
+        )}
+        {errors.desc_id && (
+          <p className="text-red-500 text-sm mt-1">{errors.desc_id}</p>
         )}
       </div>
 
