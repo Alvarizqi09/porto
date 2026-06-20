@@ -360,9 +360,16 @@ const AdminProjects = () => {
                         )}
                       </div>
                       <button
-                        onClick={() => {
-                          setEditingProject(project);
-                          setShowEditModal(true);
+                        onClick={async () => {
+                          try {
+                            const fullProject = await projectsApi.fetchProjectById(project._id);
+                            setEditingProject(fullProject);
+                            setShowEditModal(true);
+                          } catch (err) {
+                            console.error("Failed to fetch project details:", err);
+                            setMessage({ type: "error", text: "Gagal memuat detail project" });
+                            setTimeout(() => setMessage(""), 3000);
+                          }
                         }}
                         className="p-2.5 border-2 border-foreground bg-card text-foreground hover:bg-primary rounded-md shadow-[1.5px_1.5px_0px_0px_var(--border)] hover:translate-x-[-0.5px] hover:translate-y-[-0.5px] hover:shadow-[2px_2px_0px_0px_var(--border)] active:translate-x-[0.5px] active:translate-y-[0.5px] active:shadow-none transition-all"
                         title="Edit"

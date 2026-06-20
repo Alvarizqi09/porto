@@ -242,9 +242,9 @@ const ProjectForm = ({ onSubmit, isLoading, initialData = null }) => {
       return;
     }
 
-    const pagesTransformed = formData.pages.map(p => ({
-      ...p,
-      title: { en: p.title_en, id: p.title_id }
+    const pagesTransformed = formData.pages.map(({ title_en, title_id, ...rest }) => ({
+      ...rest,
+      title: { en: title_en, id: title_id }
     }));
 
     const finalData = {
