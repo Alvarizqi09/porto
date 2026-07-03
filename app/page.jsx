@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Socials from "@/components/Socials";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { FiDownload, FiLoader } from "react-icons/fi";
+import { FiDownload } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import { aboutApi } from "@/lib/api/aboutApi";
 import { useTranslations } from "next-intl";
@@ -29,35 +29,6 @@ const Home = () => {
   const cvLink = data?.about?.cvLink || "";
   const cvLinkEnglish = data?.about?.cvLinkEnglish || "";
 
-  const handleDownloadCV = async () => {
-    if (cvLink) {
-      window.open(cvLink, "_blank");
-    } else {
-      try {
-        const freshData = await aboutApi.fetchAboutData();
-        if (freshData?.about?.cvLink) {
-          window.open(freshData.about.cvLink, "_blank");
-        }
-      } catch (error) {
-        console.error("Failed to fetch CV link", error);
-      }
-    }
-  };
-
-  const handleDownloadCVenglish = async () => {
-    if (cvLinkEnglish) {
-      window.open(cvLinkEnglish, "_blank");
-    } else {
-      try {
-        const freshData = await aboutApi.fetchAboutData();
-        if (freshData?.about?.cvLinkEnglish) {
-          window.open(freshData.about.cvLinkEnglish, "_blank");
-        }
-      } catch (error) {
-        console.error("Failed to fetch English CV link", error);
-      }
-    }
-  };
   return (
     <section className="h-full mb-10">
       <div className="container mx-auto ">
@@ -77,19 +48,23 @@ const Home = () => {
                   variant="outline"
                   size="lg"
                   className="uppercase flex items-center gap-2"
-                  onClick={handleDownloadCV}
+                  asChild
                 >
-                  <span>{t("downloadCV")}</span>
-                  <FiDownload className="text-xl" />
+                  <a href={cvLink || "#"} target="_blank" rel="noopener noreferrer">
+                    <span>{t("downloadCV")}</span>
+                    <FiDownload className="text-xl" />
+                  </a>
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
                   className="uppercase flex items-center gap-2"
-                  onClick={handleDownloadCVenglish}
+                  asChild
                 >
-                  <span>{t("englishVersion")}</span>
-                  <FiDownload className="text-xl" />
+                  <a href={cvLinkEnglish || "#"} target="_blank" rel="noopener noreferrer">
+                    <span>{t("englishVersion")}</span>
+                    <FiDownload className="text-xl" />
+                  </a>
                 </Button>
               </div>
               <div className="mb-8 xl:mb-0">
