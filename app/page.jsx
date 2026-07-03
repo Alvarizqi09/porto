@@ -18,6 +18,10 @@ const Photo = dynamic(() => import("@/components/Photo"), {
   ),
 });
 
+// Default CV links (hardcoded fallback — instant, no fetch needed)
+const DEFAULT_CV_LINK = "https://drive.google.com/file/d/1ucRm-8lmLaA_-CXJV8WFNe72F5bsD4Cc/view";
+const DEFAULT_CV_LINK_ENGLISH = "https://drive.google.com/file/d/127n_lGf-9H7m2x9B7C3N2B7M2B7M2B7M/view";
+
 const Home = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["about-data"],
@@ -26,8 +30,9 @@ const Home = () => {
   
   const t = useTranslations("Hero");
 
-  const cvLink = data?.about?.cvLink || "";
-  const cvLinkEnglish = data?.about?.cvLinkEnglish || "";
+  // Database override > hardcoded default
+  const cvLink = data?.about?.cvLink || DEFAULT_CV_LINK;
+  const cvLinkEnglish = data?.about?.cvLinkEnglish || DEFAULT_CV_LINK_ENGLISH;
 
   return (
     <section className="h-full mb-10">
