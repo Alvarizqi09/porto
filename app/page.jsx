@@ -19,8 +19,8 @@ const Photo = dynamic(() => import("@/components/Photo"), {
 });
 
 // Default CV links (hardcoded fallback — instant, no fetch needed)
-const DEFAULT_CV_LINK = "https://drive.google.com/file/d/1ucRm-8lmLaA_-CXJV8WFNe72F5bsD4Cc/view";
-const DEFAULT_CV_LINK_ENGLISH = "https://drive.google.com/file/d/127n_lGf-9H7m2x9B7C3N2B7M2B7M2B7M/view";
+const DEFAULT_CV_LINK = "https://drive.google.com/file/d/1HYp78XR8yUlacHp91G-1acG6zOZZ1Eu3/view?usp=sharing";
+const DEFAULT_CV_LINK_ENGLISH = "https://drive.google.com/file/d/15eLv51GE7xqmeV4KujAy0STrhxYeHK2f/view?usp=sharing";
 
 const Home = () => {
   const { data, isLoading } = useQuery({
