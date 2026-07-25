@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { QueryProvider } from "./providers";
 import BackgroundBlobs from "@/components/BackgroundBlobs";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const PageTransition = dynamic(
   () => import("@/components/transition/PageTransition"),
@@ -78,6 +79,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang={locale} className={`${JetBrainsMono.variable} ${inter.variable}`}>
+      <GoogleTagManager gtmId="GTM-55J992RK" />
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://alvarizqi.com" />
