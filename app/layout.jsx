@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { QueryProvider } from "./providers";
-import BackgroundBlobs from "@/components/BackgroundBlobs";
+import SmartBackground from "@/components/three/SmartBackground";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { GoogleTagManager } from "@next/third-parties/google";
 
@@ -88,7 +88,7 @@ export default async function RootLayout({ children }) {
         <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
           <QueryProvider>
             <NextIntlClientProvider messages={messages}>
-              <BackgroundBlobs />
+              <SmartBackground />
               <Header />
               <StairTransition />
               <main>
