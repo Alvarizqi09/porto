@@ -1,13 +1,13 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 
 const ProjectTag = ({ name, onClick, isSelected }) => {
   const buttonStyle = isSelected
-    ? "bg-primary text-primary-foreground border-3 border-foreground shadow-[2px_2px_0px_0px_var(--border)] translate-x-[-1px] translate-y-[-1px]"
-    : "bg-card text-foreground/80 border-3 border-foreground hover:bg-muted shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_var(--border)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150";
+    ? "bg-primary text-white border border-primary/30 shadow-nature shadow-glow font-bold -translate-y-0.5"
+    : "bg-card/90 text-foreground border border-foreground/20 hover:border-primary/40 hover:text-primary hover:bg-card hover:-translate-y-0.5 shadow-sm font-semibold";
+
   return (
     <button
-      className={`${buttonStyle} rounded-md px-5 py-2 text-lg font-bold cursor-pointer transition-all duration-150`}
+      className={`${buttonStyle} rounded-full px-6 py-2 text-sm font-display cursor-pointer transition-all duration-300 active:scale-95`}
       onClick={() => onClick(name)}
     >
       {name}

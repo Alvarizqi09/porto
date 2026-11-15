@@ -2,7 +2,13 @@
 
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useEffect, useState } from "react";
 
 export default function LanguageSwitcher() {
@@ -21,7 +27,7 @@ export default function LanguageSwitcher() {
 
   if (!mounted) {
     return (
-      <div className="w-[75px] h-[38px] items-center justify-center rounded-md border-3 border-foreground bg-card px-3 py-1 text-sm shadow-[2px_2px_0px_0px_var(--border)] flex opacity-50">
+      <div className="w-[78px] h-[38px] rounded-full border border-foreground/15 bg-card/80 px-3 py-1 text-xs flex items-center justify-center opacity-50 font-display">
         ...
       </div>
     );
@@ -29,12 +35,15 @@ export default function LanguageSwitcher() {
 
   return (
     <Select value={locale} onValueChange={onLocaleChange}>
-      <SelectTrigger className="w-[75px] h-[38px] bg-card border-3 border-foreground text-foreground hover:bg-primary transition-all shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[3.5px_3.5px_0px_0px_var(--border)] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none" aria-label="Select Language">
+      <SelectTrigger
+        className="w-[82px] h-[38px] rounded-full bg-card/80 backdrop-blur-sm border border-foreground/15 text-foreground hover:bg-card hover:border-primary/50 text-xs font-bold font-display shadow-nature transition-all duration-300"
+        aria-label="Select Language"
+      >
         <SelectValue placeholder={locale ? locale.toUpperCase() : "Lang"} />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="en">EN</SelectItem>
-        <SelectItem value="id">ID</SelectItem>
+        <SelectItem value="en">English (EN)</SelectItem>
+        <SelectItem value="id">Bahasa (ID)</SelectItem>
       </SelectContent>
     </Select>
   );

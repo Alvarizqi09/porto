@@ -18,15 +18,15 @@ import {
   FaLayerGroup,
   FaCogs,
   FaSearch,
-  FaLock,
 } from "react-icons/fa";
+import { AlertCircle, BookOpen, Code2, Layers } from "lucide-react";
 import { getIcon } from "@/utils/techIconMap";
 import { ProjectDetailSkeleton } from "@/components/ui/Skeleton";
 import { useTranslations, useLocale } from "next-intl";
 import { getLocalizedText } from "@/utils/localization";
 import { DEFAULT_PROJECT_IMAGE } from "@/utils/imageFallback";
 
-const ICON_SIZE_CLASS = "w-8 h-8";
+const ICON_SIZE_CLASS = "w-6 h-6";
 const createIcon = (name) => getIcon(name, ICON_SIZE_CLASS);
 
 const fetchProjectById = async (id) => {
@@ -40,7 +40,7 @@ const stagger = {
     animate: { transition: { staggerChildren: 0.08 } },
   },
   child: {
-    initial: { opacity: 0, y: 20 },
+    initial: { opacity: 0, y: 15 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   },
 };
@@ -65,7 +65,6 @@ export default function ProjectDetailPage() {
     retry: 1,
   });
 
-  // Keyboard navigation for lightbox
   const handleKeyDown = useCallback(
     (e) => {
       if (lightboxIndex === null) return;
@@ -87,7 +86,6 @@ export default function ProjectDetailPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // Lock body scroll when lightbox is open
   useEffect(() => {
     if (lightboxIndex !== null) {
       document.body.style.overflow = "hidden";
@@ -99,30 +97,28 @@ export default function ProjectDetailPage() {
     };
   }, [lightboxIndex]);
 
-  // Loading state with skeleton
   if (isLoading) return <ProjectDetailSkeleton />;
 
-  // Error state
   if (error || !project) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-[#FBFBF9]">
+      <div className="min-h-screen flex items-center justify-center px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center bg-card p-10 border-4 border-foreground shadow-[6px_6px_0px_0px_#1C293C] max-w-md w-full"
+          className="text-center glass-card p-10 rounded-3xl border border-foreground/15 shadow-nature-xl max-w-md w-full"
         >
-          <div className="w-20 h-20 bg-primary border-4 border-foreground flex items-center justify-center mx-auto mb-6 shadow-[3px_3px_0px_0px_#1C293C]">
-            <span className="text-4xl font-bold">!</span>
+          <div className="w-16 h-16 bg-primary/15 rounded-full flex items-center justify-center mx-auto mb-5 text-primary">
+            <AlertCircle className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground mb-3">
+          <h1 className="text-2xl font-bold font-display text-foreground mb-3">
             {error ? t("errorTitle") : t("notFoundTitle")}
           </h1>
-          <p className="text-muted-foreground mb-8 leading-relaxed">
+          <p className="text-foreground/70 mb-8 leading-relaxed">
             {error?.message || t("notFoundDesc")}
           </p>
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-accent text-white border-3 border-foreground font-bold shadow-[3px_3px_0px_0px_#1C293C] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[4.5px_4.5px_0px_0px_#1C293C] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-full font-bold font-display shadow-nature hover:shadow-glow hover:-translate-y-0.5 transition-all duration-300"
           >
             <FaArrowLeft /> {t("back")}
           </button>
@@ -131,9 +127,6 @@ export default function ProjectDetailPage() {
     );
   }
 
-  const techStackIcons =
-    project.tech_stack?.map((tech) => createIcon(tech)).filter(Boolean) || [];
-
   const localizedTitle = getLocalizedText(project.title, locale);
   const localizedDesc = getLocalizedText(project.desc, locale);
   const localizedLongDesc = getLocalizedText(project.long_desc, locale);
@@ -141,35 +134,31 @@ export default function ProjectDetailPage() {
   const openLightbox = (index) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
 
-  // Helper for mock URLs in browser mockups
-  const mockUrl = `https://alvarizqi.com/projects/${project._id || "project"}`;
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="min-h-screen py-10 lg:py-16 bg-[#FBFBF9] relative overflow-hidden"
+      transition={{ duration: 0.5 }}
+      className="min-h-screen py-8 lg:py-14 relative z-10"
     >
-      <div className="container mx-auto px-4 relative z-10">
-        
-        {/* ===== TOP NAVIGATION / HEADER ===== */}
+      <div className="container mx-auto px-4">
+        {/* Top Navigation */}
         <div className="flex items-center justify-between mb-8 lg:mb-12">
           <motion.button
-            initial={{ opacity: 0, x: -25 }}
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4 }}
             onClick={() => router.back()}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-card border-3 border-foreground text-foreground rounded-md shadow-[3px_3px_0px_0px_#1C293C] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[4.5px_4.5px_0px_0px_#1C293C] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 text-sm font-bold"
+            className="inline-flex items-center gap-2 px-5 py-2.5 glass-card border border-foreground/15 text-foreground rounded-full shadow-nature hover:border-primary/50 hover:bg-card hover:-translate-y-0.5 active:scale-95 transition-all duration-300 text-sm font-semibold font-display"
           >
-            <FaArrowLeft className="w-3.5 h-3.5" /> {t("back")}
+            <FaArrowLeft className="w-3.5 h-3.5 text-primary" /> {t("back")}
           </motion.button>
-          
-          <div className="hidden sm:flex items-center gap-3">
+
+          <div className="hidden sm:flex items-center gap-2">
             {project.tag?.map((tag) => (
               <span
                 key={tag}
-                className="px-4 py-1.5 bg-[#432DD7] text-white border-2 border-foreground rounded-md text-xs font-bold uppercase tracking-wider shadow-[2px_2px_0px_0px_#1C293C]"
+                className="px-4 py-1.5 bg-primary/15 text-foreground border border-primary/30 rounded-full text-xs font-bold font-display uppercase tracking-wider shadow-sm"
               >
                 {tag}
               </span>
@@ -177,32 +166,17 @@ export default function ProjectDetailPage() {
           </div>
         </div>
 
-        {/* ===== HERO GRID: ASYMMETRIC WINDOW FRAME + HEADER DETAILS ===== */}
+        {/* Hero Showcase Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 lg:mb-16">
-          
-          {/* Kolom Kiri: Browser/Window Frame Mockup showcase utama (65% width equivalent) */}
+          {/* Main Banner Canvas */}
           <div className="lg:col-span-7 xl:col-span-8">
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="bg-card border-4 border-foreground rounded-lg overflow-hidden shadow-[8px_8px_0px_0px_#1C293C] flex flex-col"
+              transition={{ duration: 0.6 }}
+              className="glass-card bg-[#FEFCF6]/90 border border-foreground/15 rounded-3xl overflow-hidden shadow-nature-xl flex flex-col p-3"
             >
-              {/* Window Header Bar (Classic OS Style) */}
-              <div className="bg-[#432DD7] border-b-4 border-foreground py-3 px-4 flex items-center justify-between shrink-0 select-none">
-                <div className="flex items-center gap-2">
-                  <span className="w-3.5 h-3.5 rounded-full bg-[#FAF8F0] border-2 border-foreground"></span>
-                  <span className="w-3.5 h-3.5 rounded-full bg-[#FDC800] border-2 border-foreground"></span>
-                  <span className="w-3.5 h-3.5 rounded-full bg-[#FAF8F0] border-2 border-foreground"></span>
-                </div>
-                <span className="text-xs font-bold text-white uppercase tracking-widest hidden sm:inline">
-                  showcase_window.exe
-                </span>
-                <div className="w-12 h-1 bg-[#FAF8F0]/30 rounded-md"></div>
-              </div>
-              
-              {/* Image viewport */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted/20">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-white shadow-inner">
                 <Image
                   src={project.image || DEFAULT_PROJECT_IMAGE}
                   alt={`${localizedTitle} - Project main banner`}
@@ -216,20 +190,19 @@ export default function ProjectDetailPage() {
             </motion.div>
           </div>
 
-          {/* Kolom Kanan: Title & Short Desc + CTA (35% width equivalent) */}
+          {/* Title, Short Description & CTAs */}
           <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-center">
             <motion.div
-              initial={{ opacity: 0, x: 25 }}
+              initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
               className="space-y-6"
             >
-              {/* Tag/Category for mobile */}
               <div className="flex sm:hidden flex-wrap gap-2">
                 {project.tag?.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-[#432DD7] text-white border-2 border-foreground rounded-md text-[10px] font-bold uppercase tracking-wider"
+                    className="px-3 py-1 bg-primary/15 text-foreground border border-primary/30 rounded-full text-[11px] font-bold font-display uppercase tracking-wider"
                   >
                     {tag}
                   </span>
@@ -237,27 +210,27 @@ export default function ProjectDetailPage() {
               </div>
 
               <div>
-                <h1 className="text-4xl lg:text-5xl font-black text-foreground relative inline-block leading-tight">
+                <h1 className="text-3xl lg:text-4xl font-bold font-display text-foreground leading-tight">
                   {localizedTitle}
-                  <span className="absolute bottom-1 left-0 w-full h-3 bg-[#FDC800] -z-10 transform -rotate-1"></span>
                 </h1>
+                <div className="w-16 h-1 rounded-full bg-gradient-to-r from-primary to-accent mt-3" />
               </div>
 
-              <div className="border-l-6 border-[#432DD7] pl-4">
-                <p className="text-base text-foreground font-semibold leading-relaxed">
+              <div className="border-l-4 border-primary/40 pl-4">
+                <p className="text-base text-foreground/80 leading-relaxed font-medium">
                   {localizedDesc}
                 </p>
               </div>
 
-              {/* Call to Actions (CTAs) */}
-              <div className="flex flex-col sm:flex-row gap-3.5 pt-2">
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Link
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 px-6 py-4 bg-[#FDC800] text-foreground border-3 border-foreground font-bold shadow-[4px_4px_0px_0px_#1C293C] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[5.5px_5.5px_0px_0px_#1C293C] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 flex-1 text-center"
+                  className="flex items-center justify-center gap-2 px-6 py-3.5 bg-primary text-white rounded-full font-bold font-display shadow-nature hover:shadow-glow hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex-1 text-center"
                 >
-                  <FaExternalLinkAlt className="w-4 h-4" /> {t("liveDemo")}
+                  <FaExternalLinkAlt className="w-3.5 h-3.5" /> {t("liveDemo")}
                 </Link>
 
                 {project.github && (
@@ -265,18 +238,17 @@ export default function ProjectDetailPage() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2.5 px-6 py-4 bg-[#FAF8F0] text-foreground border-3 border-foreground font-bold shadow-[4px_4px_0px_0px_#1C293C] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-[5.5px_5.5px_0px_0px_#1C293C] active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none transition-all duration-150 flex-1 text-center"
+                    className="flex items-center justify-center gap-2 px-6 py-3.5 glass-card text-foreground border border-foreground/20 rounded-full font-bold font-display shadow-nature hover:border-primary/50 hover:bg-card hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex-1 text-center"
                   >
-                    <FaGithub className="w-4 h-4" /> {t("github")}
+                    <FaGithub className="w-4 h-4 text-foreground/80" /> {t("github")}
                   </Link>
                 )}
               </div>
             </motion.div>
           </div>
-
         </div>
 
-        {/* ===== FLOATING STATS CARDS ===== */}
+        {/* Floating Stats Cards */}
         <motion.div
           variants={stagger.parent}
           initial="initial"
@@ -285,44 +257,43 @@ export default function ProjectDetailPage() {
         >
           {[
             {
-              icon: <FaCalendarAlt className="w-5 h-5 text-white" />,
+              icon: <FaCalendarAlt className="w-5 h-5 text-primary" />,
               label: t("createdAt"),
               value: project.createdAt
-                ? new Date(project.createdAt).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })
+                ? new Date(project.createdAt).toLocaleDateString(
+                    locale === "id" ? "id-ID" : "en-US",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )
                 : "-",
-              color: "bg-[#432DD7]"
             },
             {
-              icon: <FaLayerGroup className="w-5 h-5 text-foreground" />,
+              icon: <FaLayerGroup className="w-5 h-5 text-accent" />,
               label: t("category"),
               value: project.tag?.join(", ") || "-",
-              color: "bg-[#FDC800]"
             },
             {
-              icon: <FaCogs className="w-5 h-5 text-white" />,
+              icon: <FaCogs className="w-5 h-5 text-ghibli-forest" />,
               label: t("technologies"),
               value: t("toolsCount", { count: project.tech_stack?.length || 0 }),
-              color: "bg-foreground"
             },
           ].map((stat, i) => (
             <motion.div
               key={i}
               variants={stagger.child}
-              whileHover={{ y: -3, transition: { duration: 0.15 } }}
-              className="bg-card rounded-md p-5 border-3 border-foreground shadow-[4px_4px_0px_0px_#1C293C] transition-all duration-150 flex items-center gap-4"
+              className="glass-card bg-[#FEFCF6]/85 rounded-2xl p-5 border border-foreground/15 shadow-nature hover:shadow-nature-lg hover:-translate-y-1 transition-all duration-300 flex items-center gap-4"
             >
-              <div className={`w-12 h-12 ${stat.color} border-2 border-foreground rounded-md flex items-center justify-center shrink-0`}>
+              <div className="w-12 h-12 bg-card rounded-xl border border-foreground/10 flex items-center justify-center shrink-0 shadow-sm">
                 {stat.icon}
               </div>
               <div className="min-w-0">
-                <p className="text-xs text-foreground/50 uppercase tracking-widest font-extrabold mb-0.5">
+                <p className="text-xs text-foreground/50 uppercase tracking-wider font-semibold font-display mb-0.5">
                   {stat.label}
                 </p>
-                <p className="text-sm font-black text-foreground truncate">
+                <p className="text-sm font-bold font-display text-foreground truncate">
                   {stat.value}
                 </p>
               </div>
@@ -330,28 +301,29 @@ export default function ProjectDetailPage() {
           ))}
         </motion.div>
 
-        {/* ===== DETAILED CONTENT SECTION ===== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 lg:mb-24">
-          
-          {/* Deskripsi Panjang (Tentang Proyek) */}
+        {/* Detailed Content & Tech Stack */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16">
+          {/* About Project */}
           <div className="lg:col-span-8">
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-card border-4 border-foreground p-6 lg:p-8 rounded-lg shadow-[6px_6px_0px_0px_#1C293C] h-full"
+              className="glass-card bg-[#FEFCF6]/85 border border-foreground/15 p-6 lg:p-8 rounded-3xl shadow-nature h-full"
             >
-              <h2 className="text-2xl font-black text-foreground mb-6 flex items-center gap-3.5">
-                <span className="w-3.5 h-8 bg-[#FDC800] border-2 border-foreground rounded-sm"></span>
+              <h2 className="text-2xl font-bold font-display text-foreground mb-5 flex items-center gap-3">
+                <BookOpen className="w-5 h-5 text-primary" />
                 {t("aboutProject")}
               </h2>
-              
+
               {localizedLongDesc ? (
-                <p className="text-foreground/80 leading-[1.95] text-[15px] font-medium whitespace-pre-line">
+                <p className="text-foreground/80 leading-[1.9] text-[15px] whitespace-pre-line font-medium">
                   {localizedLongDesc}
                 </p>
               ) : (
-                <p className="text-foreground/50 italic">{t("noDescription") || "No detailed description available."}</p>
+                <p className="text-foreground/50 italic">
+                  {t("noDescription") || "No detailed description available."}
+                </p>
               )}
             </motion.div>
           </div>
@@ -359,71 +331,67 @@ export default function ProjectDetailPage() {
           {/* Tech Stack List */}
           <div className="lg:col-span-4">
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.25 }}
-              className="bg-card border-4 border-foreground p-6 rounded-lg shadow-[6px_6px_0px_0px_#1C293C] h-full flex flex-col"
+              className="glass-card bg-[#FEFCF6]/85 border border-foreground/15 p-6 rounded-3xl shadow-nature h-full flex flex-col"
             >
-              <h2 className="text-xl lg:text-2xl font-black text-foreground mb-6 flex items-center gap-3">
-                <span className="w-3.5 h-8 bg-[#432DD7] border-2 border-foreground rounded-sm"></span>
+              <h2 className="text-xl font-bold font-display text-foreground mb-5 flex items-center gap-2.5">
+                <Code2 className="w-5 h-5 text-accent" />
                 {t("techStack")}
               </h2>
 
               <div className="flex flex-wrap gap-2.5 my-auto">
-                {project.tech_stack?.map((tech, i) => {
+                {project.tech_stack?.map((tech) => {
                   const icon = createIcon(tech);
                   return (
-                    <motion.div
+                    <div
                       key={tech}
-                      whileHover={{ y: -2, transition: { duration: 0.15 } }}
-                      className="flex items-center gap-2 px-3 py-2 bg-[#FAF8F0] border-2 border-foreground rounded-md shadow-[2px_2px_0px_0px_#1C293C] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_#1C293C] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-150"
+                      className="flex items-center gap-2 px-3.5 py-2 bg-card/80 border border-foreground/15 rounded-xl shadow-sm hover:border-primary/50 hover:bg-card hover:-translate-y-0.5 transition-all duration-200"
                     >
                       {icon && (
-                        <span className="[&>svg]:w-4.5 [&>svg]:h-4.5 shrink-0">{icon}</span>
+                        <span className="shrink-0 text-foreground/80">{icon}</span>
                       )}
-                      <span className="text-xs font-bold text-foreground">
+                      <span className="text-xs font-semibold font-display text-foreground">
                         {tech}
                       </span>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
             </motion.div>
           </div>
-
         </div>
 
-        {/* ===== PAGES GALLERY (CLASSIC BROWSER MOCKUP WINDOW) ===== */}
+        {/* Pages Gallery */}
         {project.pages && project.pages.length > 0 && (
           <motion.section
-            initial={{ opacity: 0, y: 45 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mb-12"
           >
-            {/* Section Heading & Page Tab Selector */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-5 mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
               <div>
-                <h2 className="text-2xl lg:text-3xl font-black text-foreground flex items-center gap-3">
-                  <span className="w-3.5 h-8 bg-[#FDC800] border-2 border-foreground rounded-sm"></span>
+                <h2 className="text-2xl lg:text-3xl font-bold font-display text-foreground flex items-center gap-2.5">
+                  <Layers className="w-6 h-6 text-primary" />
                   {t("websitePages")}
                 </h2>
-                <p className="text-foreground/60 mt-1 ml-7 text-sm font-bold">
+                <p className="text-foreground/60 mt-1 text-sm">
                   {t("pageCount", { count: project.pages.length })}
                 </p>
               </div>
 
-              {/* Dynamic folder tabs layout for page choosing */}
               {project.pages.length > 1 && (
-                <div className="flex flex-wrap gap-1.5 max-w-full overflow-x-auto pb-1 pl-7 xl:pl-0">
+                <div className="flex flex-wrap gap-1.5 max-w-full overflow-x-auto pb-1">
                   {project.pages.map((page, i) => (
                     <button
                       key={i}
                       onClick={() => setActivePageTab(i)}
-                      className={`px-4 py-2 border-3 border-foreground rounded-t-md text-xs font-bold transition-all duration-150 relative -bottom-[3px] z-10 ${
+                      className={`px-4 py-1.5 rounded-full text-xs transition-all duration-200 ${
                         activePageTab === i
-                          ? "bg-[#FAF8F0] text-foreground border-b-transparent shadow-[0px_-2px_0px_rgba(0,0,0,0.1)]"
-                          : "bg-muted text-foreground/70 hover:bg-muted/80 hover:text-foreground shadow-[inset_0_-2px_4px_rgba(0,0,0,0.05)]"
+                          ? "bg-primary text-white shadow-nature font-bold"
+                          : "bg-card/90 text-foreground hover:bg-card hover:text-primary border border-foreground/15 font-semibold"
                       }`}
                     >
                       {getLocalizedText(page.title, locale)}
@@ -433,74 +401,51 @@ export default function ProjectDetailPage() {
               )}
             </div>
 
-            {/* Browser Window mockup wrapper */}
-            <div className="bg-card border-4 border-foreground rounded-lg overflow-hidden shadow-[8px_8px_0px_0px_#1C293C] flex flex-col">
-              
-              {/* Browser Header Bar */}
-              <div className="bg-[#FAF8F0] border-b-4 border-foreground py-3.5 px-4 flex flex-col sm:flex-row items-center gap-3 select-none shrink-0">
-                {/* 3 dots & mock navigation buttons */}
-                <div className="flex items-center justify-between w-full sm:w-auto gap-4">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-[#FA5252] border-2 border-foreground"></span>
-                    <span className="w-3 h-3 rounded-full bg-[#FAB005] border-2 border-foreground"></span>
-                    <span className="w-3 h-3 rounded-full bg-[#40C057] border-2 border-foreground"></span>
-                  </div>
-                  <div className="flex gap-1 text-foreground/40 text-xs font-bold">
-                    <span>&lt;</span>
-                    <span>&gt;</span>
-                    <span>↻</span>
-                  </div>
-                </div>
-
-                {/* Mock Search/URL bar */}
-                <div className="bg-white border-2 border-foreground rounded px-3 py-1 text-xs font-bold text-foreground/60 w-full sm:flex-1 text-left truncate flex items-center gap-2">
-                  <FaLock className="text-[#40C057] w-3 h-3 shrink-0" />
-                  <span>{mockUrl}</span>
-                </div>
-              </div>
-
-              {/* Browser Viewport image */}
+            {/* Display Viewport */}
+            <div className="glass-card bg-[#FEFCF6]/90 border border-foreground/15 rounded-3xl p-3 shadow-nature-xl overflow-hidden">
               <motion.div
                 key={activePageTab}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="relative group cursor-pointer aspect-[16/10] w-full max-h-[560px] overflow-hidden"
+                className="relative group cursor-pointer aspect-[16/10] w-full max-h-[580px] overflow-hidden rounded-2xl bg-white"
                 onClick={() => openLightbox(activePageTab)}
               >
                 <Image
-                  src={project.pages[activePageTab].image || DEFAULT_PROJECT_IMAGE}
-                  alt={getLocalizedText(project.pages[activePageTab].title, locale)}
+                  src={
+                    project.pages[activePageTab].image || DEFAULT_PROJECT_IMAGE
+                  }
+                  alt={getLocalizedText(
+                    project.pages[activePageTab].title,
+                    locale
+                  )}
                   fill
-                  className="object-cover group-hover:scale-[1.015] transition-transform duration-700 ease-out"
+                  className="object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   sizes="100vw"
                   quality={90}
                 />
-                
-                {/* Hover zoom overlay */}
-                <div className="absolute inset-0 bg-foreground/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span className="bg-primary text-foreground text-sm font-black px-5 py-3 border-3 border-foreground flex items-center gap-2 shadow-[4px_4px_0px_0px_#1C293C]">
-                    <FaSearch className="w-4 h-4" /> {t("zoom")}
+                <div className="absolute inset-0 bg-[#3D4F3D]/30 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span className="bg-card/90 text-foreground text-sm font-bold font-display px-5 py-2.5 rounded-full border border-white/60 shadow-nature-lg flex items-center gap-2">
+                    <FaSearch className="w-3.5 h-3.5 text-primary" /> {t("zoom")}
                   </span>
                 </div>
               </motion.div>
             </div>
 
-            {/* Thumbnail Grid for Page Switching (if pages > 1) */}
+            {/* Thumbnails */}
             {project.pages.length > 1 && (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 mt-6">
                 {project.pages.map((page, index) => (
-                  <motion.div
+                  <div
                     key={page._id || index}
-                    whileHover={{ y: -3, transition: { duration: 0.15 } }}
-                    className={`relative cursor-pointer rounded-md overflow-hidden border-3 shadow-[2.5px_2.5px_0px_0px_#1C293C] transition-all duration-150 ${
+                    className={`relative cursor-pointer rounded-2xl overflow-hidden border transition-all duration-200 shadow-sm hover:-translate-y-1 ${
                       activePageTab === index
-                        ? "border-[#432DD7] bg-primary"
-                        : "border-foreground bg-card hover:bg-muted"
+                        ? "border-primary ring-2 ring-primary/30"
+                        : "border-foreground/15 hover:border-foreground/35"
                     }`}
                     onClick={() => setActivePageTab(index)}
                   >
-                    <div className="relative aspect-[16/10] w-full">
+                    <div className="relative aspect-[16/10] w-full bg-white">
                       <Image
                         src={page.image || DEFAULT_PROJECT_IMAGE}
                         alt={getLocalizedText(page.title, locale)}
@@ -510,12 +455,12 @@ export default function ProjectDetailPage() {
                         quality={60}
                       />
                     </div>
-                    <div className="p-2.5 bg-card border-t-2 border-foreground">
-                      <p className={`text-xs font-black truncate text-center ${activePageTab === index ? "text-[#432DD7]" : "text-foreground"}`}>
+                    <div className="p-2 bg-card/90 text-center">
+                      <p className="text-xs font-semibold font-display text-foreground truncate">
                         {getLocalizedText(page.title, locale)}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             )}
@@ -523,35 +468,32 @@ export default function ProjectDetailPage() {
         )}
       </div>
 
-      {/* ===== LIGHTBOX MODAL ===== */}
+      {/* Lightbox Modal */}
       <AnimatePresence>
         {lightboxIndex !== null && project.pages?.[lightboxIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-[#3D4F3D]/80 backdrop-blur-md flex items-center justify-center p-4"
             onClick={closeLightbox}
           >
-            {/* Close */}
             <button
               onClick={closeLightbox}
-              className="absolute top-5 right-5 text-white/70 hover:text-white p-2.5 rounded-full hover:bg-white/10 transition-all z-20"
+              className="absolute top-6 right-6 text-white/80 hover:text-white p-3 rounded-full bg-black/30 hover:bg-black/50 transition-all z-20"
             >
               <FaTimes className="w-5 h-5" />
             </button>
 
-            {/* Title + counter */}
-            <div className="absolute top-5 left-5 z-20">
-              <p className="text-white font-bold text-lg">
+            <div className="absolute top-6 left-6 z-20">
+              <p className="text-white font-bold font-display text-lg">
                 {getLocalizedText(project.pages[lightboxIndex].title, locale)}
               </p>
-              <p className="text-white/50 text-sm">
+              <p className="text-white/60 text-xs">
                 {lightboxIndex + 1} / {project.pages.length}
               </p>
             </div>
 
-            {/* Prev */}
             {project.pages.length > 1 && (
               <button
                 onClick={(e) => {
@@ -560,25 +502,29 @@ export default function ProjectDetailPage() {
                     prev > 0 ? prev - 1 : project.pages.length - 1
                   );
                 }}
-                className="absolute left-3 lg:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white p-3 rounded-full hover:bg-white/10 transition-all z-20"
+                className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-black/30 hover:bg-black/50 transition-all z-20"
               >
-                <FaChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
+                <FaChevronLeft className="w-5 h-5" />
               </button>
             )}
 
-            {/* Image */}
             <motion.div
               key={lightboxIndex}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
-              className="relative w-[90vw] max-w-6xl h-[80vh]"
+              className="relative w-[90vw] max-w-5xl h-[80vh] rounded-3xl overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src={project.pages[lightboxIndex].image || DEFAULT_PROJECT_IMAGE}
-                alt={getLocalizedText(project.pages[lightboxIndex].title, locale)}
+                src={
+                  project.pages[lightboxIndex].image || DEFAULT_PROJECT_IMAGE
+                }
+                alt={getLocalizedText(
+                  project.pages[lightboxIndex].title,
+                  locale
+                )}
                 fill
                 className="object-contain"
                 sizes="90vw"
@@ -586,7 +532,6 @@ export default function ProjectDetailPage() {
               />
             </motion.div>
 
-            {/* Next */}
             {project.pages.length > 1 && (
               <button
                 onClick={(e) => {
@@ -595,39 +540,10 @@ export default function ProjectDetailPage() {
                     prev < project.pages.length - 1 ? prev + 1 : 0
                   );
                 }}
-                className="absolute right-3 lg:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white p-3 rounded-full hover:bg-white/10 transition-all z-20"
+                className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-black/30 hover:bg-black/50 transition-all z-20"
               >
-                <FaChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
+                <FaChevronRight className="w-5 h-5" />
               </button>
-            )}
-
-            {/* Thumbnail strip */}
-            {project.pages.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                {project.pages.map((page, i) => (
-                  <button
-                    key={i}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightboxIndex(i);
-                    }}
-                    className={`relative w-16 h-10 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                      lightboxIndex === i
-                        ? "border-[#432DD7] scale-110"
-                        : "border-white/20 hover:border-white/50 opacity-60 hover:opacity-90"
-                    }`}
-                  >
-                    <Image
-                      src={page.image || DEFAULT_PROJECT_IMAGE}
-                      alt={getLocalizedText(page.title, locale)}
-                      fill
-                      className="object-cover"
-                      sizes="64px"
-                      quality={30}
-                    />
-                  </button>
-                ))}
-              </div>
             )}
           </motion.div>
         )}

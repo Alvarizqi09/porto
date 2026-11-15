@@ -4,17 +4,24 @@
 
 @layer base {
   :root {
-    --background: #FBFBF9; /* Warm Surface */
-    --foreground: #1C293C; /* Dark Slate Text */
-    --primary: #FDC800; /* Vivid Yellow */
-    --primary-foreground: #1C293C;
-    --accent: #432DD7; /* Vivid Blue-Violet */
-    --accent-hover: #FDC800;
-    --card: #FBFBF9;
-    --card-foreground: #1C293C;
-    --muted: #F3F3EF;
-    --muted-foreground: rgba(28, 41, 60, 0.6);
-    --border: #1C293C; /* Solid Dark border */
+    --background: #F0EDE5;
+    --foreground: #1A2E1E; /* Deep pine forest charcoal for ultra-crisp readability */
+    --primary: #245A39; /* Rich dark evergreen/sage for high contrast */
+    --primary-foreground: #FFFFFF;
+    --accent: #B37D20; /* Warm golden amber with strong contrast */
+    --accent-hover: #966716;
+    --card: #FCFAF4;
+    --card-foreground: #1A2E1E;
+    --muted: #E8E3D9;
+    --muted-foreground: rgba(26, 46, 30, 0.75);
+    --border: rgba(26, 46, 30, 0.16);
+    --ghibli-sky: #B8D4E3;
+    --ghibli-sky-deep: #8FB8D4;
+    --ghibli-cloud: #FFFFFF;
+    --ghibli-sunset: #F4C89A;
+    --ghibli-forest: #1A3E26;
+    --ghibli-earth: #8C6F4B;
+    --ghibli-petal: #EAA8A3;
   }
 }
 
@@ -25,15 +32,134 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
-    @apply font-primary leading-loose transition-colors duration-300;
+    @apply font-primary leading-relaxed transition-colors duration-500;
   }
   .h1 {
-    @apply text-[48px] xl:text-[80px] leading-[1.1] font-semibold text-foreground;
+    @apply text-[42px] xl:text-[72px] leading-[1.15] font-bold text-foreground tracking-tight;
   }
   .h2 {
-    @apply text-[36px] xl:text-[48px] leading-[1.1] font-semibold text-foreground;
+    @apply text-[32px] xl:text-[44px] leading-[1.15] font-bold text-foreground tracking-tight;
   }
   .h3 {
-    @apply text-[24px] xl:text-[24px] leading-[1.1] font-semibold text-foreground;
+    @apply text-[22px] xl:text-[24px] leading-[1.2] font-semibold text-foreground;
+  }
+
+  /* Custom scrollbar — nature themed */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--ghibli-forest);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   GHIBLI ANIMATIONS
+   ═══════════════════════════════════════════ */
+
+/* Gentle floating */
+@keyframes ghibli-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Wind sway for grass/leaves */
+@keyframes ghibli-sway {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  25% { transform: rotate(1.5deg) translateX(3px); }
+  75% { transform: rotate(-1deg) translateX(-2px); }
+}
+
+/* Gentle breathing glow (fireflies) */
+@keyframes ghibli-firefly {
+  0%, 100% { opacity: 0; transform: scale(0.5) translateY(0); }
+  30% { opacity: 0.9; transform: scale(1) translateY(-10px); }
+  70% { opacity: 0.7; transform: scale(0.8) translateY(-20px); }
+}
+
+/* Soft pulsing glow */
+@keyframes ghibli-glow {
+  0%, 100% { opacity: 0.4; filter: blur(2px); }
+  50% { opacity: 0.8; filter: blur(4px); }
+}
+
+/* Leaf falling */
+@keyframes ghibli-leaf-fall {
+  0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+  10% { opacity: 0.7; }
+  50% { transform: translateY(50vh) rotate(180deg) translateX(30px); }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(100vh) rotate(360deg) translateX(-10px); opacity: 0; }
+}
+
+/* Dust motes floating */
+@keyframes ghibli-mote {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  20% { opacity: 0.5; }
+  50% { transform: translate(var(--drift-x, 30px), var(--drift-y, -40px)) scale(1.2); opacity: 0.3; }
+  80% { opacity: 0.15; }
+  100% { transform: translate(var(--drift-x2, -20px), var(--drift-y2, -80px)) scale(0.8); opacity: 0; }
+}
+
+/* Cloud parallax movement */
+@keyframes cloud-drift {
+  0% { transform: translateX(var(--cloud-start, -200px)); }
+  100% { transform: translateX(var(--cloud-end, calc(100vw + 200px))); }
+}
+
+/* Gentle fade in from below */
+@keyframes ghibli-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@layer utilities {
+  .ghibli-float {
+    animation: ghibli-float 6s ease-in-out infinite;
+  }
+  .ghibli-sway {
+    animation: ghibli-sway 4s ease-in-out infinite;
+  }
+  .ghibli-glow {
+    animation: ghibli-glow 3s ease-in-out infinite;
+  }
+
+  /* Glassmorphism card with high-opacity backing for crisp contrast */
+  .glass-card {
+    background: rgba(252, 250, 244, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(26, 46, 30, 0.14);
+  }
+
+  /* Soft nature shadow */
+  .shadow-nature {
+    box-shadow: 0 4px 20px rgba(26, 46, 30, 0.07),
+                0 1px 4px rgba(26, 46, 30, 0.04);
+  }
+
+  .shadow-nature-lg {
+    box-shadow: 0 8px 30px rgba(26, 46, 30, 0.1),
+                0 2px 8px rgba(26, 46, 30, 0.06);
+  }
+
+  .shadow-nature-xl {
+    box-shadow: 0 12px 40px rgba(26, 46, 30, 0.14),
+                0 4px 12px rgba(26, 46, 30, 0.08);
+  }
+
+  /* High contrast text gradient for headings */
+  .text-ghibli-gradient {
+    background: linear-gradient(135deg, #1A3E26, #2E6B47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

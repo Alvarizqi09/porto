@@ -12,16 +12,16 @@ const PageTransition = ({ children }) => {
 
   useEffect(() => {
     if (prevPathRef.current === pathname) {
-      // Initial load — just fade content in
+      // Initial load — dreamy gentle fade in
       gsap.fromTo(
         contentRef.current,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 15 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.8,
           ease: "power2.out",
-          delay: 0.2,
+          delay: 0.1,
           clearProps: "transform",
         }
       );
@@ -30,24 +30,22 @@ const PageTransition = ({ children }) => {
 
     prevPathRef.current = pathname;
 
-    // Page change — overlay flash + content reveal
+    // Page change — soft mist wipe + smooth content reveal
     const tl = gsap.timeline();
 
-    // Quick overlay flash
     tl.fromTo(
       overlayRef.current,
-      { opacity: 0.8 },
-      { opacity: 0, duration: 0.5, ease: "power2.out", delay: 0.6 }
+      { opacity: 0.6 },
+      { opacity: 0, duration: 0.6, ease: "power2.out", delay: 0.4 }
     );
 
-    // Content fades in with slight upward motion
     tl.fromTo(
       contentRef.current,
-      { opacity: 0, y: 30 },
+      { opacity: 0, y: 20 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.5,
+        duration: 0.7,
         ease: "power2.out",
         clearProps: "transform",
       },
@@ -59,7 +57,7 @@ const PageTransition = ({ children }) => {
     <div>
       <div
         ref={overlayRef}
-        className="h-screen w-screen fixed bg-primary top-0 pointer-events-none z-30"
+        className="h-screen w-screen fixed inset-0 bg-[#F0EDE5]/70 backdrop-blur-sm pointer-events-none z-30"
         style={{ opacity: 0 }}
       />
       <div ref={contentRef}>{children}</div>

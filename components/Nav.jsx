@@ -22,12 +22,13 @@ const links = [
     path: "/pages/contact",
   },
 ];
+
 const Nav = () => {
   const pathname = usePathname();
   const t = useTranslations("Navigation");
 
   return (
-    <nav className="flex gap-8 items-center">
+    <nav className="flex gap-1.5 items-center bg-card/85 backdrop-blur-md p-1.5 rounded-full border border-foreground/15 shadow-sm">
       {links.map((link, index) => {
         const isActive = link.path === pathname;
         return (
@@ -36,9 +37,9 @@ const Nav = () => {
             href={link.path}
             className={`${
               isActive
-                ? "bg-primary text-primary-foreground border-3 border-foreground shadow-[2px_2px_0px_0px_var(--border)]"
-                : "border-3 border-transparent hover:border-foreground hover:bg-muted text-foreground/80 hover:text-foreground"
-            } capitalize font-bold px-3 py-1.5 rounded-md transition-all duration-150`}
+                ? "bg-primary text-white shadow-nature font-bold"
+                : "text-foreground hover:text-primary hover:bg-primary/10 font-semibold"
+            } capitalize font-display px-4 py-1.5 rounded-full text-sm transition-all duration-300`}
           >
             {t(link.name)}
           </Link>

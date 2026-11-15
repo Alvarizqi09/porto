@@ -28,31 +28,31 @@ const StairTransition = () => {
       },
     });
 
-    // Phase 1: Columns sweep in from top (stagger)
+    // Phase 1: Columns sweep down softly like morning mist
     tl.to(columns, {
       scaleY: 1,
-      duration: 0.4,
-      ease: "power3.inOut",
+      duration: 0.35,
+      ease: "power2.inOut",
       stagger: {
-        each: 0.06,
+        each: 0.04,
         from: "start",
       },
     });
 
-    // Phase 2: Columns sweep out to bottom (stagger from end)
+    // Phase 2: Columns sweep away
     tl.to(
       columns,
       {
         scaleY: 0,
         transformOrigin: "bottom",
-        duration: 0.4,
-        ease: "power3.inOut",
+        duration: 0.35,
+        ease: "power2.inOut",
         stagger: {
-          each: 0.06,
+          each: 0.04,
           from: "end",
         },
       },
-      "+=0.05"
+      "+=0.03"
     );
   }, [pathname]);
 
@@ -62,11 +62,19 @@ const StairTransition = () => {
       className="h-screen w-screen fixed top-0 left-0 right-0 pointer-events-none z-40 hidden"
       style={{ display: "none" }}
     >
-      {[...Array(7)].map((_, i) => (
+      {[
+        "rgba(184, 212, 227, 0.9)", // Soft sky blue
+        "rgba(197, 220, 234, 0.9)", // Muted sky
+        "rgba(227, 237, 229, 0.9)", // Soft sage
+        "rgba(123, 169, 143, 0.85)", // Primary sage
+        "rgba(212, 168, 83, 0.8)", // Soft warm gold
+        "rgba(237, 233, 223, 0.9)", // Parchment
+        "rgba(184, 212, 227, 0.85)", // Sky
+      ].map((color, i) => (
         <div
           key={i}
-          className="stair-col h-full flex-1 bg-accent"
-          style={{ transform: "scaleY(0)" }}
+          className="stair-col h-full flex-1"
+          style={{ transform: "scaleY(0)", backgroundColor: color }}
         />
       ))}
     </div>

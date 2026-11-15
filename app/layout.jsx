@@ -1,13 +1,13 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { JetBrains_Mono, Inter } from "next/font/google";
+import { Quicksand, Nunito, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { QueryProvider } from "./providers";
-import BackgroundBlobs from "@/components/BackgroundBlobs";
+import GhibliBackground from "@/components/GhibliBackground";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { GoogleTagManager } from "@next/third-parties/google";
 
@@ -21,17 +21,24 @@ const StairTransition = dynamic(
 );
 const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-quicksand",
+  display: "swap",
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-nunito",
+  display: "swap",
+});
+
 const JetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-jetbrainsMono",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-inter",
   display: "swap",
 });
 
@@ -70,7 +77,7 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1.0,
-  themeColor: "#ffffff",
+  themeColor: "#F0EDE5",
 };
 
 export default async function RootLayout({ children }) {
@@ -78,20 +85,20 @@ export default async function RootLayout({ children }) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${JetBrainsMono.variable} ${inter.variable}`}>
+    <html lang={locale} className={`${quicksand.variable} ${nunito.variable} ${JetBrainsMono.variable}`}>
       <GoogleTagManager gtmId="GTM-55J992RK" />
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://alvarizqi.com" />
       </head>
-      <body className={`${inter.variable} ${JetBrainsMono.variable} font-primary relative`}>
+      <body className={`${nunito.variable} ${quicksand.variable} font-primary relative overflow-x-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
           <QueryProvider>
             <NextIntlClientProvider messages={messages}>
-              <BackgroundBlobs />
+              <GhibliBackground />
               <Header />
               <StairTransition />
-              <main>
+              <main className="relative z-10">
                 <PageTransition>{children}</PageTransition>
               </main>
               <Footer />

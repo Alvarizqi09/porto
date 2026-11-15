@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Mail, Send, CheckCircle, AlertCircle } from "lucide-react";
 
 const info = [
   { icon: <FaPhoneAlt />, title: "Phone", desc: "(+62) 8132 7963 181" },
-  { icon: <FaEnvelope />, title: "Email", desc: "Alvarizki80@gmail.com" },
+  { icon: <FaEnvelope />, title: "Email", desc: "Alvarizqi80@gmail.com" },
   {
     icon: <FaMapMarkedAlt />,
     title: "Address",
@@ -26,7 +27,7 @@ const Contact = () => {
     phone: "",
     message: "",
   });
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const t = useTranslations("Contact");
 
@@ -53,7 +54,6 @@ const Contact = () => {
       }
 
       setStatus("success");
-      // Reset form
       setFormData({
         firstName: "",
         lastName: "",
@@ -69,57 +69,86 @@ const Contact = () => {
 
   return (
     <motion.section
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{
         opacity: 1,
-        transition: { duration: 0.4, ease: "easeIn" },
+        y: 0,
+        transition: { duration: 0.6, ease: "easeOut" },
       }}
-      className="py-6"
+      className="py-6 mb-16"
     >
-      <div className="container mx-auto mb-10">
-        <div className="flex flex-col xl:flex-row gap-[30px]">
-          <div className="flex-1 flex items-center xl:justify-end order-2 xl:order-none mb-8 xl:mb-0">
-            <ul className="flex flex-col gap-6 w-full max-w-md">
+      <div className="container mx-auto">
+        <div className="flex flex-col xl:flex-row gap-8 xl:gap-12 items-start">
+          {/* Contact Info List */}
+          <div className="flex-1 w-full xl:max-w-md order-2 xl:order-none">
+            <ul className="flex flex-col gap-4 w-full">
               {info.map((item, index) => (
-                <li key={index} className="flex items-center gap-6 p-4 bg-card border-3 border-foreground rounded-md shadow-[3.5px_3.5px_0px_0px_var(--border)] text-left">
-                  <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-primary border-3 border-foreground text-foreground rounded-md flex items-center justify-center shadow-[2px_2px_0px_0px_var(--border)] shrink-0">
-                    <div className="text-[28px]">{item.icon}</div>
+                <li
+                  key={index}
+                  className="flex items-center gap-5 p-5 glass-card bg-[#FEFCF6]/85 border border-foreground/15 rounded-2xl shadow-sm hover:shadow-nature hover:border-primary/40 transition-all duration-300 text-left"
+                >
+                  <div className="w-13 h-13 rounded-2xl bg-primary/15 border border-primary/30 text-primary flex items-center justify-center shrink-0 shadow-sm text-xl">
+                    {item.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-foreground/50 font-bold uppercase tracking-wider text-xs">{item.title}</h3>
-                    <p className="text-lg xl:text-xl font-extrabold text-foreground truncate">{item.desc}</p>
+                    <h4 className="text-foreground/50 font-semibold font-display uppercase tracking-wider text-xs mb-0.5">
+                      {item.title}
+                    </h4>
+                    <p className="text-base xl:text-lg font-bold font-display text-foreground truncate">
+                      {item.desc}
+                    </p>
                   </div>
                 </li>
               ))}
             </ul>
+
+            {/* Whimsical note card */}
+            <div className="mt-8 p-6 glass-card bg-[#FEFCF6]/70 border border-foreground/10 rounded-3xl text-foreground/75 text-sm leading-relaxed font-display">
+              <div className="flex items-center gap-2 font-bold text-foreground mb-2">
+                <Mail className="w-4 h-4 text-primary" />
+                <span>Direct Mailbox</span>
+              </div>
+              <p>
+                Whether you have an adventurous project idea, a curious question, or simply want to say hello like a passing breeze, my inbox is always open.
+              </p>
+            </div>
           </div>
 
-          <div className="xl:w-[54%] order-1 xl:order-none">
+          {/* Contact Form */}
+          <div className="xl:w-[58%] w-full order-1 xl:order-none">
             <form
-              className="flex flex-col gap-6 p-10 bg-card border-4 border-foreground rounded-md shadow-neobrutal-card text-left"
+              className="flex flex-col gap-6 p-8 xl:p-10 glass-card bg-[#FEFCF6]/90 border border-foreground/15 rounded-3xl shadow-nature-xl text-left"
               onSubmit={handleSubmit}
             >
               <div className="flex flex-col">
-                <h3 className="text-4xl font-extrabold text-foreground">{t("title")}</h3>
-                <div className="w-24 h-2.5 bg-primary border-2 border-foreground mt-2" />
+                <span className="text-primary font-display font-semibold text-xs tracking-wider uppercase mb-1 flex items-center gap-1.5">
+                  <Send className="w-3.5 h-3.5 text-primary" />
+                  <span>Send a Message</span>
+                </span>
+                <h3 className="text-3xl xl:text-4xl font-bold font-display text-foreground">
+                  {t("title")}
+                </h3>
+                <div className="w-16 h-1 rounded-full bg-gradient-to-r from-primary to-accent mt-3" />
               </div>
-              <p className="text-foreground/80">
+              <p className="text-foreground/75 leading-relaxed text-sm xl:text-base">
                 {t("description")}
               </p>
 
               {/* Status Messages */}
               {status === "success" && (
-                <div className="p-4 bg-green-100 border-3 border-foreground text-green-800 rounded-md font-bold shadow-[2px_2px_0px_0px_var(--border)]">
-                  {t("successMessage")}
+                <div className="p-4 bg-primary/15 border border-primary/30 text-foreground rounded-2xl font-display font-semibold text-sm shadow-sm flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-primary" />
+                  <span>{t("successMessage")}</span>
                 </div>
               )}
               {status === "error" && (
-                <div className="p-4 bg-red-100 border-3 border-foreground text-red-800 rounded-md font-bold shadow-[2px_2px_0px_0px_var(--border)]">
-                  {errorMsg}
+                <div className="p-4 bg-red-100/80 border border-red-300 text-red-800 rounded-2xl font-display font-semibold text-sm shadow-sm flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-600" />
+                  <span>{errorMsg}</span>
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
                   type="text"
                   name="firstName"
@@ -153,7 +182,6 @@ const Contact = () => {
               </div>
 
               <Textarea
-                className="h-[200px]"
                 name="message"
                 placeholder={t("message")}
                 value={formData.message}
@@ -162,8 +190,8 @@ const Contact = () => {
               />
 
               <Button
-                size="default"
-                className="max-w-40"
+                size="lg"
+                className="self-start rounded-full shadow-nature hover:shadow-glow"
                 type="submit"
                 disabled={status === "loading"}
               >

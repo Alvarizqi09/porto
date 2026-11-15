@@ -5,18 +5,25 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-base font-bold transition-all duration-150 active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none disabled:pointer-events-none disabled:opacity-50 border-3 border-foreground shadow-neobrutal hover:translate-x-[-1.5px] hover:translate-y-[-1.5px] hover:shadow-neobrutal-hover",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-semibold font-display transition-all duration-300 ease-out active:scale-95 disabled:pointer-events-none disabled:opacity-50 border border-primary/30 shadow-nature hover:shadow-nature-lg",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-accent hover:text-white",
-        primary: "bg-accent text-white hover:bg-primary hover:text-primary-foreground",
-        outline: "bg-transparent text-foreground hover:bg-accent hover:text-white",
+        default:
+          "bg-primary text-white font-bold hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-glow",
+        primary:
+          "bg-accent text-white font-bold hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-glow-accent",
+        outline:
+          "bg-card/95 backdrop-blur-md text-foreground border-foreground/25 hover:bg-primary/10 hover:border-primary hover:text-primary hover:-translate-y-0.5 font-bold",
+        ghost:
+          "bg-transparent text-foreground hover:bg-primary/10 hover:text-primary border-transparent shadow-none font-bold",
+        glass:
+          "glass-card text-foreground border-foreground/20 hover:bg-card hover:-translate-y-0.5 font-bold",
       },
       size: {
-        default: "h-[44px] px-6",
-        sm: "h-[38px] px-4 text-sm",
-        lg: "h-[56px] uppercase tracking-[2px] px-8",
+        default: "h-[46px] px-7",
+        sm: "h-[38px] px-5 text-sm",
+        lg: "h-[54px] tracking-wide px-9 text-lg",
       },
     },
     defaultVariants: {

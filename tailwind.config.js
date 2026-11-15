@@ -12,20 +12,20 @@ module.exports = {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1rem", // Default for smaller screens
-        sm: "2rem", // Increased padding for larger screens
+        DEFAULT: "1rem",
+        sm: "2rem",
         lg: "4rem",
       },
     },
     screens: {
-      sm: "480px", // Adjusted for smaller devices
+      sm: "480px",
       md: "768px",
-      lg: "1024px", // Larger screens
+      lg: "1024px",
       xl: "1280px",
     },
     fontFamily: {
-      primary: ["var(--font-inter)", "sans-serif"],
-      display: ["var(--font-inter)", "sans-serif"],
+      primary: ["var(--font-nunito)", "sans-serif"],
+      display: ["var(--font-quicksand)", "sans-serif"],
       mono: ["var(--font-jetbrainsMono)", "monospace"],
     },
     extend: {
@@ -49,19 +49,42 @@ module.exports = {
           foreground: "var(--muted-foreground)",
         },
         border: "var(--border)",
+        ghibli: {
+          sky: "var(--ghibli-sky)",
+          "sky-deep": "var(--ghibli-sky-deep)",
+          cloud: "var(--ghibli-cloud)",
+          sunset: "var(--ghibli-sunset)",
+          forest: "var(--ghibli-forest)",
+          earth: "var(--ghibli-earth)",
+          petal: "var(--ghibli-petal)",
+        },
       },
-      borderWidth: {
-        3: "3px",
+      borderRadius: {
+        "2xl": "1rem",
+        "3xl": "1.5rem",
+        "4xl": "2rem",
       },
       boxShadow: {
-        neobrutal: "3px 3px 0px 0px var(--border)",
-        "neobrutal-hover": "5px 5px 0px 0px var(--border)",
-        "neobrutal-card": "6px 6px 0px 0px var(--border)",
-        "neobrutal-card-hover": "9px 9px 0px 0px var(--border)",
-        "neobrutal-accent": "4px 4px 0px 0px var(--accent)",
-        "neobrutal-primary": "4px 4px 0px 0px var(--primary)",
+        nature: "0 4px 20px rgba(61, 79, 61, 0.08), 0 1px 4px rgba(61, 79, 61, 0.05)",
+        "nature-lg": "0 8px 30px rgba(61, 79, 61, 0.12), 0 2px 8px rgba(61, 79, 61, 0.08)",
+        "nature-xl": "0 12px 40px rgba(61, 79, 61, 0.15), 0 4px 12px rgba(61, 79, 61, 0.1)",
+        glow: "0 0 20px rgba(123, 169, 143, 0.3)",
+        "glow-accent": "0 0 20px rgba(212, 168, 83, 0.3)",
+        "glow-sky": "0 0 20px rgba(184, 212, 227, 0.4)",
+        inner: "inset 0 2px 4px rgba(61, 79, 61, 0.06)",
       },
       animation: {
+        "ghibli-float": "ghibli-float 6s ease-in-out infinite",
+        "ghibli-float-slow": "ghibli-float 8s ease-in-out infinite",
+        "ghibli-float-fast": "ghibli-float 4s ease-in-out infinite",
+        "ghibli-sway": "ghibli-sway 4s ease-in-out infinite",
+        "ghibli-sway-slow": "ghibli-sway 6s ease-in-out infinite",
+        "ghibli-firefly": "ghibli-firefly 4s ease-in-out infinite",
+        "ghibli-glow": "ghibli-glow 3s ease-in-out infinite",
+        "ghibli-leaf": "ghibli-leaf-fall 12s linear infinite",
+        "ghibli-mote": "ghibli-mote 8s ease-in-out infinite",
+        "cloud-drift": "cloud-drift var(--cloud-speed, 60s) linear infinite",
+        "ghibli-rise": "ghibli-rise 0.8s ease-out forwards",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
